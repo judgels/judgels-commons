@@ -1,0 +1,6 @@
+{
+    "project.name" : "iatoki-play-template",
+    "load" : ["iatoki-commons/phutil-libraries"],
+    "unit.engine" : "JenkinsUnitEngine",
+    "events.listeners" : ["JenkinsDiffEventListener"]
+}
