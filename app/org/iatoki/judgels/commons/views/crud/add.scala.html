@@ -1,0 +1,9 @@
+@(targetCall: play.api.mvc.Call, formFields: java.util.List[org.iatoki.judgels.commons.models.TwirlFormField])
+
+@import play.i18n.Messages
+
+@helper.form(action = targetCall) {
+    @for(formField <- formFields) {
+        <li>@formField.getFieldName()</li>
+    }
+}
