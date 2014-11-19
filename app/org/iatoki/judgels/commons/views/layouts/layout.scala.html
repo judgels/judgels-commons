@@ -1,0 +1,55 @@
+@(title: String)(header: Html)(content: Html)
+
+@import play.i18n.Messages
+@import java.text.SimpleDateFormat
+@import java.util.Date
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>@play.Play.application().configuration.getString("application.title") @title</title>
+		<link rel="shortcut icon" type="image/ico" href='@controllers.routes.Assets.versioned("images/favicon.ico")'>
+		<link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
+		<script type="text/javascript"  data-main="@controllers.routes.Assets.versioned("javascripts/main.js")" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
+	</head>
+	<body>
+		<div class="main-container">
+			<header>
+				<div class="container">
+				@header
+				</div>
+			</header>
+			<div class="clearfix"></div>
+			<div class="content">
+				<div class="container">
+				@content
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<footer>
+			<div class="container">
+				<div class="pull-left first">
+					<div class="col-md-12">
+						<div class="copyright">
+								&#169; @(new SimpleDateFormat("yyyy").format(new Date())) TOKI Learning Center
+						</div>
+						<div class="social">
+							<a href='@play.Play.application().configuration.getString("url.facebook")'>Facebook</a> - <a href='@play.Play.application().configuration.getString("url.twitter")'>Twitter</a>
+						</div>
+					</div>
+				</div>
+				<div class="pull-right second">
+					<div class="col-md-12">
+						<nav>
+							<a href='@play.Play.application().configuration.getString("url.about_us")'>@Messages.get("about_us")</a>
+							<a href='@play.Play.application().configuration.getString("url.news")'>@Messages.get("news")</a>
+							<a href='@play.Play.application().configuration.getString("url.contact")'>@Messages.get("contact")</a>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
