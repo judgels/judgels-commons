@@ -1,5 +1,5 @@
 {
-    "project.name" : "iatoki-play-template",
+    "project.name" : "judgels-play-commons",
     "load" : ["iatoki-commons/phutil-libraries"],
     "unit.engine" : "JenkinsUnitEngine",
     "events.listeners" : ["JenkinsDiffEventListener"]
