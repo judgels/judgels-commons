@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 @StaticMetamodel(ReferenceModel.class)
-public abstract class ReferenceMetaModel extends MetaModel {
+public abstract class MetaReferenceModel extends MetaModel {
 
     public static volatile SingularAttribute<ReferenceModel, String> name;
     public static volatile SingularAttribute<ReferenceModel, String> description;
