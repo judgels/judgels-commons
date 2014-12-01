@@ -1,0 +1,8 @@
+@(currentPage: org.iatoki.judgels.commons.helpers.Page[_], linkClass: String, dataLink: String, func: (Long) => Call)
+
+@import play.i18n.Messages
+@import org.iatoki.judgels.commons.views.html.helpers.pagination.genericPagination
+
+@shortLink(newPage: Long) = {@func(newPage)}
+
+@genericPagination(currentPage, shortLink)

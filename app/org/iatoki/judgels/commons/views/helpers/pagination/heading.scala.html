@@ -1,0 +1,17 @@
+@(title: String, currentPage: org.iatoki.judgels.commons.helpers.Page[_], currentSortBy: String, currentOrder: String, useFilter: Boolean, currentFilter: String, func: (Long, String, String, String) => Call)
+
+@import play.i18n.Messages
+
+<div class="panel-heading clearfix">
+    <h4 class="pull-left">@title</h4>
+	@if(useFilter) {
+	    <form class="form form-inline pull-right" action='@func(currentPage.getPageIndex, "", "", "")' method="GET">
+	        <input type="hidden" name="o" value="@currentOrder"/>
+	        <input type="hidden" name="s" value="@currentSortBy"/>
+	        <div class="form-group">
+	            <input type="search" class="form-control" name="f" value="@currentFilter">
+	        </div>
+	        <button type="submit" class="btn">@Messages.get("search")</button>
+	    </form>
+	}
+</div>

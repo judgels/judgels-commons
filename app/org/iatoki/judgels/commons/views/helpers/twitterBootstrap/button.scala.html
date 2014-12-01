@@ -1,0 +1,20 @@
+@**
+* Generate an HTML input text.
+*
+* Example:
+* {{{
+* @button(args = 'size -> 10, 'placeholder -> "Your name")
+* }}}
+*
+* @param args Set of extra attributes.
+* @param handler The field constructor.
+*@
+@(value: String, args: (Symbol,Any)*)
+
+@import views.html.helper.FieldConstructor
+@import views.html.helper.input
+
+@id = @{ args.toMap.get("'id") }
+@clazzes = @{ args.toMap.get("'class") }
+
+<button type="submit" id="@id" class="btn btn-default @clazzes" @toHtmlArgs(args.toMap.filterKeys(x => (x != 'id) && (x != 'value) && (x != 'class))) >@value</button>

@@ -1,0 +1,18 @@
+@(form: Form[_], targetCall: play.api.mvc.Call, formFields: java.util.List[org.iatoki.judgels.commons.views.TwirlFormField])
+
+@import play.i18n.Messages
+@import org.iatoki.judgels.commons.views.html._
+@import org.iatoki.judgels.commons.views.html.crud._
+
+@helpers.twitterBootstrap.form(action = targetCall, 'horizontal -> "true") {
+    @helper.CSRF.formField
+    @for(formField <- formFields) {
+        @processInputFormField(form, formField)
+    }
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            @helpers.twitterBootstrap.button(Messages.get("update"))
+        </div>
+    </div>
+}

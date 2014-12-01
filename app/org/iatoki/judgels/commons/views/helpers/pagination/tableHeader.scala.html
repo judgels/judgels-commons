@@ -1,0 +1,5 @@
+@(key: String, title: String, currentSortBy: String, currentOrder: String, link: Html)
+
+<th @if(currentSortBy == key) {class="active"}>
+    <a href="@link">@title @if(currentSortBy == key) {@if(currentOrder == "asc") {<span class="glyphicon glyphicon-arrow-up"></span>} else {<span class="glyphicon glyphicon-arrow-down"></span>}}</a>
+</th>

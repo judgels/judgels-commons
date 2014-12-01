@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Page<T> {
 
-    private final int pageSize;
+    private final long pageSize;
     private final long totalRowCount;
-    private final int pageIndex;
+    private final long pageIndex;
     private List<T> list;
 
-    public Page(List<T> data, long total, int page, int pageSize) {
+    public Page(List<T> data, long total, long page, long pageSize) {
         this.list = data;
         this.totalRowCount = total;
         this.pageIndex = page;
@@ -20,8 +20,16 @@ public class Page<T> {
         return totalRowCount;
     }
 
-    public int getPageIndex() {
+    public long getPageIndex() {
         return pageIndex;
+    }
+
+    public long getPageSize() {
+        return pageSize;
+    }
+
+    public long getTotalPageCount() {
+        return totalRowCount / pageSize;
     }
 
     public List<T> getList() {
@@ -34,12 +42,6 @@ public class Page<T> {
 
     public boolean hasNext() {
         return (totalRowCount / pageSize) >= pageIndex;
-    }
-
-    public String getDisplayXtoYofZ() {
-        int start = ((pageIndex - 1) * pageSize + 1);
-        int end = start + Math.min(pageSize, list.size()) - 1;
-        return start + " to " + end + " of " + totalRowCount;
     }
 
 }

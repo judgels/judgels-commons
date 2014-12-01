@@ -1,0 +1,34 @@
+@(currentPage: org.iatoki.judgels.commons.helpers.Page[_], shortLink: (Long) => Html)
+
+@import play.i18n.Messages
+
+<div class="showing">
+    @Messages.get("showing") @(currentPage.getPageIndex() * currentPage.getPageSize + 1) - @math.min((currentPage.getPageIndex*20 +1) + 20, currentPage.getTotalRowCount()) @Messages.get("out_of") @currentPage.getTotalRowCount()
+</div>
+<ul class="pagination">
+    @if(currentPage.hasPrev()) {
+        <li><a href="@shortLink(0)">&lt;&lt;</a></li>
+        <li><a href="@shortLink(currentPage.getPageIndex() - 1)">&lt;</a></li>
+    } else {
+        <li class="disabled"><a>&lt;&lt;</a></li>
+        <li class="disabled"><a>&lt;</a></li>
+    }
+
+    @for(i <- math.max(0, currentPage.getPageIndex() - 9) to currentPage.getPageIndex() - 1) {
+        <li><a href="@shortLink(i)">@(i + 1)</a></li>
+    }
+
+    <li class="active"><a>@(currentPage.getPageIndex() + 1)</a></li>
+
+    @for(i <- currentPage.getPageIndex() + 1 to math.min(currentPage.getTotalPageCount() - 1, currentPage.getPageIndex() + 9)) {
+        <li><a href="@shortLink(i)">@(i + 1)</a></li>
+    }
+
+    @if(currentPage.hasNext()) {
+        <li><a href="@shortLink(currentPage.getPageIndex() + 1)">&gt;</a></li>
+        <li><a href="@shortLink(currentPage.getTotalPageCount() - 1)">&gt;&gt;</a></li>
+    } else {
+        <li class="disabled"><a>&gt;</a></li>
+        <li class="disabled"><a>&gt;&gt;</a></li>
+    }
+</ul>

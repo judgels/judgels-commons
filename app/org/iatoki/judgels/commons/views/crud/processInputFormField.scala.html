@@ -1,0 +1,67 @@
+@(form: Form[_], formField: org.iatoki.judgels.commons.views.TwirlFormField)
+
+@import play.i18n.Messages
+@import org.iatoki.judgels.commons.views.html._
+@import org.iatoki.judgels.commons.views.helpers.twitterBootstrap._
+
+@defining(form(formField.getFieldKey())) { elements =>
+    @if((formField.getFieldType().equals("java.lang.String")) ||
+            (formField.getFieldType().equals("password")) ||
+            (formField.getFieldType().equals("java.io.File")) ||
+            (formField.getFieldType().equals("java.util.Date")) ||
+            (formField.getFieldType().equals("static")) ||
+            (formField.getFieldType().equals("html")) ||
+            (formField.getFieldType().equals("int")) || (formField.getFieldType().equals("java.lang.Integer")) ||
+            (formField.getFieldType().equals("long")) || (formField.getFieldType().equals("java.lang.Long")) ||
+            (formField.getFieldReferences() != null)) {
+        <div class="form-group">
+            <div class="clearfix @if(elements.hasErrors) {error}" id="@{elements.id + "_field"}">
+                <label class="col-sm-2 control-label" for="@elements.id">@Messages.get(formField.getFieldName())</label>
+                <div class="col-sm-10 input">
+                    @if(formField.getFieldReferences() != null) {
+                        @helpers.twitterBootstrap.select(elements, formField.getFieldReferences())
+                    } else {
+                        @if(formField.getFieldType().equals("java.util.Date")) {
+                            @helpers.twitterBootstrap.inputDate(elements)
+                        } else {
+                            @if(formField.getFieldType().equals("static")) {
+                                @helpers.twitterBootstrap.static(elements)
+                            } else {
+                                @if(formField.getFieldType().equals("password")) {
+                                    @helpers.twitterBootstrap.inputPassword(elements)
+                                } else {
+                                    @if(formField.getFieldType().equals("textarea")) {
+                                        @helpers.twitterBootstrap.textarea(elements)
+                                    } else {
+                                        @if(formField.getFieldType().equals("java.io.File")) {
+                                            @helpers.twitterBootstrap.inputFile(elements)
+                                        } else {
+                                            @if(formField.getFieldType().equals("html")) {
+                                                @helpers.twitterBootstrap.ckTextarea(elements)
+                                            } else {
+                                                @if((formField.getFieldType().equals("int")) || (formField.getFieldType().equals("java.lang.Integer")) ||
+                                                        (formField.getFieldType().equals("long")) || (formField.getFieldType().equals("java.lang.Long"))) {
+                                                    @helpers.twitterBootstrap.inputNumber(elements)
+                                                } else {
+                                                    @helpers.twitterBootstrap.inputText(elements)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    } else {
+        @if((formField.getFieldType().equals("boolean")) || (formField.getFieldType().equals("java.lang.Boolean"))) {
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    @helpers.twitterBootstrap.checkbox(elements, '_text -> Messages.get(formField.getFieldName()))
+                </div>
+            </div>
+        }
+    }
+}

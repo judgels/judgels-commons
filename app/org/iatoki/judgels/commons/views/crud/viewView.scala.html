@@ -1,0 +1,11 @@
+@(form: Form[_], formFields: java.util.List[org.iatoki.judgels.commons.views.TwirlFormField])
+
+@import play.i18n.Messages
+@import org.iatoki.judgels.commons.views.html._
+@import org.iatoki.judgels.commons.views.html.crud._
+
+@for(formField <- formFields) {
+    @defining(form(formField.getFieldKey())) { elements =>
+        @processInputFormField(form, formField)
+    }
+}

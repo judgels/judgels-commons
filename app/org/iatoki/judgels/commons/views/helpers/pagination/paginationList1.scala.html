@@ -1,0 +1,39 @@
+@(currentPage: Long, totalPage: Long, func: (scala.Long, scala.Long) => Call, firstParam: Long)
+
+@import play.i18n.Messages
+
+@shortLink(newPage: scala.Long) = @{
+	func(firstParam, newPage)
+}
+
+<div class="showing">
+    @Messages.get("views.pagination.showing") @((currentPage-1)*20 + 1) - @math.min((currentPage*20) + 20, totalPage) @Messages.get("views.pagination.out_of") @totalPage
+</div>
+<ul class="pagination">
+	@if(currentPage != 1) {
+		<li><a href="@shortLink(1)">&lt;&lt;</a></li>
+		<li><a href="@shortLink(currentPage - 1)">&lt;</a></li>
+	} else {
+		<li class="disabled"><a href="@shortLink(1)">&lt;&lt;</a></li>
+		<li class="disabled"><a>&lt;</a></li>
+	}
+
+	@for(i <- math.max(1, currentPage-9) to currentPage-1) {
+		<li><a href="@shortLink(i)">@i</a></li>
+	}
+
+	<li class="active"><a>@currentPage</a></li>
+
+	@for(i <- currentPage+1 to math.min(totalPage, currentPage + 9)) {
+		<li><a href="@shortLink(i)">@i</a></li>
+	}
+
+	@if(currentPage != totalPage) {
+		<li><a href="@shortLink(currentPage + 1)">&gt;</a></li>
+		<li><a href="@shortLink(totalPage)">&gt;&gt;</a></li>
+	} else {
+		<li class="disabled"><a>&gt;</a></li>
+		<li class="disabled"><a href="@shortLink(totalPage)">&gt;&gt;</a></li>
+	}
+
+</ul>

@@ -1,0 +1,14 @@
+@(elements: views.html.helper.FieldElements)
+
+@import play.api.i18n._
+@import views.html.helper._
+
+@elements.input
+<p class="help-block">@elements.infos(elements.lang).mkString(", ")</p>
+@if(elements.hasErrors) {
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        @elements.errors(elements.lang).mkString(", ")
+    </div>
+}

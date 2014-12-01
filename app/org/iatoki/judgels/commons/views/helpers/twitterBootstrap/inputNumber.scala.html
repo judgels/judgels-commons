@@ -1,0 +1,21 @@
+@**
+* Generate an HTML5 input number.
+*
+* Example:
+* {{{
+* @inputNumber(field = myForm("releaseDate"), args = 'size -> 10)
+* }}}
+*
+* @param field The form field.
+* @param args Set of extra attributes.
+* @param handler The field constructor.
+*@
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit handler: views.html.helper.FieldConstructor)
+
+@import views.html.helper.input
+
+@clazzes = @{ args.toMap.get('class) }
+
+@input(field, args:_*) { (id, name, value, htmlArgs) =>
+    <input type="number" id="@id" name="@name" class="form-control @clazzes" value="@value" @toHtmlArgs(htmlArgs.filterKeys(_ != 'class)) >
+}

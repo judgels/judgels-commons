@@ -1,0 +1,39 @@
+@(header: java.util.List[String], modelName: String, currentPage: org.iatoki.judgels.commons.helpers.Page[java.util.List[String]], currentSortBy: String, currentOrder: String, currentFilter: String, listFunc: (Long, String, String, String) => Call, viewFunc: (Int) => Call, updateFunc: (Int) => Call, deleteFunc: (Int) => Call)
+
+@import play.i18n.Messages
+@import org.iatoki.judgels.commons.views.html.helpers.pagination.tablePagination
+@import org.iatoki.judgels.commons.views.html.helpers.pagination.heading
+@import org.iatoki.judgels.commons.views.html.helpers.pagination.tableHeader
+@import org.iatoki.judgels.commons.views.html.helpers.pagination.link
+
+@shortLink(newPage: Long, newSortBy: String) = {@link(currentSortBy, true, currentOrder, currentFilter, newPage, newSortBy, listFunc)}
+
+<div class="panel panel-default">
+    @heading(Messages.get("list")+" "+Messages.get(modelName), currentPage, currentSortBy, currentOrder, true, currentFilter, listFunc)
+    <div class="table-responsive">
+        <table class="table table-hover table-condensed table-bordered">
+            <tr>
+                @for(head <- header) {
+                    @tableHeader(head, Messages.get(head), currentSortBy, currentOrder, shortLink(currentPage.getPageIndex(), head))
+                }
+                <th></th>
+            </tr>
+            @for(page <- currentPage.getList()) {
+                <tr>
+                    @for(field <- page) {
+                        <td>@field</td>
+                    }
+                    <td class="text-center">
+                        @if(page.size() > 0) {
+                            <a href="@viewFunc(Integer.parseInt(page.get(0)))"><span class="glyphicon glyphicon-search"></span></a>
+                            <a href="@updateFunc(Integer.parseInt(page.get(0)))"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a href="@deleteFunc(Integer.parseInt(page.get(0)))" onclick="confirmLink ( event, this.href )"><span class="glyphicon glyphicon-remove"></span></a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+@tablePagination(currentPage, currentSortBy, currentOrder, currentFilter, listFunc)

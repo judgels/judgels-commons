@@ -1,0 +1,39 @@
+@**
+* Generate an HTML radio group
+*
+* Example:
+* {{{
+* @inputRadioGroup(
+*           contactForm("gender"),
+*           options = Seq("M"->"Male","F"->"Female"),
+*           '_label -> "Gender",
+*           '_error -> contactForm("gender").error.map(_.withMessage("select gender")))
+*
+* }}}
+*
+* @param field The form field.
+* @param args Set of extra HTML attributes.
+* @param handler The field constructor.
+*@
+@(field: play.api.data.Field, options: Seq[(String,String)], args: (Symbol,Any)*)(implicit handler: views.html.helper.FieldConstructor)
+
+@import views.html.helper.input
+
+@inline = @{ args.toMap.get('inline).getOrElse("true") }
+
+@input(field, args.map{ x => if(x._1 == '_label) '_name -> x._2 else x }:_*) { (id, name, value, htmlArgs) =>
+    @options.map { v =>
+        @if(inline == "true") {
+            <label class="radio-inline">
+                <input type="radio" name="@name" id="@(id)_@v._1" value="@v._1" @if(value == Some(v._1)){checked="checked"} @toHtmlArgs(htmlArgs)> @v._2
+            </label>
+        } else {
+            <div class="radio">
+                <label>
+                    <input type="radio" name="@name" id="@(id)_@v._1" value="@v._1" @if(value == Some(v._1)){checked="checked"} @toHtmlArgs(htmlArgs)>
+                    @v._2
+                </label>
+            </div>
+        }
+    }
+}

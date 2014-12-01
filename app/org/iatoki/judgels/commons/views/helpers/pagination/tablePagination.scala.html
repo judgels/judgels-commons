@@ -1,0 +1,8 @@
+@(currentPage: org.iatoki.judgels.commons.helpers.Page[_], currentSortBy: String, currentOrder: String, currentFilter: String, func: (Long, String, String, String) => Call)
+
+@import org.iatoki.judgels.commons.views.html.helpers.pagination.link
+@import org.iatoki.judgels.commons.views.html.helpers.pagination.genericPagination
+
+@shortLink(newPage: Long) = {@link(currentSortBy, false, currentOrder, currentFilter, newPage, currentSortBy, func)}
+
+@genericPagination(currentPage, shortLink)
