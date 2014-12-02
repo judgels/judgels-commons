@@ -1,0 +1,11 @@
+@(breadcrumbs: List[org.iatoki.judgels.commons.InternalLink])
+
+<div class="row primary-content-breadcrumb-row">
+    <div class="col-md-12 primary-content-breadcrumb">
+        <ol class="breadcrumb">
+        @for(link <- breadcrumbs) {
+            <li><a href="@link.getTarget">@link.getLabel</a></li>
+        }
+        </ol>
+    </div>
+</div>
