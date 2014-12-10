@@ -20,7 +20,6 @@ public abstract class Global extends GlobalSettings {
 
     @Override
     public <A> A getControllerInstance(Class<A> controllerClass) throws Exception {
-        System.out.println("AA " + controllerClass);
         return INJECTOR.getInstance(controllerClass);
     }
 

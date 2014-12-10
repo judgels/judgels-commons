@@ -3,6 +3,7 @@ package org.iatoki.judgels.commons.helpers.crud;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang3.StringUtils;
 import org.iatoki.judgels.commons.models.daos.DaoFactory;
 import org.iatoki.judgels.commons.models.domains.Model;
 import org.iatoki.judgels.commons.models.domains.ReferenceModel;
@@ -58,6 +59,9 @@ public final class FormFieldUtils {
         if (field.isAnnotationPresent(FormFieldCustomDefaultValue.class)) {
             htmlArgs.put("_value", field.getAnnotation(FormFieldCustomDefaultValue.class).value());
         }
+
+        String modelSlug = StringUtils.lowerCase(field.getDeclaringClass().getSimpleName());
+        htmlArgs.put("_label", modelSlug + ".field." + field.getName());
 
         return htmlArgs.build();
     }
