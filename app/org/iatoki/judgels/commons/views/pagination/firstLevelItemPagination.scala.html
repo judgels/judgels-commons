@@ -1,0 +1,5 @@
+@(currentPage: org.iatoki.judgels.commons.helpers.Page[_], linkClass: String, dataLink: String, func: (Long, Int) => Call, firstParam: Long)
+
+@shortLink(newPage: Long) = {func(firstParam, newPage)}
+
+@genericPagination(currentPage, shortLink)

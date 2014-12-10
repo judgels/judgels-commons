@@ -1,0 +1,21 @@
+@(field: play.api.data.Field, fieldType: org.iatoki.judgels.commons.helpers.crud.FormFieldType, htmlArgs: java.util.Map[String, String], options: java.util.List[String])(implicit handler : views.html.b3.horizontal.HorizontalFieldConstructor, lang : play.api.i18n.Lang)
+
+@import org.iatoki.judgels.commons.helpers.crud.FormFieldType
+
+@b3HtmlArgs = @{ mapAsScalaMap(htmlArgs).toSeq.map {case (k, v) => (Symbol(k), v)} }
+
+@if(fieldType == FormFieldType.TEXT) {
+    @b3.text(field, b3HtmlArgs: _*)(handler, lang)
+} else {
+@if(fieldType == FormFieldType.PASSWORD) {
+    @b3.password(field, b3HtmlArgs: _*)(handler, lang)
+} else {
+@if(fieldType == FormFieldType.CHECKBOX) {
+    @b3.checkbox(field, b3HtmlArgs: _*)(handler, lang)
+} else {
+@if(fieldType == FormFieldType.FILE) {
+    @b3.file(field, b3HtmlArgs: _*)(handler, lang)
+} else {
+@if(fieldType == FormFieldType.STATIC) {
+    @b3.horizontal.static(field.name, b3HtmlArgs: _*){ @field.value }(handler)
+}}}}}

@@ -1,0 +1,24 @@
+@(currentSortBy: String, checkOrder: Boolean, currentOrder: String, currentFilter: String, newPage: Long, newSortBy: String, func: (Long, String, String, String) => play.api.mvc.Call)
+@link() = @{
+    var sortBy = currentSortBy
+    var order = currentOrder
+
+    if(newSortBy != null) {
+        sortBy = newSortBy
+        if(currentSortBy == newSortBy) {
+            if (checkOrder)
+            {
+                if(currentOrder == "asc") {
+                    order = "desc"
+                } else {
+                    order = "asc"
+                }
+            }
+        } else {
+            order = currentOrder
+        }
+    }
+
+    //link
+    func(newPage, sortBy, order, currentFilter)
+}@link()

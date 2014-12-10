@@ -1,7 +1,7 @@
 package org.iatoki.judgels.commons.models.daos.hibernate;
 
 import org.iatoki.judgels.commons.helpers.Page;
-import org.iatoki.judgels.commons.models.daos.AbstractDao;
+import org.iatoki.judgels.commons.models.daos.AbstractJudgelsDao;
 import org.iatoki.judgels.commons.models.domains.Model;
 import play.db.jpa.JPA;
 
@@ -15,7 +15,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractHibernateDao<K, E extends Model> extends AbstractDao<K, E> {
+public abstract class AbstractHibernateDao<E extends Model> extends AbstractJudgelsDao<E> {
 
     @Override
     public void persist(E entity, String user, String ipAddress) {
@@ -40,16 +40,24 @@ public abstract class AbstractHibernateDao<K, E extends Model> extends AbstractD
     }
 
     @Override
-    public E findById(K id) {
+    public E findById(Long id) {
         return JPA.em().find(getEntityClass(), id);
+    }
+
+    @Override
+    public E findByJid(String jid) {
+        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+        CriteriaQuery<E> query = cb.createQuery(getEntityClass());
+
+        Root<E> root = query.from(getEntityClass());
+
+        return null; //TODO
     }
 
     @Override
     public List<E> findAll() {
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<E> query = cb.createQuery(getEntityClass());
-
-        Root<E> root = query.from(getEntityClass());
 
         query.from(getEntityClass());
 

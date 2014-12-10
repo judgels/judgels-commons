@@ -1,0 +1,10 @@
+@(modelSlug: String)(content: Html)
+
+@import play.i18n.Messages
+
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="#"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> @{ Messages.get(modelSlug + ".list") }</a></li>
+    <li role="presentation"><a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @{ Messages.get(modelSlug + ".add") }</a></li>
+</ul>
+
+@content

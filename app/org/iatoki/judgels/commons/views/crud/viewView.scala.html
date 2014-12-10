@@ -1,11 +1,9 @@
-@(form: Form[_], formFields: java.util.List[org.iatoki.judgels.commons.views.TwirlFormField])
+@(viewForm: play.data.Form[_], fields: java.util.List[org.iatoki.judgels.commons.helpers.crud.FormField], modelSlug: String)
 
-@import play.i18n.Messages
-@import org.iatoki.judgels.commons.views.html._
-@import org.iatoki.judgels.commons.views.html.crud._
+@implicitFcc = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@for(formField <- formFields) {
-    @defining(form(formField.getFieldKey())) { elements =>
-        @processInputFormField(form, formField)
-    }
+
+@for(field <- fields) {
+    @fieldView(viewForm(field.getName), field.getType, field.getHtmlArgs, field.getOptions)(implicitFcc, implicitly[Lang])
 }
+

@@ -1,20 +1,17 @@
-@(form: Form[_], targetCall: play.api.mvc.Call, formFields: java.util.List[org.iatoki.judgels.commons.views.TwirlFormField])
+@(createForm: play.data.Form[_], targetCall: play.api.mvc.Call, fields: java.util.List[org.iatoki.judgels.commons.helpers.crud.FormField], modelSlug: String)
 
 @import play.i18n.Messages
-@import org.iatoki.judgels.commons.views.html._
-@import org.iatoki.judgels.commons.views.html.crud._
 
-@helpers.twitterBootstrap.form(action = targetCall, 'horizontal -> "true") {
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+<h3>@{ Messages.get(modelSlug + ".add") }</h3>
+
+@b3.horizontal.form(targetCall) {
     @helper.CSRF.formField
-    @for(formField <- formFields) {
-        @defining(form(formField.getFieldKey())) { elements =>
-            @processInputFormField(form, formField)
-        }
+
+    @for(field <- fields) {
+        @fieldView(createForm(field.getName), field.getType, field.getHtmlArgs, field.getOptions)(implicitFieldConstructor, implicitly[Lang])
     }
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            @helpers.twitterBootstrap.button(Messages.get("create"))
-        </div>
-    </div>
+    @b3.horizontal.submit('class -> "btn btn-primary") { @Messages.get("Create") }
 }

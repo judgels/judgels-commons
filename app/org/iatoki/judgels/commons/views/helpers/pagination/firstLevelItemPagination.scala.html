@@ -1,8 +1,0 @@
-@(currentPage: org.iatoki.judgels.commons.helpers.Page[_], linkClass: String, dataLink: String, func: (scala.Long, Int) => Call, firstParam: Long)
-
-@import play.i18n._
-@import org.iatoki.judgels.commons.views.html.helpers.pagination.link
-
-@shortLink(newPage: Long) = {func(firstParam, newPage)}
-
-@genericPagination(currentPage, shortLink)

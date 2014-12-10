@@ -1,25 +1,25 @@
 package org.iatoki.judgels.commons.models.daos;
 
+import com.google.common.collect.Maps;
 import org.iatoki.judgels.commons.models.daos.interfaces.Dao;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public final class DaoFactory {
     private static DaoFactory INSTANCE;
 
-    private final Map<Class, Dao> daos;
+    private final Map<Class<? extends Dao<?, ?>>, Dao<?, ?>> daos;
 
     private DaoFactory() {
-        daos = new HashMap<>();
+        daos = Maps.newHashMap();
     }
 
-    public void putDao(Class clazz, Dao dao) {
+    public void putDao(Class<? extends Dao<?, ?>> clazz, Dao<?, ?> dao) {
         daos.put(clazz, dao);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Dao> T getDao(Class<T> clazz) {
+    public <T extends Dao<?, ?>> T getDao(Class<T> clazz) {
         return (T) daos.get(clazz);
     }
 

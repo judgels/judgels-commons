@@ -1,15 +1,15 @@
-@(header: java.util.List[String], modelName: String, currentPage: org.iatoki.judgels.commons.helpers.Page[java.util.List[String]], currentSortBy: String, currentOrder: String, currentFilter: String, listFunc: (Long, String, String, String) => Call, viewFunc: (Int) => Call, updateFunc: (Int) => Call, deleteFunc: (Int) => Call)
+@(header: java.util.List[String], modelName: String, currentPage: org.iatoki.judgels.commons.helpers.Page[java.util.List[String]], currentSortBy: String, currentOrder: String, currentFilter: String, listFunc: (Long, String, String, String) => play.api.mvc.Call, viewFunc: (Long) => play.api.mvc.Call, updateFunc: (Long) => play.api.mvc.Call, deleteFunc: (Long) => play.api.mvc.Call)
 
 @import play.i18n.Messages
-@import org.iatoki.judgels.commons.views.html.helpers.pagination.tablePagination
-@import org.iatoki.judgels.commons.views.html.helpers.pagination.heading
-@import org.iatoki.judgels.commons.views.html.helpers.pagination.tableHeader
-@import org.iatoki.judgels.commons.views.html.helpers.pagination.link
+@import org.iatoki.judgels.commons.views.html.pagination.tablePagination
+@import org.iatoki.judgels.commons.views.html.pagination.heading
+@import org.iatoki.judgels.commons.views.html.pagination.tableHeader
+@import org.iatoki.judgels.commons.views.html.pagination.link
 
-@shortLink(newPage: Long, newSortBy: String) = {@link(currentSortBy, true, currentOrder, currentFilter, newPage, newSortBy, listFunc)}
+@shortLink(newPage: scala.Long, newSortBy: String) = {@link(currentSortBy, true, currentOrder, currentFilter, newPage, newSortBy, listFunc)}
 
 <div class="panel panel-default">
-    @heading(Messages.get("list")+" "+Messages.get(modelName), currentPage, currentSortBy, currentOrder, true, currentFilter, listFunc)
+    @heading(Messages.get("listView")+" "+Messages.get(modelName), currentPage, currentSortBy, currentOrder, true, currentFilter, listFunc)
     <div class="table-responsive">
         <table class="table table-hover table-condensed table-bordered">
             <tr>

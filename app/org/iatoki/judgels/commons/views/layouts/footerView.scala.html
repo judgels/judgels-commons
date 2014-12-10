@@ -1,0 +1,28 @@
+@()
+
+@import java.text.SimpleDateFormat
+@import java.util.Date
+
+@import play.i18n.Messages
+
+<div class="container">
+    <div class="pull-left first">
+        <div class="col-md-12">
+            <div class="copyright">
+                    &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @play.Play.application().configuration.getString("application.title")
+            </div>
+            <div class="social">
+                <a href='@play.Play.application().configuration.getString("url.facebook")'>Facebook</a> - <a href='@play.Play.application().configuration.getString("url.twitter")'>Twitter</a>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right second">
+        <div class="col-md-12">
+            <nav>
+                <a href='@play.Play.application().configuration.getString("url.about_us")'>@Messages.get("about_us")</a>
+                <a href='@play.Play.application().configuration.getString("url.news")'>@Messages.get("news")</a>
+                <a href='@play.Play.application().configuration.getString("url.contact")'>@Messages.get("contact")</a>
+            </nav>
+        </div>
+    </div>
+</div>
