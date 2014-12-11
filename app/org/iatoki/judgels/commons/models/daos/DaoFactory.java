@@ -1,5 +1,6 @@
 package org.iatoki.judgels.commons.models.daos;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import org.iatoki.judgels.commons.models.daos.interfaces.Dao;
 
@@ -20,6 +21,8 @@ public final class DaoFactory {
 
     @SuppressWarnings("unchecked")
     public <T extends Dao<?, ?>> T getDao(Class<T> clazz) {
+        Preconditions.checkArgument(daos.containsKey(clazz));
+
         return (T) daos.get(clazz);
     }
 

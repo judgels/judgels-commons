@@ -1,6 +1,6 @@
 package org.iatoki.judgels.commons.helpers.crud;
 
-public enum FormFieldType {
+public enum CrudFieldType {
     TEXT,
     PASSWORD,
     TEXTAREA,

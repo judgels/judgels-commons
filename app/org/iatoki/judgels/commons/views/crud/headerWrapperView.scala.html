@@ -1,10 +1,11 @@
-@(modelSlug: String, listFunc: (Long, String, String, String) => play.api.mvc.Call, createFunc: Call)(content: Html)
+@(modelSlug: String, listCall: play.api.mvc.Call, createCall: Call)(content: Html)
 
 @import play.i18n.Messages
+
 <nav class="navbar navbar-default" role="navigation">
     <ul class="nav navbar-nav">
-        <li role="presentation"><a href="@listFunc(0L, "id", "asc", "")"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> @{ Messages.get(modelSlug + ".list") }</a></li>
-        <li role="presentation"><a href="@createFunc"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @{ Messages.get(modelSlug + ".add") }</a></li>
+        <li role="presentation"><a href="@listCall.url"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> @{ Messages.get(modelSlug + ".list") }</a></li>
+        <li role="presentation"><a href="@createCall.url"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @{ Messages.get(modelSlug + ".add") }</a></li>
     </ul>
 </nav>
 

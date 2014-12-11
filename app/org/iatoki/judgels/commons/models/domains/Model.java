@@ -1,67 +1,30 @@
 package org.iatoki.judgels.commons.models.domains;
 
+import org.apache.commons.lang3.StringUtils;
+import org.iatoki.judgels.commons.helpers.Utilities;
+
 import javax.persistence.MappedSuperclass;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 @MappedSuperclass
 public abstract class Model {
 
-    private String userCreate;
+    public String userCreate;
+    public long timeCreate;
+    public String ipCreate;
+    public String userUpdate;
+    public long timeUpdate;
+    public String ipUpdate;
 
-    private long timeCreate;
-
-    private String ipCreate;
-
-    private String userUpdate;
-
-    private long timeUpdate;
-
-    private String ipUpdate;
-
-    public String getUserCreate() {
-        return userCreate;
-    }
-
-    public void setUserCreate(String userCreate) {
-        this.userCreate = userCreate;
-    }
-
-    public long getTimeCreate() {
-        return timeCreate;
-    }
-
-    public void setTimeCreate(long timeCreate) {
-        this.timeCreate = timeCreate;
-    }
-
-    public String getIpCreate() {
-        return ipCreate;
-    }
-
-    public void setIpCreate(String ipCreate) {
-        this.ipCreate = ipCreate;
-    }
-
-    public String getUserUpdate() {
-        return userUpdate;
-    }
-
-    public void setUserUpdate(String userUpdate) {
-        this.userUpdate = userUpdate;
-    }
-
-    public long getTimeUpdate() {
-        return timeUpdate;
-    }
-
-    public void setTimeUpdate(long timeUpdate) {
-        this.timeUpdate = timeUpdate;
-    }
-
-    public String getIpUpdate() {
-        return ipUpdate;
-    }
-
-    public void setIpUpdate(String ipUpdate) {
-        this.ipUpdate = ipUpdate;
+    public final void setReflectively(Field field, String valueAsString) {
+        String capitalizedFieldName = StringUtils.capitalize(field.getName());
+        try {
+            Method setterMethod = getClass().getMethod("set" + capitalizedFieldName, field.getType());
+            setterMethod.invoke(this, Utilities.castStringtoCertainClass(field.getType(), valueAsString));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

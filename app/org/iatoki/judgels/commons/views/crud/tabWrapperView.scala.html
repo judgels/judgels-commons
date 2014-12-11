@@ -1,0 +1,17 @@
+@(sectionTabs: java.util.List[org.iatoki.judgels.commons.helpers.SectionTab], modelSlug: String, modelId: Long, content: Html)
+
+@import play.i18n.Messages
+
+<ul class="nav nav-pills">
+
+    @for(tab <- sectionTabs) {
+        <li role="presentation" class="active"><a href="@tab.getCall(modelId)">@tab.getName</a></li>
+    }
+
+</ul>
+
+<div class="clearfix"></div>
+
+<hr />
+
+@content

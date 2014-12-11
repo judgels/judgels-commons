@@ -3,9 +3,10 @@ package org.iatoki.judgels.commons.helpers.crud;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.collect.Maps;
 import org.iatoki.judgels.commons.models.daos.DaoFactory;
 import org.iatoki.judgels.commons.models.domains.Model;
+import org.iatoki.judgels.commons.models.domains.Models;
 import org.iatoki.judgels.commons.models.domains.ReferenceModel;
 
 import java.io.File;
@@ -13,65 +14,65 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public final class FormFieldUtils {
+public final class CrudFields {
 
-    private static final Map<Class<?>, FormFieldType> DEFAULT_FORM_FIELD_TYPES = ImmutableMap.of(
-            boolean.class, FormFieldType.CHECKBOX,
-            File.class, FormFieldType.FILE,
-            Date.class, FormFieldType.DATE
+    private static final Map<Class<?>, CrudFieldType> DEFAULT_FORM_FIELD_TYPES = ImmutableMap.of(
+            boolean.class, CrudFieldType.CHECKBOX,
+            File.class, CrudFieldType.FILE,
+            Date.class, CrudFieldType.DATE
     );
 
-    private FormFieldUtils() {
+    private CrudFields() {
         // prevent instantiation
     }
 
-
-    public static FormField createFromJavaField(Field field) {
-        FormFieldType type = getType(field);
+    public static CrudField fromJavaField(Field field) {
+        CrudFieldType type = getType(field);
         Map<String, String> htmlArgs = getHtmlArgs(field);
         List<String> options = getOptions(field);
 
-        return new FormField(field.getName(), type, htmlArgs, options);
+        return new CrudField(field.getName(), type, htmlArgs, options);
     }
 
-    private static FormFieldType getType(Field field) {
-        if (field.isAnnotationPresent(FormFieldCustomType.class)) {
-            return field.getAnnotation(FormFieldCustomType.class).value();
+    private static CrudFieldType getType(Field field) {
+        if (field.isAnnotationPresent(CrudFieldCustomType.class)) {
+            return field.getAnnotation(CrudFieldCustomType.class).value();
         } else {
             return getDefaultType(field.getType());
         }
     }
 
-    private static FormFieldType getDefaultType(Class<?> clazz) {
-        for (Map.Entry<Class<?>, FormFieldType> entry : DEFAULT_FORM_FIELD_TYPES.entrySet()) {
+    private static CrudFieldType getDefaultType(Class<?> clazz) {
+        for (Map.Entry<Class<?>, CrudFieldType> entry : DEFAULT_FORM_FIELD_TYPES.entrySet()) {
             if (entry.getKey().equals(clazz)) {
                 return entry.getValue();
             }
         }
 
-        return FormFieldType.TEXT;
+        return CrudFieldType.TEXT;
     }
 
     private static Map<String, String> getHtmlArgs(Field field) {
-        ImmutableMap.Builder<String, String> htmlArgs = ImmutableMap.builder();
+        Map<String, String> htmlArgs = Maps.newHashMap();
 
-        if (field.isAnnotationPresent(FormFieldCustomDefaultValue.class)) {
-            htmlArgs.put("_value", field.getAnnotation(FormFieldCustomDefaultValue.class).value());
+        if (field.isAnnotationPresent(CrudFieldCustomDefaultValue.class)) {
+            htmlArgs.put("_value", field.getAnnotation(CrudFieldCustomDefaultValue.class).value());
         }
 
-        String modelSlug = StringUtils.lowerCase(field.getDeclaringClass().getSimpleName());
-        htmlArgs.put("_label", modelSlug + ".field." + field.getName());
+        htmlArgs.put("_label", Models.getFieldSlug(field));
 
-        return htmlArgs.build();
+        return htmlArgs;
     }
 
     private static List<String> getOptions(Field field) {
-        if (!field.isAnnotationPresent(FormFieldCustomOptions.class)) {
+        if (!field.isAnnotationPresent(CrudFieldCustomOptions.class)) {
             return null;
         }
 
-        FormFieldCustomOptions optionsInfo = field.getAnnotation(FormFieldCustomOptions.class);
+        CrudFieldCustomOptions optionsInfo = field.getAnnotation(CrudFieldCustomOptions.class);
         switch (optionsInfo.source()) {
             case ENUM:
                 return getOptionsFromEnum(optionsInfo.data());
@@ -85,13 +86,9 @@ public final class FormFieldUtils {
     private static List<String> getOptionsFromEnum(Class<?> clazz) {
         Preconditions.checkArgument(clazz.isEnum());
 
-        ImmutableList.Builder<String> data = ImmutableList.builder();
-
-        for (Object value : clazz.getEnumConstants()) {
-            data.add(value.toString());
-        }
-
-        return data.build();
+        return Stream.of(clazz.getEnumConstants())
+                .map(Object::toString)
+                .collect(Collectors.toList());
     }
 
     private static List<String> getOptionsFromTable(Class clazz) {
@@ -101,7 +98,7 @@ public final class FormFieldUtils {
         ImmutableList.Builder<String> data = ImmutableList.builder();
         for (Model model : models) {
             if (model.getClass().isAssignableFrom(ReferenceModel.class)) {
-                String referenceName = ((ReferenceModel) model).getName();
+                String referenceName = ((ReferenceModel) model).name;
                 data.add(referenceName);
             } else {
                 throw new ClassCastException();

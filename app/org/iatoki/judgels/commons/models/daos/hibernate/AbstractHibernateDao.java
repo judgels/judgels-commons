@@ -20,17 +20,17 @@ public abstract class AbstractHibernateDao<E extends Model> extends AbstractJudg
 
     @Override
     public void persist(E entity, String user, String ipAddress) {
-        entity.setUserCreate(user);
-        entity.setTimeCreate(System.currentTimeMillis());
-        entity.setIpCreate(ipAddress);
+        entity.userCreate = user;
+        entity.timeCreate = System.currentTimeMillis();
+        entity.ipCreate = ipAddress;
         JPA.em().persist(entity);
     }
 
     @Override
     public E edit(E entity, String user, String ipAddress) {
-        entity.setUserUpdate(user);
-        entity.setTimeUpdate(System.currentTimeMillis());
-        entity.setIpUpdate(ipAddress);
+        entity.userCreate = user;
+        entity.timeCreate = System.currentTimeMillis();
+        entity.ipCreate = ipAddress;
         E newEntity = JPA.em().merge(entity);
         return newEntity;
     }
@@ -47,11 +47,6 @@ public abstract class AbstractHibernateDao<E extends Model> extends AbstractJudg
 
     @Override
     public E findByJid(String jid) {
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-        CriteriaQuery<E> query = cb.createQuery(getEntityClass());
-
-        Root<E> root = query.from(getEntityClass());
-
         return null; //TODO
     }
 

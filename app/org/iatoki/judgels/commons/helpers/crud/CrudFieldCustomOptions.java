@@ -7,6 +7,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface FormFieldCustomType {
-    FormFieldType value();
+public @interface CrudFieldCustomOptions {
+    CrudFieldOptionsSource source();
+
+    Class<?> data();
 }

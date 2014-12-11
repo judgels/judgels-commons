@@ -1,6 +1,6 @@
 package org.iatoki.judgels.commons.controllers;
 
-import org.iatoki.judgels.commons.helpers.WrappedContents;
+import org.iatoki.judgels.commons.helpers.LazyHtml;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -22,11 +22,11 @@ public abstract class BaseController extends Controller {
         this.pageTitle = pageTitle;
     }
 
-    protected abstract WrappedContents wrapWithTemplate(WrappedContents content);
+    protected abstract void wrapWithTemplate(LazyHtml content);
 
     protected abstract Object getReverseController();
 
-    protected Result getResult(WrappedContents content, int statusCode) {
+    protected Result getResult(LazyHtml content, int statusCode) {
         Result result = null;
         switch (statusCode) {
             case Http.Status.OK:
