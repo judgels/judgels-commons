@@ -3,6 +3,7 @@ package org.iatoki.judgels.commons.controllers;
 import org.iatoki.judgels.commons.helpers.WrappedContents;
 import play.i18n.Messages;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 
 public abstract class BaseController extends Controller {
@@ -26,6 +27,18 @@ public abstract class BaseController extends Controller {
     protected abstract Object getReverseController();
 
     protected Result getResult(WrappedContents content, int statusCode) {
-        return ok(content.render(0));
+        Result result = null;
+        switch (statusCode) {
+            case Http.Status.OK:
+                result = ok(content.render(0));
+                break;
+            case Http.Status.NOT_FOUND:
+                result = notFound(content.render(0));
+                break;
+            default:
+                result = badRequest(content.render(0));
+                break;
+        }
+        return result;
     }
 }

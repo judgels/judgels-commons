@@ -41,7 +41,7 @@ public class Page<T> {
     }
 
     public boolean hasNext() {
-        return (totalRowCount / pageSize) >= pageIndex;
+        return (totalRowCount / pageSize) > pageIndex;
     }
 
 }

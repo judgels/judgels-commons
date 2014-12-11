@@ -1,3 +1,7 @@
-@()
+@(sidebarWidgets: List[Html])
 
-(sidebar)
+@for(widget <- sidebarWidgets) {
+    <div class="well">
+        @widget
+    </div>
+}

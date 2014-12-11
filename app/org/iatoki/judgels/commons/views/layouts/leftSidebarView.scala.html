@@ -1,0 +1,26 @@
+@(pageTitle: String)(content: Html, sidebarWidgets: List[Html])
+
+@baseView(pageTitle) {
+    <div class="main-container">
+        <header>
+            @headerView()
+        </header>
+
+        <div class="content">
+            <div class="container">
+                <div class="inner-container">
+                    <div class="col-xs-3 sidebar-content">
+                        @sidebarView(sidebarWidgets)
+                    </div>
+                    <div class="col-xs-9 main-content">
+                        @content
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            @footerView()
+        </footer>
+    </div>
+}

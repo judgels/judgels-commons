@@ -1,6 +1,7 @@
 package org.iatoki.judgels.commons.models.daos.interfaces;
 
 import org.iatoki.judgels.commons.helpers.Page;
+import org.iatoki.judgels.commons.helpers.exceptions.InvalidPageNumberException;
 import org.iatoki.judgels.commons.models.domains.Model;
 
 import java.lang.reflect.Field;
@@ -20,6 +21,6 @@ public interface Dao<K, E extends Model> {
 
     List<E> findAll(List<Field> filters);
 
-    Page<List<String>> pageString(long page, long pageSize, String sortBy, String order, String filterString, List<Field> filters);
+    Page<List<String>> pageString(long page, long pageSize, String sortBy, String order, String filterString, List<Field> filters) throws InvalidPageNumberException;
 
 }

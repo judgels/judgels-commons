@@ -1,0 +1,68 @@
+@import "_function";
+
+html,body {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+}
+body {
+	color: @base-font-color;
+	font-family: @normal-font;
+	font-size: @base-font-size;
+}
+input[type="text"], input[type="password"], textarea {
+	color: @base-font-color;
+  	.RoundBorders(@base-radius);
+}
+.lowercase {
+	text-transform: lowercase;
+}
+::-webkit-input-placeholder {
+	padding-left: 2px;
+	font-family: @normal-font;
+	font-size: @base-font-size;
+}
+:-moz-placeholder {
+	padding-left: 2px;
+	font-family: @normal-font;
+	font-size: @base-font-size;
+}
+::-moz-placeholder {
+	padding-left: 2px;
+	font-family: @normal-font;
+	font-size: @base-font-size;
+}
+:-ms-input-placeholder {
+	padding-left: 2px;
+	font-family: @normal-font;
+	font-size: @base-font-size;
+}
+.placeholder {
+	padding-top: 3px;
+	padding-left: 2px;
+	font-family: @normal-font;
+	font-size: @base-font-size;
+}
+.content {
+	min-height: 724px;
+  	margin: 15px 0;
+}
+.container {
+  	max-width: none !important;
+  	width: 970px;
+  	padding: 0;
+}
+.main-container {
+  	background-color: @main-color;
+  	margin: 0 auto;
+}
+.panel-error {
+  	display: none;
+}
+.panel-show {
+  	display: block;
+}
+.help-inline {
+  	color: red;
+}

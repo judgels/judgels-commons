@@ -12,6 +12,7 @@ import org.iatoki.judgels.commons.helpers.crud.FormField;
 import org.iatoki.judgels.commons.helpers.crud.FormFieldUtils;
 import org.iatoki.judgels.commons.helpers.crud.SectionLayout;
 import org.iatoki.judgels.commons.helpers.crud.SimpleSectionLayout;
+import org.iatoki.judgels.commons.helpers.exceptions.InvalidPageNumberException;
 import org.iatoki.judgels.commons.models.daos.DaoFactory;
 import org.iatoki.judgels.commons.models.daos.interfaces.JudgelsDao;
 import org.iatoki.judgels.commons.models.domains.Model;
@@ -35,7 +36,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -79,7 +79,7 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
         Call call = CrudActionMethods.DO_CREATE.generateCall(getReverseController());
         Html html = createView.render(form, call, fields.build(), getModelSlug());
 
-        return getResult(wrapCreateContent(html), Http.Status.ACCEPTED);
+        return getResult(wrapCreateContent(html), Http.Status.OK);
     }
 
     @SuppressWarnings("unchecked")
@@ -124,7 +124,7 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
 
         Html html = viewView.render(form, fields.build(), getModelSlug());
 
-        return getResult(wrapViewContent(html), Http.Status.ACCEPTED);
+        return getResult(wrapViewContent(html), Http.Status.OK);
     }
 
     @SuppressWarnings("unchecked")
@@ -146,7 +146,7 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
         Call call = CrudActionMethods.DO_UPDATE.generateCall(getReverseController(), key);
         Html html = updateView.render(form, call, fields.build(), getModelSlug());
 
-        return getResult(wrapUpdateContent(html), Http.Status.ACCEPTED);
+        return getResult(wrapUpdateContent(html), Http.Status.OK);
     }
 
     @SuppressWarnings("unchecked")
@@ -157,7 +157,7 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
         M model = modelClass.cast(dao.findById(key));
 
         for (Field field : modelClass.getDeclaredFields()) {
-            if (CrudUtils.isVisibleInAction(field, CrudAction.CREATE)) {
+            if (CrudUtils.isVisibleInAction(field, CrudAction.UPDATE)) {
                 setFieldValue(model, field, data.get(field.getName()));
             }
         }
@@ -180,8 +180,8 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
     @Override
     @Transactional
     public Result list(long page, String sortBy, String order, String filterString) {
-        List<String> header = new ArrayList<>();
-        List<Field> filters = new ArrayList<>();
+        ImmutableList.Builder<String> header = ImmutableList.builder();
+        ImmutableList.Builder<Field> filters = ImmutableList.builder();
 
         for (Field field : modelClass.getDeclaredFields()) {
             if (CrudUtils.isVisibleInAction(field, CrudAction.LIST)) {
@@ -190,15 +190,21 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
             }
         }
 
-        Page<List<String>> pages = dao.pageString(page, pageSize, sortBy, order, filterString, filters);
-        Function4<Long, String, String, String, Call> listFunction = CrudActionMethods.LIST.generateCallFunction(getReverseController());
-        Function1<Long, Call> viewFunction = CrudActionMethods.VIEW.generateCallFunction(getReverseController());
-        Function1<Long, Call> updateFunction = CrudActionMethods.UPDATE.generateCallFunction(getReverseController());
-        Function1<Long, Call> deleteFunction = CrudActionMethods.DELETE.generateCallFunction(getReverseController());
+        try {
+            Page<List<String>> pages = dao.pageString(page, pageSize, sortBy, order, filterString, filters.build());
+            Function4<java.lang.Long, String, String, String, Call> listFunction = CrudActionMethods.LIST.generateCallFunction(getReverseController());
+            Function1<java.lang.Long, Call> viewFunction = CrudActionMethods.VIEW.generateCallFunction(getReverseController());
+            Function1<java.lang.Long, Call> updateFunction = CrudActionMethods.UPDATE.generateCallFunction(getReverseController());
+            Function1<java.lang.Long, Call> deleteFunction = CrudActionMethods.DELETE.generateCallFunction(getReverseController());
 
-        Html html = listView.render(header, modelClass.getSimpleName(), pages, sortBy, order, filterString, listFunction, viewFunction, updateFunction, deleteFunction);
+            Html html = listView.render(header.build(), modelClass.getSimpleName(), pages, sortBy, order, filterString, listFunction, viewFunction, updateFunction, deleteFunction);
 
-        return getResult(wrapListContent(html), Http.Status.ACCEPTED);
+            return getResult(wrapListContent(html), play.mvc.Http.Status.OK);
+        } catch (InvalidPageNumberException e) {
+            Html html = Html.apply("");
+
+            return getResult(wrapListContent(html), Http.Status.NOT_FOUND);
+        }
     }
 
     public final int getPageSize() {
@@ -269,7 +275,10 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
     }
 
     private WrappedContents wrapWithCrudHeader(WrappedContents content) {
-        return content.wrapWithTransformation(c -> headerWrapperView.render(getModelSlug(), c));
+        Function4<java.lang.Long, String, String, String, Call> listFunction = CrudActionMethods.LIST.generateCallFunction(getReverseController());
+        Call createFunction = CrudActionMethods.CREATE.generateCall(getReverseController());
+
+        return content.wrapWithTransformation(c -> headerWrapperView.render(getModelSlug(), listFunction, createFunction, c));
     }
 
     private Class<?>[] getGenericClasses() {
