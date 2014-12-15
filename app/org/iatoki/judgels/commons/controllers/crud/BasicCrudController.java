@@ -16,7 +16,7 @@ import org.iatoki.judgels.commons.helpers.crud.CrudFields;
 import org.iatoki.judgels.commons.helpers.exceptions.InvalidPageNumberException;
 import org.iatoki.judgels.commons.models.daos.DaoFactory;
 import org.iatoki.judgels.commons.models.daos.interfaces.JudgelsDao;
-import org.iatoki.judgels.commons.models.domains.Model;
+import org.iatoki.judgels.commons.models.domains.AbstractModel;
 import org.iatoki.judgels.commons.models.domains.Models;
 import org.iatoki.judgels.commons.views.html.crud.createView;
 import org.iatoki.judgels.commons.views.html.crud.headerWrapperView;
@@ -37,7 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<M>> extends CrudController {
+public abstract class BasicCrudController<M extends AbstractModel, D extends JudgelsDao<M>> extends CrudController {
 
     private final Class<M> modelClass;
     private final D dao;

@@ -5,9 +5,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.iatoki.judgels.commons.models.daos.DaoFactory;
-import org.iatoki.judgels.commons.models.domains.Model;
+import org.iatoki.judgels.commons.models.domains.AbstractModel;
 import org.iatoki.judgels.commons.models.domains.Models;
-import org.iatoki.judgels.commons.models.domains.ReferenceModel;
+import org.iatoki.judgels.commons.models.domains.AbstractReferenceModel;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -93,12 +93,12 @@ public final class CrudFields {
 
     private static List<String> getOptionsFromTable(Class clazz) {
         @SuppressWarnings("unchecked")
-        List<Model> models = DaoFactory.getInstance().getDao(clazz).findAll();
+        List<AbstractModel> models = DaoFactory.getInstance().getDao(clazz).findAll();
 
         ImmutableList.Builder<String> data = ImmutableList.builder();
-        for (Model model : models) {
-            if (model.getClass().isAssignableFrom(ReferenceModel.class)) {
-                String referenceName = ((ReferenceModel) model).name;
+        for (AbstractModel model : models) {
+            if (model.getClass().isAssignableFrom(AbstractReferenceModel.class)) {
+                String referenceName = ((AbstractReferenceModel) model).name;
                 data.add(referenceName);
             } else {
                 throw new ClassCastException();

@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 @MappedSuperclass
-public abstract class Model {
+public abstract class AbstractModel {
 
     public String userCreate;
 
