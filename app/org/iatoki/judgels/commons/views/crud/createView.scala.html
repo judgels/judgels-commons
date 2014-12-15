@@ -6,12 +6,12 @@
 
 <h3>@{ Messages.get(modelSlug + ".add") }</h3>
 
-@b3.horizontal.form(targetCall) {
+@b3.form(targetCall) {
     @helper.CSRF.formField
 
     @for(field <- fields) {
         @fieldView(createForm(field.getName), field.getType, field.getHtmlArgs, field.getOptions)(implicitFieldConstructor, implicitly[Lang])
     }
 
-    @b3.horizontal.submit('class -> "btn btn-primary") { @Messages.get("Create") }
+    @b3.submit('class -> "btn btn-primary") { @Messages.get("Create") }
 }

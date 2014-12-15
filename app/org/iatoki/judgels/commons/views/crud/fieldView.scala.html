@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, fieldType: org.iatoki.judgels.commons.helpers.crud.CrudFieldType, htmlArgs: java.util.Map[String, String], options: java.util.List[String])(implicit handler : views.html.b3.horizontal.HorizontalFieldConstructor, lang : play.api.i18n.Lang)
+@(field: play.api.data.Field, fieldType: org.iatoki.judgels.commons.helpers.crud.CrudFieldType, htmlArgs: java.util.Map[String, String], options: java.util.List[String])(implicit handler : b3.B3FieldConstructor, lang : play.api.i18n.Lang)
 
 @import org.iatoki.judgels.commons.helpers.crud.CrudFieldType
 @import play.i18n.Messages
@@ -20,5 +20,5 @@
     @b3.file(field, b3HtmlArgs: _*)(handler, lang)
 } else {
 @if(fieldType == CrudFieldType.STATIC) {
-    @b3.horizontal.static(field.name, b3HtmlArgs: _*){ @field.value }(handler)
+    @b3.static(field.name, b3HtmlArgs: _*){ @field.value }(handler)
 }}}}}

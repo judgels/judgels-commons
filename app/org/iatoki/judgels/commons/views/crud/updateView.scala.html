@@ -2,12 +2,12 @@
 
 @implicitFcc = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-@b3.horizontal.form(targetCall) {
+@b3.form(targetCall) {
     @helper.CSRF.formField
 
     @for(field <- fields) {
         @fieldView(updateForm(field.getName), field.getType, field.getHtmlArgs, field.getOptions)(implicitFcc, implicitly[Lang])
     }
 
-    @b3.horizontal.submit('class -> "btn btn-primary") { <span class="glyphicon glyphicon-ok"></span> Update }
+    @b3.submit('class -> "btn btn-primary") { <span class="glyphicon glyphicon-ok"></span> Update }
 }
