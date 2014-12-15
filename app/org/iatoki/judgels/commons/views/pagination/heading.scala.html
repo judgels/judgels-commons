@@ -6,10 +6,10 @@
     <h4 class="pull-left">@title</h4>
 	@if(useFilter) {
 	    <form class="form form-inline pull-right" action='@func(currentPage.getPageIndex, "", "", "")' method="GET">
-	        <input type="hidden" name="o" value="@currentOrder"/>
-	        <input type="hidden" name="s" value="@currentSortBy"/>
+	        <input type="hidden" name="orderBy" value="@currentOrder"/>
+	        <input type="hidden" name="sortBy" value="@currentSortBy"/>
 	        <div class="form-group">
-	            <input type="search" class="form-control" name="f" value="@currentFilter">
+	            <input type="search" class="form-control" name="filterString" value="@currentFilter">
 	        </div>
 	        <button type="submit" class="btn btn-primary">@Messages.get("search")</button>
 	    </form>

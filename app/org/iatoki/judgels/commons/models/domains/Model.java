@@ -12,10 +12,15 @@ import java.lang.reflect.Method;
 public abstract class Model {
 
     public String userCreate;
+
     public long timeCreate;
+
     public String ipCreate;
+
     public String userUpdate;
+
     public long timeUpdate;
+
     public String ipUpdate;
 
     public final void setReflectively(Field field, String valueAsString) {

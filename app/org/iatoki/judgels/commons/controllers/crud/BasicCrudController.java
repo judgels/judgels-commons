@@ -24,7 +24,6 @@ import org.iatoki.judgels.commons.views.html.crud.listView;
 import org.iatoki.judgels.commons.views.html.crud.updateView;
 import org.iatoki.judgels.commons.views.html.crud.viewView;
 import play.api.mvc.Call;
-import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Http;
@@ -83,37 +82,54 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
         this.pageSize = 20;
     }
 
-    @Override
-    public Result create() {
-        List<CrudField> fields = Models.getFields(getModelClass()).stream()
-                .filter(field -> CrudActions.isAppliedTo(CrudAction.CREATE, field))
-                .map(CrudFields::fromJavaField)
-                .collect(Collectors.toList());
+    protected Html htmlCreate(Form<M> form) {
+        List<CrudField> fields = Models.getFields(modelClass).stream()
+            .filter(field -> CrudActions.isAppliedTo(CrudAction.CREATE, field))
+            .map(CrudFields::fromJavaField)
+            .collect(Collectors.toList());
 
-        Form<M> form = Form.form(getModelClass());
         Call call = doCreateMethod.apply();
         Html content = createView.render(form, call, fields, Models.getModelSlug(modelClass));
+
+        return content;
+    }
+
+    @Override
+    public Result create() {
+        Form<M> form = Form.form(modelClass);
+        Html content = htmlCreate(form);
 
         return getResult(wrapCreateContent(content), Http.Status.OK);
     }
 
+    protected boolean beforeDoCreate(Form<M> form) {
+        return true;
+    }
+
     @Transactional
     public Result doCreate() {
-        DynamicForm data = DynamicForm.form().bindFromRequest();
+        Form<M> form = Form.form(modelClass).bindFromRequest();
 
-        M newModel = Models.newModel(getModelClass());
-        Models.getFields(getModelClass()).stream()
+        if (beforeDoCreate(form)) {
+            M newModel = Models.newModel(modelClass);
+            Models.getFields(modelClass).stream()
                 .filter(field -> CrudActions.isAppliedTo(CrudAction.CREATE, field))
-                .forEach(field -> newModel.setReflectively(field, data.get(field.getName())));
+                .forEach(field -> newModel.setReflectively(field, form.data().get(field.getName())));
 
-        dao.persist(newModel, Utilities.getUserIdFromSession(session()), Utilities.getIpAddressFromRequest(request()));
+            dao.persist(newModel, Utilities.getUserIdFromSession(session()), Utilities.getIpAddressFromRequest(request()));
 
-        return redirect(listMethod.apply(0L, "id", "asc", ""));
+            return redirect(listMethod.apply(0L, "id", "asc", ""));
+        } else {
+            Html content = htmlCreate(form);
+
+            return getResult(wrapCreateContent(content), Http.Status.OK);
+        }
+
     }
 
     @Transactional
     public Result view(long modelId) {
-        List<CrudField> fields = Models.getFields(getModelClass()).stream()
+        List<CrudField> fields = Models.getFields(modelClass).stream()
                 .filter(field -> CrudActions.isAppliedTo(CrudAction.VIEW, field))
                 .map(CrudFields::fromJavaField)
                 .collect(Collectors.toList());
@@ -125,33 +141,50 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
         return getResult(wrapViewContent(content, modelId), Http.Status.OK);
     }
 
-    @Transactional
-    public Result update(long modelId) {
-        List<CrudField> fields = Models.getFields(getModelClass()).stream()
+    protected Html htmlUpdate(Form<M> form, long modelId) {
+        List<CrudField> fields = Models.getFields(modelClass).stream()
                 .filter(field -> CrudActions.isAppliedTo(CrudAction.UPDATE, field))
                 .map(CrudFields::fromJavaField)
                 .collect(Collectors.toList());
 
+        Call call = doUpdateMethod.apply(modelId);
+        Html content = updateView.render(form, call, fields, Models.getModelSlug(modelClass));
+
+        return content;
+    }
+
+    @Transactional
+    public Result update(long modelId) {
         M model = dao.findById(modelId);
         Form<M> form = Form.form(modelClass).fill(model);
-        Call call = doUpdateMethod.apply(modelId);
-        Html html = updateView.render(form, call, fields, Models.getModelSlug(modelClass));
 
-        return getResult(wrapUpdateContent(html, modelId), Http.Status.OK);
+        Html content = htmlUpdate(form, modelId);
+
+        return getResult(wrapUpdateContent(content, modelId), Http.Status.OK);
+    }
+
+    protected boolean beforeDoUpdate(Form<M> form) {
+        return true;
     }
 
     @Transactional
     public Result doUpdate(long modelId) {
-        DynamicForm data = DynamicForm.form().bindFromRequest();
+        Form<M> form = Form.form(modelClass).bindFromRequest();
 
-        M model = Models.newModel(getModelClass());
-        Models.getFields(getModelClass()).stream()
-                .filter(field -> CrudActions.isAppliedTo(CrudAction.UPDATE, field))
-                .forEach(field -> model.setReflectively(field, data.get(field.getName())));
+        if (beforeDoUpdate(form)) {
+            M model = dao.findById(modelId);
+            Models.getFields(modelClass).stream()
+                    .filter(field -> CrudActions.isAppliedTo(CrudAction.UPDATE, field))
+                    .forEach(field -> model.setReflectively(field, form.data().get(field.getName())));
 
-        dao.edit(model, Utilities.getUserIdFromSession(session()), Utilities.getIpAddressFromRequest(request()));
+            dao.edit(model, Utilities.getUserIdFromSession(session()), Utilities.getIpAddressFromRequest(request()));
 
-        return redirect(listMethod.apply(0L, "id", "asc", ""));
+            return redirect(listMethod.apply(0L, "id", "asc", ""));
+        } else {
+            Html content = htmlUpdate(form, modelId);
+
+            return getResult(wrapUpdateContent(content, modelId), Http.Status.OK);
+        }
     }
 
     @Override
@@ -166,7 +199,7 @@ public abstract class BasicCrudController<M extends Model, D extends JudgelsDao<
     @Override
     @Transactional
     public Result list(long page, String sortBy, String order, String filterString) {
-        List<Field> filters = Models.getFields(getModelClass()).stream()
+        List<Field> filters = Models.getFields(modelClass).stream()
                 .filter(field -> CrudActions.isAppliedTo(CrudAction.LIST, field))
                 .collect(Collectors.toList());
 
