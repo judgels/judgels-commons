@@ -9,9 +9,9 @@
         <title>@pageTitle | @play.Play.application().configuration.getString("application.title")</title>
         <link rel="shortcut icon" type="image/ico" href='@controllers.routes.Assets.versioned("images/favicon.ico")'>
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
-        <script type="text/javascript" data-main="@controllers.routes.Assets.versioned("javascripts/main.js")" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
     </head>
     <body>
         @content
+        <script type="text/javascript" data-main="@controllers.routes.Assets.versioned("javascripts/main.js")" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
     </body>
 </html>

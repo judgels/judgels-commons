@@ -6,7 +6,6 @@ import play.GlobalSettings;
 import play.api.mvc.EssentialFilter;
 import play.filters.csrf.CSRFFilter;
 import play.filters.gzip.GzipFilter;
-import play.filters.headers.SecurityHeadersFilter;
 
 public abstract class Global extends GlobalSettings {
 
@@ -15,7 +14,7 @@ public abstract class Global extends GlobalSettings {
     @Override
     @SuppressWarnings("unchecked")
     public <T extends EssentialFilter> Class<T>[] filters() {
-        return new Class[]{CSRFFilter.class, GzipFilter.class, SecurityHeadersFilter.class};
+        return new Class[]{CSRFFilter.class, GzipFilter.class};//, SecurityHeadersFilter.class};
     }
 
     @Override
