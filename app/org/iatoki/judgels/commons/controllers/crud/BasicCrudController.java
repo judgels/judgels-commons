@@ -1,10 +1,12 @@
 package org.iatoki.judgels.commons.controllers.crud;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.iatoki.judgels.commons.helpers.ControllerMethod0;
 import org.iatoki.judgels.commons.helpers.ControllerMethod1;
 import org.iatoki.judgels.commons.helpers.ControllerMethod4;
 import org.iatoki.judgels.commons.helpers.LazyHtml;
+import org.iatoki.judgels.commons.helpers.NamedCall;
 import org.iatoki.judgels.commons.helpers.Page;
 import org.iatoki.judgels.commons.helpers.SectionLayout;
 import org.iatoki.judgels.commons.helpers.SimpleSectionLayout;
@@ -19,8 +21,8 @@ import org.iatoki.judgels.commons.models.daos.interfaces.JudgelsDao;
 import org.iatoki.judgels.commons.models.domains.AbstractModel;
 import org.iatoki.judgels.commons.models.domains.Models;
 import org.iatoki.judgels.commons.views.html.crud.createView;
-import org.iatoki.judgels.commons.views.html.crud.headerWrapperView;
 import org.iatoki.judgels.commons.views.html.crud.listView;
+import org.iatoki.judgels.commons.views.html.crud.titleView;
 import org.iatoki.judgels.commons.views.html.crud.updateView;
 import org.iatoki.judgels.commons.views.html.crud.viewView;
 import play.api.mvc.Call;
@@ -89,7 +91,7 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
             .collect(Collectors.toList());
 
         Call call = doCreateMethod.apply();
-        Html content = createView.render(form, call, fields, Models.getModelSlug(modelClass));
+        Html content = createView.render(form, call, fields, getModelSlug());
 
         return content;
     }
@@ -136,9 +138,9 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
 
         M model = dao.findById(modelId);
         Form<M> form = Form.form(modelClass).fill(model);
-        Html content = viewView.render(form, fields, Models.getModelSlug(modelClass));
+        Html content = viewView.render(form, viewMethod.apply(modelId), fields, getModelSlug(), model.getHumanFriendlyName(), updateMethod.apply(modelId));
 
-        return getResult(wrapViewContent(content, modelId), Http.Status.OK);
+        return getResult(wrapViewContent(content, model.getHumanFriendlyName(), modelId), Http.Status.OK);
     }
 
     protected Html htmlUpdate(Form<M> form, long modelId) {
@@ -148,7 +150,7 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
                 .collect(Collectors.toList());
 
         Call call = doUpdateMethod.apply(modelId);
-        Html content = updateView.render(form, call, fields, Models.getModelSlug(modelClass));
+        Html content = updateView.render(form, call, fields, getModelSlug());
 
         return content;
     }
@@ -160,7 +162,7 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
 
         Html content = htmlUpdate(form, modelId);
 
-        return getResult(wrapUpdateContent(content, modelId), Http.Status.OK);
+        return getResult(wrapUpdateContent(content, model.getHumanFriendlyName(), modelId), Http.Status.OK);
     }
 
     protected boolean beforeDoUpdate(Form<M> form) {
@@ -170,9 +172,9 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
     @Transactional
     public Result doUpdate(long modelId) {
         Form<M> form = Form.form(modelClass).bindFromRequest();
+        M model = dao.findById(modelId);
 
         if (beforeDoUpdate(form)) {
-            M model = dao.findById(modelId);
             Models.getFields(modelClass).stream()
                     .filter(field -> CrudActions.isAppliedTo(CrudAction.UPDATE, field))
                     .forEach(field -> model.setReflectively(field, form.data().get(field.getName())));
@@ -183,7 +185,7 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
         } else {
             Html content = htmlUpdate(form, modelId);
 
-            return getResult(wrapUpdateContent(content, modelId), Http.Status.OK);
+            return getResult(wrapUpdateContent(content, model.getHumanFriendlyName(), modelId), Http.Status.OK);
         }
     }
 
@@ -198,7 +200,7 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
 
     @Override
     @Transactional
-    public Result list(long page, String sortBy, String order, String filterString) {
+    public Result list(long page, String sortBy, String orderBy, String filterString) {
         List<Field> filters = Models.getFields(modelClass).stream()
                 .filter(field -> CrudActions.isAppliedTo(CrudAction.LIST, field))
                 .collect(Collectors.toList());
@@ -206,8 +208,8 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
         List<String> header = Lists.transform(filters, Models::getFieldSlug);
 
         try {
-            Page<List<String>> pages = dao.pageString(page, pageSize, sortBy, order, filterString, filters);
-            Html html = listView.render(header, modelClass.getSimpleName(), pages, sortBy, order, filterString, listMethod, viewMethod, updateMethod, deleteMethod);
+            Page<List<String>> pages = dao.pageString(page, pageSize, sortBy, orderBy, filterString, filters);
+            Html html = listView.render(header, getModelSlug(), pages, sortBy, orderBy, filterString, listMethod, viewMethod, updateMethod, deleteMethod);
 
             return getResult(wrapListContent(html), play.mvc.Http.Status.OK);
         } catch (InvalidPageNumberException e) {
@@ -223,6 +225,10 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
 
     protected final Class<M> getModelClass() {
         return modelClass;
+    }
+
+    protected final String getModelSlug() {
+        return Models.getModelSlug(modelClass);
     }
 
     protected final D getDao() {
@@ -246,33 +252,71 @@ public abstract class BasicCrudController<M extends AbstractModel, D extends Jud
     }
 
     protected final LazyHtml wrapCreateContent(Html content) {
-        return wrapCrudContent(createLayout, content, 0);
-    }
-
-    protected final LazyHtml wrapViewContent(Html content, long modelId) {
-        return wrapCrudContent(viewLayout, content, modelId);
-    }
-
-    protected final LazyHtml wrapUpdateContent(Html content, long modelId) {
-        return wrapCrudContent(updateLayout, content, modelId);
-    }
-
-    protected final LazyHtml wrapListContent(Html content) {
-        return wrapCrudContent(listLayout, content, 0);
-    }
-
-    private LazyHtml wrapCrudContent(SectionLayout layout, Html content, long modelId) {
         LazyHtml result = new LazyHtml(content);
-        layout.wrapWithLayout(result, Models.getModelSlug(modelClass), modelId);
-        wrapWithCrudHeader(result);
-        wrapWithTemplate(result);
+
+        Html title = titleView.render(getModelSlug() + ".create", null);
+        createLayout.wrapWithLayout(result, title, getModelSlug(), 0);
+
+        List<NamedCall> breadcrumbs = ImmutableList.of(
+                new NamedCall(getModelSlug(), listMethod.apply(0L, "id", "asc", "")),
+                new NamedCall(getModelSlug() + ".create", createMethod.apply())
+        );
+
+        wrapWithTemplate(result, breadcrumbs);
 
         return result;
     }
 
-    private void wrapWithCrudHeader(LazyHtml content) {
-        content.appendTransformation(c -> headerWrapperView.render(Models.getModelSlug(modelClass), listMethod.apply(0L, "id", "asc", ""), createMethod.apply(), c));
+    protected final LazyHtml wrapViewContent(Html content, String modelName, long modelId) {
+        LazyHtml result = new LazyHtml(content);
+
+        Html title = titleView.render(modelName, new NamedCall("general.update", updateMethod.apply(modelId)));
+        viewLayout.wrapWithLayout(result, title, getModelSlug(), modelId);
+
+        List<NamedCall> breadcrumbs = ImmutableList.of(
+                new NamedCall(getModelSlug(), listMethod.apply(0L, "id", "asc", "")),
+                new NamedCall(getModelSlug() + ".view", viewMethod.apply(modelId))
+        );
+
+        wrapWithTemplate(result, breadcrumbs);
+
+        return result;
     }
+
+
+    protected final LazyHtml wrapUpdateContent(Html content, String modelName, long modelId) {
+        LazyHtml result = new LazyHtml(content);
+
+        Html title = titleView.render(modelName, new NamedCall("general.view", viewMethod.apply(modelId)));
+        updateLayout.wrapWithLayout(result, title, getModelSlug(), modelId);
+
+        List<NamedCall> breadcrumbs = ImmutableList.of(
+                new NamedCall(getModelSlug(), listMethod.apply(0L, "id", "asc", "")),
+                new NamedCall(getModelSlug() + ".update", updateMethod.apply(modelId))
+        );
+
+        wrapWithTemplate(result, breadcrumbs);
+
+        return result;
+    }
+
+
+    protected final LazyHtml wrapListContent(Html content) {
+        LazyHtml result = new LazyHtml(content);
+
+        Html title = titleView.render(getModelSlug() + ".list", new NamedCall("general.create", createMethod.apply()));
+        listLayout.wrapWithLayout(result, title, getModelSlug(), 0);
+
+        List<NamedCall> breadcrumbs = ImmutableList.of(
+                new NamedCall(getModelSlug(), listMethod.apply(0L, "id", "asc", ""))
+        );
+
+        wrapWithTemplate(result, breadcrumbs);
+
+        return result;
+
+    }
+
 
     private Class<?>[] getGenericClasses() {
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();

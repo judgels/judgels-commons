@@ -1,7 +1,9 @@
 package org.iatoki.judgels.commons.models.domains;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.persistence.Id;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -13,11 +15,15 @@ public final class Models {
     }
 
     public static String getModelSlug(Class<?> clazz) {
-        return StringUtils.lowerCase(clazz.getSimpleName());
+        return StringUtils.uncapitalize(clazz.getSimpleName());
     }
 
     public static String getFieldSlug(Field field) {
-        return getModelSlug(field.getDeclaringClass()) + ".field." + field.getName();
+        if (field.isAnnotationPresent(Id.class)) {
+            return "general.id";
+        } else {
+            return getModelSlug(field.getDeclaringClass()) + ".field." + field.getName();
+        }
     }
 
     public static <M> M newModel(Class<M> clazz) {
@@ -29,6 +35,13 @@ public final class Models {
     }
 
     public static List<Field> getFields(Class<?> clazz) {
-        return Arrays.asList(clazz.getDeclaredFields());
+        if (clazz.equals(Object.class)) {
+            return ImmutableList.of();
+        }
+
+        ImmutableList.Builder<Field> fields = ImmutableList.builder();
+        fields.addAll(getFields(clazz.getSuperclass()));
+        fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+        return fields.build();
     }
 }

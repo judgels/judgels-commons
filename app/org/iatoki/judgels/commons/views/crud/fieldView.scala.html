@@ -3,7 +3,7 @@
 @import org.iatoki.judgels.commons.helpers.crud.CrudFieldType
 @import play.i18n.Messages
 
-@unused = @{ htmlArgs.put("_label", Messages.get(htmlArgs.get("_label"))) }
+@{ htmlArgs.put("_label", Messages.get(htmlArgs.get("_label"))); () }
 
 @b3HtmlArgs = @{ mapAsScalaMap(htmlArgs).toSeq.map {case (k, v) => (Symbol(k), v)} }
 

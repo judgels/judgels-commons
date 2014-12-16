@@ -1,10 +1,13 @@
 package org.iatoki.judgels.commons.controllers;
 
+import org.iatoki.judgels.commons.helpers.NamedCall;
 import org.iatoki.judgels.commons.helpers.LazyHtml;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+
+import java.util.List;
 
 public abstract class BaseController extends Controller {
 
@@ -22,7 +25,7 @@ public abstract class BaseController extends Controller {
         this.pageTitle = pageTitle;
     }
 
-    protected abstract void wrapWithTemplate(LazyHtml content);
+    protected abstract void wrapWithTemplate(LazyHtml content, List<NamedCall> breadcrumbs);
 
     protected abstract Object getReverseController();
 

@@ -4,8 +4,6 @@
 
 @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
-<h3>@{ Messages.get(modelSlug + ".add") }</h3>
-
 @b3.form(targetCall) {
     @helper.CSRF.formField
 
@@ -13,5 +11,5 @@
         @fieldView(createForm(field.getName), field.getType, field.getHtmlArgs, field.getOptions)(implicitFieldConstructor, implicitly[Lang])
     }
 
-    @b3.submit('class -> "btn btn-primary") { @Messages.get("Create") }
+    @b3.submit('class -> "btn btn-primary") { @Messages.get("general.create") }
 }

@@ -1,5 +1,7 @@
 @(updateForm: play.data.Form[_], targetCall: play.api.mvc.Call, fields: java.util.List[org.iatoki.judgels.commons.helpers.crud.CrudField], modelSlug: String)
 
+@import play.i18n.Messages
+
 @implicitFcc = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 
 @b3.form(targetCall) {
@@ -9,5 +11,5 @@
         @fieldView(updateForm(field.getName), field.getType, field.getHtmlArgs, field.getOptions)(implicitFcc, implicitly[Lang])
     }
 
-    @b3.submit('class -> "btn btn-primary") { <span class="glyphicon glyphicon-ok"></span> Update }
+    @b3.submit('class -> "btn btn-primary") { @Messages.get("general.update") }
 }

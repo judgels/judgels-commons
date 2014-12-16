@@ -1,4 +1,4 @@
-@(pageTitle: String)(content: Html, sidebarWidgets: List[Html])
+@(pageTitle: String, breadcrumbs: java.util.List[org.iatoki.judgels.commons.helpers.NamedCall], sidebarWidgets: java.util.List[Html])(content: Html)
 
 @baseView(pageTitle) {
     <div class="main-container">
@@ -13,6 +13,7 @@
                         @sidebarView(sidebarWidgets)
                     </div>
                     <div class="col-xs-9 main-content">
+                        @breadcrumbsView(breadcrumbs)
                         @content
                     </div>
                 </div>

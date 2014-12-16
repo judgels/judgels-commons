@@ -23,6 +23,10 @@ public abstract class AbstractModel {
 
     public String ipUpdate;
 
+    public String getHumanFriendlyName() {
+        return "";
+    }
+
     public final void setReflectively(Field field, String valueAsString) {
         String capitalizedFieldName = StringUtils.capitalize(field.getName());
         try {

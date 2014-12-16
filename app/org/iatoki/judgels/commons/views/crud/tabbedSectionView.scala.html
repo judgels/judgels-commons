@@ -1,0 +1,15 @@
+@(tabs: java.util.List[org.iatoki.judgels.commons.helpers.NamedCall], modelSlug: String)(heading: Html)(content: Html)
+
+@import play.i18n.Messages
+
+@heading
+
+<nav class="navbar navbar-default" role="navigation">
+    <ul class="nav navbar-nav">
+        @for(tab <- tabs) {
+            <li role="presentation"><a href="@tab.getCall">@Messages.get(modelSlug + "." + tab.getName)</a></li>
+        }
+    </ul>
+</nav>
+
+@content
