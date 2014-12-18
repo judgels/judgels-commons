@@ -1,4 +1,4 @@
-package org.iatoki.judgels.commons.helpers.exceptions;
+package org.iatoki.judgels.commons;
 
 public final class InvalidPageNumberException extends Exception {
 

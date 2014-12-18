@@ -1,0 +1,54 @@
+@(content: Html)
+
+@import java.text.SimpleDateFormat
+@import java.util.Date
+
+@import play.i18n.Messages
+
+<header>
+    <div class="container">
+        <div class="col-xs-12">
+            <div class="pull-left">
+                <img class="logo" src='@controllers.routes.Assets.versioned("images/logo.png")' alt="TOKI Learning Logo"/>
+            </div>
+
+            <div class="title pull-left">
+                <h1>@play.Play.application().configuration.getString("application.title")<br /><small>@play.Play.application().configuration.getString("application.sub-title")</small></h1>
+            </div>
+
+            <div class="right-info pull-right">
+                <div>
+                    @Messages.get("server_time"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss").format(new Date()))</span>
+                </div>
+                <div class="languages">
+                    <a href='@org.iatoki.judgels.commons.controllers.routes.Application.changeLanguage("id")'>ID</a> |
+                    <a href='@org.iatoki.judgels.commons.controllers.routes.Application.changeLanguage("en-US")'>EN (US)</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+@content
+
+<footer>
+    <div class="container">
+        <div class="col-xs-12">
+            <div class="pull-left first">
+                <div class="copyright">
+                        &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @play.Play.application().configuration.getString("application.title")
+                </div>
+                <div class="social">
+                    <a href='@play.Play.application().configuration.getString("url.facebook")'>Facebook</a> - <a href='@play.Play.application().configuration.getString("url.twitter")'>Twitter</a>
+                </div>
+            </div>
+            <div class="pull-right second">
+                <nav>
+                    <a href='@play.Play.application().configuration.getString("url.about_us")'>@Messages.get("about_us")</a>
+                    <a href='@play.Play.application().configuration.getString("url.news")'>@Messages.get("news")</a>
+                    <a href='@play.Play.application().configuration.getString("url.contact")'>@Messages.get("contact")</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>

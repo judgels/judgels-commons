@@ -15,20 +15,11 @@ import java.util.List;
 public abstract class AbstractHibernateDao<K, E extends AbstractModel> extends AbstractDao<K, E> {
 
     @Override
-    public void persist(E entity, String user, String ipAddress) {
-        entity.userCreate = user;
-        entity.timeCreate = System.currentTimeMillis();
-        entity.ipCreate = ipAddress;
-        JPA.em().persist(entity);
-    }
-
-    @Override
     public E edit(E entity, String user, String ipAddress) {
-        entity.userCreate = user;
-        entity.timeCreate = System.currentTimeMillis();
-        entity.ipCreate = ipAddress;
-        E newEntity = JPA.em().merge(entity);
-        return newEntity;
+        entity.userUpdate = user;
+        entity.timeUpdate = System.currentTimeMillis();
+        entity.ipUpdate = ipAddress;
+        return JPA.em().merge(entity);
     }
 
     @Override

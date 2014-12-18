@@ -1,0 +1,11 @@
+@(breadcrumbs: List[org.iatoki.judgels.commons.InternalLink])(content: Html)
+
+@import play.i18n.Messages
+
+<ol class="breadcrumb">
+    @for(link <- breadcrumbs) {
+        <li><a href="@link.getTarget">@Messages.get(link.getLabel)</a></li>
+    }
+</ol>
+
+@content

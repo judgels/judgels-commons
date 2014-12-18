@@ -1,7 +1,7 @@
 package org.iatoki.judgels.commons.models.daos.interfaces;
 
-import org.iatoki.judgels.commons.helpers.Page;
-import org.iatoki.judgels.commons.helpers.exceptions.InvalidPageNumberException;
+import org.iatoki.judgels.commons.Page;
+import org.iatoki.judgels.commons.InvalidPageNumberException;
 import org.iatoki.judgels.commons.models.domains.AbstractModel;
 
 import java.lang.reflect.Field;

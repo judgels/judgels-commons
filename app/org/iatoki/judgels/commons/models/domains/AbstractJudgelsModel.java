@@ -10,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class AbstractJudgelsModel extends AbstractModel {
 
     @Id
+    @GeneratedValue
     public long id;
 
     @GeneratedValue(generator = "system-uuid")

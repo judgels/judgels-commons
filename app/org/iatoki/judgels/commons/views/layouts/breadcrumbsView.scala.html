@@ -1,9 +1,0 @@
-@(breadcrumbs: java.util.List[org.iatoki.judgels.commons.helpers.NamedCall])
-
-@import play.i18n.Messages
-
-<ol class="breadcrumb">
-    @for(link <- breadcrumbs) {
-        <li><a href="@link.getCall">@Messages.get(link.getName)</a></li>
-    }
-</ol>

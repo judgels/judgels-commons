@@ -1,0 +1,13 @@
+@(tabs: java.util.List[org.iatoki.judgels.commons.InternalLink])(content: Html)
+
+@import play.i18n.Messages
+
+<nav class="navbar navbar-default" role="navigation">
+    <ul class="nav navbar-nav">
+    @for(tab <- tabs) {
+        <li role="presentation"><a href="@tab.getTarget">@Messages.get(tab.getLabel)</a></li>
+    }
+  </ul>
+</nav>
+
+@content

@@ -1,7 +1,7 @@
 package org.iatoki.judgels.commons.models.daos.hibernate;
 
-import org.iatoki.judgels.commons.helpers.Page;
-import org.iatoki.judgels.commons.helpers.exceptions.InvalidPageNumberException;
+import org.iatoki.judgels.commons.Page;
+import org.iatoki.judgels.commons.InvalidPageNumberException;
 import org.iatoki.judgels.commons.models.daos.interfaces.JudgelsDao;
 import org.iatoki.judgels.commons.models.domains.AbstractJudgelsModel;
 import org.iatoki.judgels.commons.models.metas.MetaAbstractJudgelsModel;
@@ -18,6 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractJudgelsHibernateDao<E extends AbstractJudgelsModel> extends AbstractHibernateDao<Long, E> implements JudgelsDao<E> {
+
+    @Override
+    public Long persist(E entity, String user, String ipAddress) {
+        entity.userCreate = user;
+        entity.timeCreate = System.currentTimeMillis();
+        entity.ipCreate = ipAddress;
+        JPA.em().persist(entity);
+        JPA.em().flush();
+        return entity.id;
+    }
 
     @Override
     public E findByJid(String jid) {

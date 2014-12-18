@@ -1,4 +1,4 @@
-package org.iatoki.judgels.commons.helpers;
+package org.iatoki.judgels.commons;
 
 import java.util.List;
 
