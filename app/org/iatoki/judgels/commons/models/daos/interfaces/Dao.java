@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface Dao<K, E extends AbstractModel> {
 
-    K persist(E entity, String user, String ipAddress);
+    void persist(E entity, String user, String ipAddress);
 
     E edit(E entity, String user, String ipAddress);
 

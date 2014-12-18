@@ -13,7 +13,7 @@ public abstract class AbstractDao<K, E extends AbstractModel> implements Dao<K, 
     protected AbstractDao() {
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
         Type[] typeArguments = genericSuperclass.getActualTypeArguments();
-        this.entityClass = (Class<E>) typeArguments[0];
+        this.entityClass = (Class<E>) typeArguments[typeArguments.length - 1];
     }
 
     protected Class<E> getEntityClass() {

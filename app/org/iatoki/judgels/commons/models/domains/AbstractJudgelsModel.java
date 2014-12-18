@@ -1,7 +1,5 @@
 package org.iatoki.judgels.commons.models.domains;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -13,7 +11,5 @@ public abstract class AbstractJudgelsModel extends AbstractModel {
     @GeneratedValue
     public long id;
 
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     public String jid;
 }

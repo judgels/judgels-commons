@@ -16,17 +16,15 @@ import javax.persistence.criteria.Selection;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class AbstractJudgelsHibernateDao<E extends AbstractJudgelsModel> extends AbstractHibernateDao<Long, E> implements JudgelsDao<E> {
 
     @Override
-    public Long persist(E entity, String user, String ipAddress) {
-        entity.userCreate = user;
-        entity.timeCreate = System.currentTimeMillis();
-        entity.ipCreate = ipAddress;
-        JPA.em().persist(entity);
-        JPA.em().flush();
-        return entity.id;
+    public void persist(E entity, String user, String ipAddress) {
+        entity.jid = UUID.randomUUID().toString();
+
+        super.persist(entity, user, ipAddress);
     }
 
     @Override
@@ -86,9 +84,9 @@ public abstract class AbstractJudgelsHibernateDao<E extends AbstractJudgelsModel
             }
 
             query
-                    .multiselect(selection)
-                    .where(condition)
-                    .orderBy(orderBy);
+                .multiselect(selection)
+                .where(condition)
+                .orderBy(orderBy);
 
             List<E> list = JPA.em().createQuery(query).setFirstResult((int) (page * pageSize)).setMaxResults((int) pageSize).getResultList();
 

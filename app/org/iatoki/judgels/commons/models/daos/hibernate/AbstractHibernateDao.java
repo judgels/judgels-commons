@@ -15,6 +15,19 @@ import java.util.List;
 public abstract class AbstractHibernateDao<K, E extends AbstractModel> extends AbstractDao<K, E> {
 
     @Override
+    public void persist(E entity, String user, String ipAddress) {
+        entity.userCreate = user;
+        entity.timeCreate = System.currentTimeMillis();
+        entity.ipCreate = ipAddress;
+
+        entity.userUpdate = user;
+        entity.timeUpdate = entity.timeCreate;
+        entity.ipUpdate = ipAddress;
+        JPA.em().persist(entity);
+        JPA.em().flush();
+    }
+
+    @Override
     public E edit(E entity, String user, String ipAddress) {
         entity.userUpdate = user;
         entity.timeUpdate = System.currentTimeMillis();
@@ -54,7 +67,7 @@ public abstract class AbstractHibernateDao<K, E extends AbstractModel> extends A
             selection.add(root.get(filter.getName()));
         }
 
-        query.multiselect(selection).from(getEntityClass());
+        query.multiselect(selection);
 
         return JPA.em().createQuery(query).getResultList();
     }
