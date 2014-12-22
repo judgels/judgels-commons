@@ -1,10 +1,9 @@
 package org.iatoki.judgels.commons.models.daos.hibernate;
 
-import org.iatoki.judgels.commons.Page;
 import org.iatoki.judgels.commons.InvalidPageNumberException;
+import org.iatoki.judgels.commons.Page;
 import org.iatoki.judgels.commons.models.daos.interfaces.JudgelsDao;
 import org.iatoki.judgels.commons.models.domains.AbstractJudgelsModel;
-import org.iatoki.judgels.commons.models.metas.MetaAbstractJudgelsModel;
 import play.db.jpa.JPA;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -34,7 +33,7 @@ public abstract class AbstractJudgelsHibernateDao<E extends AbstractJudgelsModel
 
         Root<E> root = query.from(getEntityClass());
 
-        query = query.where(cb.equal(root.get(MetaAbstractJudgelsModel.jid), jid));
+        query = query.where(cb.equal(root.get("jid"), jid));
 
         return JPA.em().createQuery(query).getSingleResult();
     }
