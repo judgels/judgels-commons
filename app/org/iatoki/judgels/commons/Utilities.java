@@ -8,11 +8,11 @@ public final class Utilities {
 
     }
 
-    public static String getUserIdFromSession(Http.Session session) {
+    public static String getUserIdFromSession() {
         return "";
     }
 
-    public static String getIpAddressFromRequest(Http.Request request) {
-        return request.remoteAddress();
+    public static String getIpAddressFromRequest() {
+        return Http.Context.current().request().remoteAddress();
     }
 }
