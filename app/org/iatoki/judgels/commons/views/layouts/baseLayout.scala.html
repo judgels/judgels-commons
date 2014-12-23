@@ -9,7 +9,9 @@
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
     </head>
     <body>
-        @content
+        <div class="container-fluid">
+            @content
+        </div>
         <script type="text/javascript" data-main="@controllers.routes.Assets.versioned("javascripts/main.js")" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
     </body>
 </html>

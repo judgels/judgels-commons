@@ -1,32 +1,5 @@
 @(content: Html)
 
-@import java.text.SimpleDateFormat
-@import java.util.Date
-
-@import play.i18n.Messages
-
-<header>
-    <div class="container">
-        <div class="col-xs-12">
-            <div class="pull-left">
-                <img class="logo" src='@controllers.routes.Assets.versioned("images/logo.png")' alt="TOKI Learning Logo"/>
-            </div>
-
-            <div class="title pull-left">
-                <h1>@play.Play.application().configuration.getString("application.title")<br /><small>@play.Play.application().configuration.getString("application.sub-title")</small></h1>
-            </div>
-
-            <div class="right-info pull-right">
-                <div>
-                    @Messages.get("server_time"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss").format(new Date()))</span>
-                </div>
-                <div class="languages">
-                    <a href='@org.iatoki.judgels.commons.controllers.routes.Application.changeLanguage("id")'>ID</a> |
-                    <a href='@org.iatoki.judgels.commons.controllers.routes.Application.changeLanguage("en-US")'>EN (US)</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+@headerView()
 
 @content

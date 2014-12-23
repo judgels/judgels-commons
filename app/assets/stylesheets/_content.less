@@ -1,0 +1,134 @@
+@import "_function";
+
+body {
+    color: @primary-font-color;
+    font-family: @primary-font;
+    font-size: @primary-font-size;
+}
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+input[type="text"], input[type="password"], textarea {
+    color: @primary-font-color;
+    .RoundBorders(@base-radius);
+}
+.lowercase {
+    text-transform: lowercase;
+}
+::-webkit-input-placeholder {
+    padding-left: 2px;
+    font-family: @primary-font;
+    font-size: @primary-font-size;
+}
+:-moz-placeholder {
+    padding-left: 2px;
+    font-family: @primary-font;
+    font-size: @primary-font-size;
+}
+::-moz-placeholder {
+    padding-left: 2px;
+    font-family: @primary-font;
+    font-size: @primary-font-size;
+}
+:-ms-input-placeholder {
+    padding-left: 2px;
+    font-family: @primary-font;
+    font-size: @primary-font-size;
+}
+.placeholder {
+    padding-top: 3px;
+    padding-left: 2px;
+    font-family: @primary-font;
+    font-size: @primary-font-size;
+}
+.panel-error {
+    display: none;
+}
+.panel-show {
+    display: block;
+}
+.help-inline {
+    color: red;
+}
+.form-horizontal .control-label{
+    text-align:left;
+}
+.breadcrumb {
+    border-radius: 0px;
+    background-color: #2C3031;
+}
+h2 {
+    font-family: @accent-font;
+}
+.content {
+    background-color: #383D40;
+    padding-left: 230px;
+    width: 100%;
+    margin: 0;
+}
+.sidebar {
+    width: 230px;
+    margin-left: -230px;
+    float: left;
+    margin-right: 0;
+    padding-right: 15px;
+}
+.avatar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    background-color: @primary-lighter-color;
+}
+.avatar-picture {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+}
+.avatar-username {
+    font-family: @accent-font;
+    line-height: 64px;
+}
+.avatar-realname {
+}
+.menu {
+    margin-right: -15px;
+}
+.menu li a {
+    display: block;
+    background-color: #2C3031;
+    color: #ABBAC4;
+    font-size: 16px;
+    margin-top: 3px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.primary-content {
+    min-height: 724px;
+    background-color: white;
+    margin-left: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.primary-content-breadcrumb {
+    padding-left: 0;
+    padding-right: 0;
+}
+.primary-content-breadcrumb ol li a {
+    color: #ABBAC4;
+}
+ol.breadcrumb {
+    margin-bottom: 0;
+}
+.menu-arrow {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: url('../images/arrow-right.png') #1E2021 center center no-repeat;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}

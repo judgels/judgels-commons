@@ -1,18 +1,11 @@
 @(widgets: List[Html])(content: Html)
 
-<div class="content">
-    <div class="container">
-        <div class="inner-container">
-            <div class="col-xs-3 sidebar-content">
-                @for(widget <- widgets) {
-                    <div class="well">
-                        @widget
-                    </div>
-                }
-            </div>
-            <div class="col-xs-9 main-content">
-                @content
-            </div>
-        </div>
+<div class="row content">
+    <div class="sidebar">
+        @sidebarView()
+    </div>
+
+    <div class="col-md-12">
+        @content
     </div>
 </div>

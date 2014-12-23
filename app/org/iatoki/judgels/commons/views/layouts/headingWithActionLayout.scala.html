@@ -1,7 +1,5 @@
 @(heading: String, action: org.iatoki.judgels.commons.InternalLink)(content: Html)
 
-@import play.i18n.Messages
-
-<h2>@heading <a class="btn btn-primary btn-sm" href="@action.getTarget">@Messages.get(action.getLabel)</a></h2>
+<h2>heading <a class="btn btn-primary btn-sm" href="@action.getTarget">action.getLabel</a></h2>
 
 @content
