@@ -1,3 +1,6 @@
 about_us=About Us
 news=News
 contact=Contact
+
+general.profile.edit=Edit
+general.profile.logout=Log out

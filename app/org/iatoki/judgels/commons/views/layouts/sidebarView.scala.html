@@ -1,19 +1,45 @@
+@(username: String, realName: String, editLink: String, logoutLink: String, menus: List[org.iatoki.judgels.commons.InternalLink])
+
+@import play.i18n.Messages
 
 <div class="row avatar">
-    <div class="col-md-4">
-        <img class="avatar-picture" src='@controllers.routes.Assets.versioned("images/avatar-default.png")' alt="avatar"/>
-    </div>
-    <div class="col-md-8 avatar-username">
-        fushar
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <img class="avatar-picture" src='@controllers.routes.Assets.versioned("images/avatar-default.png")' alt="avatar"/>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-12 avatar-username">
+                        @username
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 avatar-real-name">
+                        @realName
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-2 avatar-menu">
+                <a href="@editLink">@Messages.get("general.profile.edit")</a>
+            </div>
+            <div class="col-md-6 avatar-menu">
+                <a href="@logoutLink">@Messages.get("general.profile.logout")</a>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-12">
         <ul class="nav nav-stacked menu">
-            <li role="presentation" class="active"><a href="#">Home</a><div class="menu-arrow"></div></li>
-            <li role="presentation"><a href="#">Profile</a></li>
-            <li role="presentation"><a href="#">Messages</a></li>
+            @for(menu <- menus) {
+                <li role="presentation"><a href="@menu.getTarget">@menu.getLabel</a><div class="menu-arrow"></div></li>
+            }
         </ul>
     </div>
 </div>

@@ -1,8 +1,8 @@
-@(widgets: List[Html])(content: Html)
+@(username: String, realName: String, editLink: String, logoutLink: String, menus: List[org.iatoki.judgels.commons.InternalLink])(content: Html)
 
 <div class="row content">
     <div class="sidebar">
-        @sidebarView()
+        @sidebarView(username, realName, editLink, logoutLink, menus)
     </div>
 
     <div class="col-md-12">
