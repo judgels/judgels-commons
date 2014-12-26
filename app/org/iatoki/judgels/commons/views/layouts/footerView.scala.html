@@ -11,14 +11,14 @@
                         &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @play.Play.application().configuration.getString("application.title")
                 </div>
                 <div class="social">
-                    <a href='@play.Play.application().configuration.getString("url.facebook")'>Facebook</a> - <a href='@play.Play.application().configuration.getString("url.twitter")'>Twitter</a>
+                    <a href='@play.Play.application().configuration.getString("commons.footer.facebook")'>Facebook</a> - <a href='@play.Play.application().configuration.getString("url.twitter")'>Twitter</a>
                 </div>
             </div>
             <div class="pull-right second">
                 <nav>
-                    <a href='@play.Play.application().configuration.getString("url.about_us")'>@Messages.get("about_us")</a>
-                    <a href='@play.Play.application().configuration.getString("url.news")'>@Messages.get("news")</a>
-                    <a href='@play.Play.application().configuration.getString("url.contact")'>@Messages.get("contact")</a>
+                    <a href='@play.Play.application().configuration.getString("commons.footer.aboutUs")'>@Messages.get("about_us")</a>
+                    <a href='@play.Play.application().configuration.getString("commons.footer.news")'>@Messages.get("news")</a>
+                    <a href='@play.Play.application().configuration.getString("commons.footer.contact")'>@Messages.get("contact")</a>
                 </nav>
             </div>
         </div>

@@ -22,15 +22,17 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-2 avatar-menu">
-                <a href="@editLink">@Messages.get("general.profile.edit")</a>
+        @if(username != "guest") {
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-2 avatar-menu">
+                    <a href="@editLink">@Messages.get("commons.profile.edit")</a>
+                </div>
+                <div class="col-md-6 avatar-menu">
+                    <a href="@logoutLink">@Messages.get("commons.profile.logout")</a>
+                </div>
             </div>
-            <div class="col-md-6 avatar-menu">
-                <a href="@logoutLink">@Messages.get("general.profile.logout")</a>
-            </div>
-        </div>
+        }
     </div>
 </div>
 

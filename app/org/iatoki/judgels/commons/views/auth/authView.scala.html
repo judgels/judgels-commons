@@ -1,0 +1,7 @@
+@(loginCall: Call)
+
+@import play.i18n.Messages
+
+<p>@Messages.get("commons.login.text.hello")</p>
+
+<a class="btn btn-primary" href="@loginCall">@Messages.get("commons.login.text.login")</a>

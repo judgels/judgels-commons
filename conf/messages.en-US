@@ -1,6 +1,18 @@
-about_us=About Us
-news=News
-contact=Contact
+commons.header.serverTime=Server Time
 
-general.profile.edit=Edit
-general.profile.logout=Log out
+commons.footer.aboutUs=About Us
+commons.footer.news=News
+commons.footer.contact=Contact
+
+commons.profile.edit=Edit
+commons.profile.logout=Log out
+
+commons.field.id=ID
+
+commons.create=Create
+commons.update=Update
+commons.search=Search
+
+commons.login.heading.login=Log In
+commons.login.text.hello=Hello, guest. You are not logged in.
+commons.login.text.login=Log in with TOKI ID

@@ -2,10 +2,14 @@ package org.iatoki.judgels.commons;
 
 import play.mvc.Http;
 
-public final class ContextUtils {
+public final class IdentityUtils {
 
-    private ContextUtils() {
+    private IdentityUtils() {
         // prevent instantiation
+    }
+
+    public static String getUserJid() {
+        return ""; // TODO: get real user jid
     }
 
     public static String getUsername() {
