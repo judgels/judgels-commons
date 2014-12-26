@@ -8,6 +8,7 @@ commons.profile.edit=Edit
 commons.profile.logout=Log out
 
 commons.field.id=ID
+commons.field.jid=JID
 
 commons.create=Create
 commons.update=Update

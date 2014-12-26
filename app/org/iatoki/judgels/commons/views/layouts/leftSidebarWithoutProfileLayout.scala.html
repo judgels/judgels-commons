@@ -1,0 +1,11 @@
+@(menus: List[org.iatoki.judgels.commons.InternalLink])(content: Html)
+
+<div class="row content">
+    <div class="sidebar">
+        @sidebarWithoutProfileView(menus)
+    </div>
+
+    <div class="col-md-12">
+        @content
+    </div>
+</div>

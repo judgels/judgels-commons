@@ -1,0 +1,37 @@
+@(username: String, realName: String, editLink: String, logoutLink: String)
+
+@import play.i18n.Messages
+
+<div class="row avatar">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <img class="avatar-picture" src='@controllers.routes.Assets.versioned("images/avatar-default.png")' alt="avatar"/>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-12 avatar-username">
+                    @username
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 avatar-real-name">
+                    @realName
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if(username != "guest") {
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-2 avatar-menu">
+                    <a href="@editLink">@Messages.get("commons.profile.edit")</a>
+                </div>
+                <div class="col-md-6 avatar-menu">
+                    <a href="@logoutLink">@Messages.get("commons.profile.logout")</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
