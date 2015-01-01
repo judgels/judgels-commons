@@ -1,6 +1,6 @@
 @(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, newOrderBy: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)
 
-@if(newOrderBy == null) {
+@if(newOrderBy.equals("")) {
     #
 } else {
     @if(newOrderBy == orderBy) {
