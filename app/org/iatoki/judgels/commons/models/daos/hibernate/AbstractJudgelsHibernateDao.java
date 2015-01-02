@@ -27,8 +27,8 @@ public abstract class AbstractJudgelsHibernateDao<M extends AbstractJudgelsModel
     }
 
     @Override
-    public void persist(M model, String childJid, String user, String ipAddress) {
-        model.jid = childJid;
+    public void persist(M model, int childIndex, String user, String ipAddress) {
+        model.jid = JidService.getInstance().generateNewChildJid(getModelClass(), childIndex);
         super.persist(model, user, ipAddress);
     }
 

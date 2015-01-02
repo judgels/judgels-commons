@@ -1,10 +1,9 @@
 package org.iatoki.judgels.commons;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.iatoki.judgels.commons.models.JidChildPrefixes;
 import org.iatoki.judgels.commons.models.JidPrefix;
 import org.iatoki.judgels.commons.models.domains.AbstractJudgelsModel;
-
-import java.util.UUID;
 
 public final class JidService {
     private static JidService INSTANCE;
@@ -25,10 +24,20 @@ public final class JidService {
             throw new IllegalStateException("Model " + modelClass.getSimpleName() + " must have JidPrefix annotation");
         }
 
-        String prefix = "JID" +  modelClass.getAnnotation(JidPrefix.class).value();
-        String suffix = RandomStringUtils.randomAlphanumeric(20);
+        return generateNewJid(modelClass.getAnnotation(JidPrefix.class).value());
+    }
 
-        return prefix + suffix;
+    public <M extends AbstractJudgelsModel> String generateNewChildJid(Class<M> modelClass, int childIndex) {
+        if (!modelClass.isAnnotationPresent(JidChildPrefixes.class)) {
+            throw new IllegalStateException("Model " + modelClass.getSimpleName() + " must have JidChildPrefixes annotation");
+        }
+
+        String[] codes = modelClass.getAnnotation(JidChildPrefixes.class).value();
+        if (childIndex >= codes.length) {
+            throw new IllegalStateException("The " + childIndex + "-th child of " + modelClass.getSimpleName() + " does not exist");
+        }
+
+        return generateNewJid(codes[childIndex]);
     }
 
     public String parsePrefix(String jid) {
@@ -36,5 +45,12 @@ public final class JidService {
         int prefixLength = 4;
 
         return jid.substring(jidLength, jidLength + prefixLength);
+    }
+
+    private String generateNewJid(String code) {
+        String prefix = "JID" + code;
+        String suffix = RandomStringUtils.randomAlphanumeric(20);
+
+        return prefix + suffix;
     }
 }
