@@ -51,8 +51,4 @@ public final class Page<T> {
     public long getCurrentLastRowIndex() {
         return getCurrentFirstRowIndex() + data.size() - 1;
     }
-
-    public void setData(List<T> data) {
-        this.data = data;
-    }
 }
