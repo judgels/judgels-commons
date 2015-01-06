@@ -2,8 +2,9 @@
 
 @import java.text.SimpleDateFormat
 @import java.util.Date
-
+@import play.i18n.Lang
 @import play.i18n.Messages
+@import play.mvc.Http
 
 <header>
     <div class="row">
@@ -21,8 +22,11 @@
                     @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss").format(new Date()))</span>
                 </div>
                 <div class="languages">
-                    <a href='@org.iatoki.judgels.commons.controllers.routes.ApplicationController.changeLanguage("id")'>ID</a> |
-                    <a href='@org.iatoki.judgels.commons.controllers.routes.ApplicationController.changeLanguage("en-US")'>EN (US)</a>
+                    <select id="languages" class="form-control">
+                        @for(lang <- Lang.availables()) {
+                            <option value="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
+                        }
+                    </select>
                 </div>
             </div>
         </div>
