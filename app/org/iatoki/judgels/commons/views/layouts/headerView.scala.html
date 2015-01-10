@@ -22,7 +22,7 @@
                     @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss").format(new Date()))</span>
                 </div>
                 <div class="languages">
-                    <select id="languages" class="form-control">
+                    <select id="languages" class="form-control input-sm">
                         @for(lang <- Lang.availables()) {
                             <option value="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
                         }
