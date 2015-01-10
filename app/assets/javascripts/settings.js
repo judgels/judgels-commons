@@ -16,12 +16,12 @@ requirejs.config({
             deps: ['jquery']
         },
         'bootstrap-datetimepicker': {
-            deps: ['bootstrap']
+            deps: ['bootstrap', 'moment']
         }
     },
     paths: {
         'bootstrap': '/assets/lib/bootstrap/js/bootstrap.min',
-        'bootstrap-datetimepicker': '/assets/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min',
+        'bootstrap-datetimepicker': '/assets/lib/Eonasdan-bootstrap-datetimepicker/bootstrap-datetimepicker.min',
         'ckeditor-core': '/assets/lib/ckeditor/ckeditor',
         'ckeditor-jquery': '/assets/lib/ckeditor/adapters/jquery',
         'jquery': '/assets/lib/jquery/jquery.min',
@@ -31,6 +31,7 @@ requirejs.config({
         'jquery-ui': '/assets/lib/jquery-ui/jquery-ui.min',
         'highcharts': '/assets/lib/highcharts/highcharts-all',
         'html5-desktop-notifications': '/assets/lib/html5-desktop-notifications/desktop-notify-min',
+        'moment': '/assets/lib/momentjs/min/moment.min',
         'prettify': '/assets/lib/prettify/prettify'
     }
 });
