@@ -1,0 +1,12 @@
+@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)
+
+@import play.i18n.Messages
+
+<form class="form form-inline pull-right" action='@listFunc(pageIndex, orderBy, orderDir, "")' method="GET">
+    <input type="hidden" name="orderBy" value="@orderBy"/>
+    <input type="hidden" name="orderDir" value="@orderDir"/>
+    <div class="form-group">
+        <input type="search" class="form-control" name="filterString" value="@filterString">
+    </div>
+    <button type="submit" class="btn btn-primary">@Messages.get("commons.search")</button>
+</form>

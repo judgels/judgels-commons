@@ -7,12 +7,20 @@ commons.footer.contact=Contact
 commons.profile.edit=Edit
 commons.profile.logout=Log out
 
-commons.field.id=ID
-commons.field.jid=JID
+commons.id=ID
+commons.jid=JID
 
-commons.create=Create
+commons.create=Create New
+commons.view=View
 commons.update=Update
 commons.search=Search
+
+
+commons.info=Info
+commons.value=Value
+
+commons.showing=Showing
+commons.outOf=out of
 
 commons.auth.login=Log In
 commons.auth.hello=Hello, guest. You are not logged in.

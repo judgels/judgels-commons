@@ -2,21 +2,24 @@ package org.iatoki.judgels.commons.models.daos.interfaces;
 
 import org.iatoki.judgels.commons.models.domains.AbstractModel;
 
-import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
-public interface Dao<K, E extends AbstractModel> {
+public interface Dao<K, M extends AbstractModel> {
 
-    void persist(E entity, String user, String ipAddress);
+    void persist(M model, String user, String ipAddress);
 
-    E edit(E entity, String user, String ipAddress);
+    M edit(M model, String user, String ipAddress);
 
-    void remove(E entity);
+    void remove(M model);
 
-    E findById(K id);
+    boolean existsById(K id);
 
-    List<E> findAll();
+    M findById(K id);
 
-    List<E> findAll(List<Field> filters);
+    List<M> findAll();
 
+    long countByFilters(String filterString, Map<String, String> filterColumns);
+
+    List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<String, String> filterColumns, long offset, long limit);
 }

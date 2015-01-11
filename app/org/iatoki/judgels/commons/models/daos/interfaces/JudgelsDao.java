@@ -1,16 +1,13 @@
 package org.iatoki.judgels.commons.models.daos.interfaces;
 
-import org.iatoki.judgels.commons.Page;
-import org.iatoki.judgels.commons.InvalidPageNumberException;
 import org.iatoki.judgels.commons.models.domains.AbstractModel;
 
-import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
-public interface JudgelsDao<E extends AbstractModel> extends Dao<Long, E> {
+public interface JudgelsDao<M extends AbstractModel> extends Dao<Long, M> {
 
-    E findByJid(String jid);
+    boolean existsByJid(String jid);
 
-    Page<List<String>> pageString(long page, long pageSize, String sortBy, String order, String filterString, List<Field> filters) throws InvalidPageNumberException;
-
+    M findByJid(String jid);
 }

@@ -1,4 +1,6 @@
-@(currentSortBy: String, checkOrder: Boolean, currentOrder: String, currentFilter: String, newPage: Long, newSortBy: String, func: (scala.Long, String, String, String) => play.api.mvc.Call)@{
+@(currentSortBy: String, checkOrder: Boolean, currentOrder: String, currentFilter: String, newPage: Long, newSortBy: String, func: (scala.Long, String, String, String) => play.api.mvc.Call)
+
+@{
     var sortBy = currentSortBy
     var order = currentOrder
     if (newSortBy != null) {

@@ -2,22 +2,22 @@ package org.iatoki.judgels.commons;
 
 import java.util.List;
 
-public class Page<T> {
+public final class Page<T> {
 
+    private List<T> data;
     private final long pageSize;
-    private final long totalRowCount;
+    private final long totalRowsCount;
     private final long pageIndex;
-    private List<T> list;
 
-    public Page(List<T> data, long total, long page, long pageSize) {
-        this.list = data;
-        this.totalRowCount = total;
-        this.pageIndex = page;
+    public Page(List<T> data, long totalRowsCount, long pageIndex, long pageSize) {
+        this.data = data;
+        this.totalRowsCount = totalRowsCount;
+        this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }
 
-    public long getTotalRowCount() {
-        return totalRowCount;
+    public long getTotalRowsCount() {
+        return totalRowsCount;
     }
 
     public long getPageIndex() {
@@ -28,20 +28,27 @@ public class Page<T> {
         return pageSize;
     }
 
-    public long getTotalPageCount() {
-        return totalRowCount / pageSize;
+    public long getTotalPagesCount() {
+        return (totalRowsCount + pageSize - 1) / pageSize;
     }
 
-    public List<T> getList() {
-        return list;
+    public List<T> getData() {
+        return data;
     }
 
-    public boolean hasPrev() {
-        return pageIndex > 1;
+    public boolean hasPreviousPage() {
+        return pageIndex > 0;
     }
 
-    public boolean hasNext() {
-        return (totalRowCount / pageSize) > pageIndex;
+    public boolean hasNextPage() {
+        return pageIndex + 1 < getTotalPagesCount();
     }
 
+    public long getCurrentFirstRowIndex() {
+        return pageIndex * pageSize;
+    }
+
+    public long getCurrentLastRowIndex() {
+        return getCurrentFirstRowIndex() + data.size() - 1;
+    }
 }
