@@ -1,5 +1,8 @@
 @(pageTitle: String)(content: Html)
 
+@import java.text.SimpleDateFormat
+@import java.util.Date
+
 <!DOCTYPE html>
 
 <html>
@@ -8,7 +11,10 @@
         <link rel="shortcut icon" type="image/ico" href='@controllers.routes.Assets.versioned("images/favicon.ico")'>
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
         <script type="text/javascript" data-main="@controllers.routes.Assets.versioned("javascripts/main.js")" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/settings.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/settings.js")"></script>
+        <script type="text/javascript">
+            var date = new Date(@(new SimpleDateFormat("yyyy,MM,dd,hh,mm,ss").format(new Date())));
+        </script>
     </head>
     <body>
         <div class="container-fluid">
