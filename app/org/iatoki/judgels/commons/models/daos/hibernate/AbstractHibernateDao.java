@@ -6,6 +6,8 @@ import org.iatoki.judgels.commons.models.daos.AbstractDao;
 import org.iatoki.judgels.commons.models.domains.AbstractModel;
 import play.db.jpa.JPA;
 
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
@@ -83,8 +85,14 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
         Root<M> root = query.from(getModelClass());
 
-        List<Predicate> byStringPredicates = Lists.transform(getColumnsFilterableByString(), c -> cb.like(root.get(c), "%" + filterString + "%"));
-        Predicate byString = cb.or(byStringPredicates.toArray(new Predicate[byStringPredicates.size()]));
+        Predicate byString;
+        if (getColumnsFilterableByString().isEmpty()) {
+            byString = cb.and();
+        } else {
+            List<Predicate> byStringPredicates = Lists.transform(getColumnsFilterableByString(), c -> cb.like(root.get(c), "%" + filterString + "%"));
+            byString = cb.or(byStringPredicates.toArray(new Predicate[byStringPredicates.size()]));
+
+        }
 
         List<Predicate> byColumnPredicates = filterColumns.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());
         Predicate byColumn = cb.and(byColumnPredicates.toArray(new Predicate[byColumnPredicates.size()]));
@@ -102,8 +110,14 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
         CriteriaQuery<M> query = cb.createQuery(getModelClass());
         Root<M> root = query.from(getModelClass());
 
-        List<Predicate> byStringPredicates = Lists.transform(getColumnsFilterableByString(), c -> cb.like(root.get(c), "%" + filterString + "%"));
-        Predicate byString = cb.or(byStringPredicates.toArray(new Predicate[byStringPredicates.size()]));
+        Predicate byString;
+        if (getColumnsFilterableByString().isEmpty()) {
+            byString = cb.and();
+        } else {
+            List<Predicate> byStringPredicates = Lists.transform(getColumnsFilterableByString(), c -> cb.like(root.get(c), "%" + filterString + "%"));
+            byString = cb.or(byStringPredicates.toArray(new Predicate[byStringPredicates.size()]));
+
+        }
 
         List<Predicate> byColumnPredicates = filterColumns.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());
         Predicate byColumn = cb.and(byColumnPredicates.toArray(new Predicate[byColumnPredicates.size()]));
@@ -120,7 +134,12 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
                 .where(cb.and(byString, byColumn))
                 .orderBy(order);
 
-        return JPA.em().createQuery(query).setFirstResult((int) offset).setMaxResults((int) limit).getResultList();
+        TypedQuery<M> q = JPA.em().createQuery(query).setFirstResult((int) offset);
+        if (limit != -1) {
+            q.setMaxResults((int) limit);
+        }
+
+        return q.getResultList();
     }
 
     protected List<SingularAttribute<M, String>> getColumnsFilterableByString() {

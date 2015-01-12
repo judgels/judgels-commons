@@ -11,6 +11,24 @@ public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
     }
 
     public final void putDisplayName(String jid, String displayName, String user, String ipAddress) {
+        if (jidCacheDao.existsByJid(jid)) {
+            editDisplayName(jid, displayName, user, ipAddress);
+        } else {
+            createDisplayName(jid, displayName, user, ipAddress);
+        }
+    }
+
+    public final String getDisplayName(String jid) {
+        M jidCacheModel = jidCacheDao.findByJid(jid);
+
+        if (jidCacheModel == null) {
+            return jid;
+        } else {
+            return jidCacheModel.displayName;
+        }
+    }
+
+    private void createDisplayName(String jid, String displayName, String user, String ipAddress) {
         M jidCacheModel = jidCacheDao.createJidCacheModel();
 
         jidCacheModel.jid = jid;
@@ -19,13 +37,12 @@ public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
         jidCacheDao.persist(jidCacheModel, user, ipAddress);
     }
 
-    public final String getDisplayName(String jid) {
-        M jidCacheModel = jidCacheDao.findById(jid);
+    private void editDisplayName(String jid, String displayName, String user, String ipAddress) {
+        M jidCacheModel = jidCacheDao.findByJid(jid);
 
-        if (jidCacheModel == null) {
-            return jid;
-        } else {
-            return jidCacheModel.displayName;
-        }
+        jidCacheModel.jid = jid;
+        jidCacheModel.displayName = displayName;
+
+        jidCacheDao.edit(jidCacheModel, user, ipAddress);
     }
 }

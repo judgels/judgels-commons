@@ -28,9 +28,4 @@ public final class IdentityUtils {
     public static String getIpAddress() {
         return Http.Context.current().request().remoteAddress();
     }
-
-    public static JidType getJidType(String jid) {
-        return JidType.PROBLEM;
-    }
-
 }
