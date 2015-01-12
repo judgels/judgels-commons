@@ -1,9 +1,11 @@
-@(viewCall: Call, updateCall: Call)(content: Html)
+@(contestantCall: Call, supervisorCall: Call)(content: Html)
+
+@import play.i18n.Messages
 
 <ul class="nav nav-pills">
-    <li role="presentation"><a href="@viewCall"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> View</a></li>
-    @if(updateCall != null) {
-        <li role="presentation"><a href="@updateCall"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update</a></li>
+    <li role="presentation"><a href="@contestantCall"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Messages.get("role.contestant")</a></li>
+    @if(supervisorCall != null) {
+        <li role="presentation"><a href="@supervisorCall"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> @Messages.get("role.supervisor")</a></li>
     }
 </ul>
 

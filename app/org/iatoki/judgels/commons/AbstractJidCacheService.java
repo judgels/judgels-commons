@@ -19,11 +19,11 @@ public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
     }
 
     public final String getDisplayName(String jid) {
-        M jidCacheModel = jidCacheDao.findByJid(jid);
 
-        if (jidCacheModel == null) {
+        if (!jidCacheDao.existsByJid(jid)) {
             return jid;
         } else {
+            M jidCacheModel = jidCacheDao.findByJid(jid);
             return jidCacheModel.displayName;
         }
     }
