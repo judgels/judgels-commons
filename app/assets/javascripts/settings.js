@@ -9,6 +9,9 @@ requirejs.config({
         'jquery-placeholder': {
             deps: ['jquery']
         },
+        'jquery-timer': {
+            deps: ['jquery']
+        },
         'jquery-ui': {
             deps: ['jquery']
         },
@@ -24,8 +27,9 @@ requirejs.config({
         'jquery': '/assets/lib/jquery/jquery.min',
         'jquery-history': '/assets/lib/jquery-history/jquery.history.min',
         'jquery-placeholder': '/assets/lib/jquery-placeholder/jquery.placeholder.min',
+        'jquery-timer': '/assets/javascripts/jquery.timer',
         'jquery-ui': '/assets/lib/jquery-ui/jquery-ui.min',
-        'highcharts': '/assets/lib/highcharts/highcharts-all.js',
+        'highcharts': '/assets/lib/highcharts/highcharts-all',
         'html5-desktop-notifications': '/assets/lib/html5-desktop-notifications/desktop-notify-min',
         'prettify': '/assets/lib/prettify/prettify'
     }
