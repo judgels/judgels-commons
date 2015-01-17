@@ -99,18 +99,6 @@ h2 {
     font-family: @primary-font;
     font-size: 10px;
 }
-.menu {
-    margin-right: -15px;
-}
-.menu li a {
-    display: block;
-    background-color: #2C3031;
-    color: #ABBAC4;
-    font-size: 16px;
-    margin-top: 3px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
 .primary-content {
     min-height: 724px;
     background-color: white;
@@ -131,6 +119,41 @@ h2 {
 ol.breadcrumb {
     margin-bottom: 0;
 }
+.menu {
+  margin-right: -15px;
+}
+
+.menu li a {
+  display: block;
+  background-color: #2C3031;
+  color: #ABBAC4;
+  font-size: 16px;
+  margin-top: 3px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.menu > li.active {
+  background-color: transparent;
+  background-image: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu > li > a:hover {
+  color: #699BA8;
+  background-color: #2C3031;
+  text-decoration: none;
+}
+
+.menu > li.active {
+  text-shadow: none;
+}
+
+.menu > li.active > a {
+  color: #699BA8;
+}
+
 .menu-arrow {
     position: absolute;
     top: 12px;
@@ -143,3 +166,5 @@ ol.breadcrumb {
     -moz-border-radius: 50%;
     border-radius: 50%;
 }
+
+

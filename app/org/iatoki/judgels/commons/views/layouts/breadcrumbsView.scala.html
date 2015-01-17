@@ -4,8 +4,11 @@
     <div class="col-md-12 primary-content-breadcrumb">
         <ol class="breadcrumb">
         @for(link <- breadcrumbs) {
-            <li><a href="@link.getTarget">@link.getLabel</a></li>
+            <li><a href="@link.getTarget" class="breadcrumb-link">@link.getLabel</a></li>
         }
         </ol>
     </div>
 </div>
+
+
+<script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/active.js")"></script>
