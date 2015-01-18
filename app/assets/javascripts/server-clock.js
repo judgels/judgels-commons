@@ -1,7 +1,3 @@
-require(["jquery", "ckeditor-jquery"], function( __jquery__ ) {
-  $('.ckeditor').ckeditor();
-});
-
 require(["jquery", "jquery-timer"], function( __jquery__ ) {
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var date = new Date();
