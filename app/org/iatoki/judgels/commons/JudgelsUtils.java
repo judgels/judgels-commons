@@ -51,7 +51,9 @@ public final class JudgelsUtils {
     }
 
     public static void updateUserJidCache(AbstractJidCacheService<?> jidCacheService) {
-        jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsUtils.getUserDisplayName(IdentityUtils.getUsername(), IdentityUtils.getUserRealName()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
+        if (IdentityUtils.getUserJid() != null) {
+            jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsUtils.getUserDisplayName(IdentityUtils.getUsername(), IdentityUtils.getUserRealName()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
+        }
     }
 
     private static String messageDigest(String s, String algorithm) {

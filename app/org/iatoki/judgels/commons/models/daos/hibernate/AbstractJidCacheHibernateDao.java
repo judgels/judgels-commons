@@ -1,5 +1,6 @@
 package org.iatoki.judgels.commons.models.daos.hibernate;
 
+import com.google.common.collect.ImmutableList;
 import org.iatoki.judgels.commons.models.daos.interfaces.BaseJidCacheDao;
 import org.iatoki.judgels.commons.models.domains.AbstractJidCacheModel;
 import org.iatoki.judgels.commons.models.domains.AbstractJidCacheModel_;
@@ -43,14 +44,16 @@ public abstract class AbstractJidCacheHibernateDao<M extends AbstractJidCacheMod
 
     @Override
     public final List<M> findByJids(List<String> jids) {
+        if (jids.isEmpty()) {
+            return ImmutableList.of();
+        }
+
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<M> query = cb.createQuery(getModelClass());
 
         Root<M> root = query.from(getModelClass());
 
-        if (!jids.isEmpty()) {
-            query.where(root.get(AbstractJidCacheModel_.jid).in(jids));
-        }
+        query.where(root.get(AbstractJidCacheModel_.jid).in(jids));
 
         return JPA.em().createQuery(query).getResultList();
     }
