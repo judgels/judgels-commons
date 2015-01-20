@@ -1,7 +1,12 @@
 package org.iatoki.judgels.commons;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import org.iatoki.judgels.commons.models.daos.interfaces.BaseJidCacheDao;
 import org.iatoki.judgels.commons.models.domains.AbstractJidCacheModel;
+
+import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
     private BaseJidCacheDao<M> jidCacheDao;
@@ -26,6 +31,24 @@ public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
             M jidCacheModel = jidCacheDao.findByJid(jid);
             return jidCacheModel.displayName;
         }
+    }
+
+    public final Map<String, String> getDisplayNames(List<String> jids) {
+        List<M> entries = jidCacheDao.findByJids(jids);
+
+        Map<String, String> displayNamesMap = Maps.newHashMap();
+
+        for (M entry : entries) {
+            displayNamesMap.put(entry.jid, entry.displayName);
+        }
+
+        for (String jid : jids) {
+            if (!displayNamesMap.containsKey(jid)) {
+                displayNamesMap.put(jid, jid);
+            }
+        }
+
+        return ImmutableMap.copyOf(displayNamesMap);
     }
 
     private void createDisplayName(String jid, String displayName, String user, String ipAddress) {

@@ -8,6 +8,7 @@ import play.db.jpa.JPA;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 public abstract class AbstractJidCacheHibernateDao<M extends AbstractJidCacheModel> extends AbstractHibernateDao<String, M> implements BaseJidCacheDao<M> {
 
@@ -38,5 +39,19 @@ public abstract class AbstractJidCacheHibernateDao<M extends AbstractJidCacheMod
         query.where(cb.equal(root.get(AbstractJidCacheModel_.jid), jid));
 
         return JPA.em().createQuery(query).getSingleResult();
+    }
+
+    @Override
+    public final List<M> findByJids(List<String> jids) {
+        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+        CriteriaQuery<M> query = cb.createQuery(getModelClass());
+
+        Root<M> root = query.from(getModelClass());
+
+        if (!jids.isEmpty()) {
+            query.where(root.get(AbstractJidCacheModel_.jid).in(jids));
+        }
+
+        return JPA.em().createQuery(query).getResultList();
     }
 }
