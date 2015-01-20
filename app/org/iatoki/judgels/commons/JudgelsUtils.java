@@ -46,6 +46,14 @@ public final class JudgelsUtils {
         return StringEscapeUtils.escapeHtml4(string).replaceAll("\r\n", "<br />");
     }
 
+    public static String getUserDisplayName(String username, String name) {
+        return username + " (" + name + ")";
+    }
+
+    public static void updateUserJidCache(AbstractJidCacheService<?> jidCacheService) {
+        jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsUtils.getUserDisplayName(IdentityUtils.getUsername(), IdentityUtils.getUserRealName()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
+    }
+
     private static String messageDigest(String s, String algorithm) {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
