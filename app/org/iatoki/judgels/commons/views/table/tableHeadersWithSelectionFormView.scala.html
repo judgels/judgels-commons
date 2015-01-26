@@ -1,0 +1,37 @@
+@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call, form: Form[org.iatoki.judgels.commons.ListTableSelectionForm])(headers: scala.Tuple2[String, String]*)
+
+@import org.iatoki.judgels.commons.views.html.table.pageLinkBuilder;
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#selectAll').on('click', function() {
+            var checked = $('#selectAll').prop('checked');
+            $('.checkboxJid').each(function() {
+                $(this).prop('checked', checked);
+            });
+        });
+    });
+</script>
+
+<thead>
+    <tr>
+        <th>
+            <input type="checkbox" id="selectAll" name="selectAll" value="true">
+        </th>
+        @for(header <- headers) {
+            <th>
+                <a href="@pageLinkBuilder(pageIndex, orderBy, orderDir, filterString, header._1, listFunc)">
+                    @header._2
+                    @if(orderBy == header._1) {
+                        @if(orderDir == "asc") {
+                            <span class="glyphicon glyphicon-arrow-up"></span>
+                        } else {
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        }
+                    }
+                </a>
+            </th>
+        }
+        <th></th>
+    </tr>
+</thead>
