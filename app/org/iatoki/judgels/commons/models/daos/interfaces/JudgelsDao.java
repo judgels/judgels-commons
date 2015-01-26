@@ -10,4 +10,6 @@ public interface JudgelsDao<M extends AbstractModel> extends Dao<Long, M> {
     boolean existsByJid(String jid);
 
     M findByJid(String jid);
+
+    List<M> findByJids(List<String> jids);
 }
