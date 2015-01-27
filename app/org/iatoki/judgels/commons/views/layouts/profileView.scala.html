@@ -5,33 +5,28 @@
 <div class="row avatar">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-3 col-xs-3">
+            <div class="col-md-4">
                 <img class="avatar-picture" src='@session().get("avatar")' alt="avatar"/>
             </div>
-            <div class="col-md-9 col-xs-9">
-                <div class="row">
-                    <div class="col-md-12 avatar-username">
+            <div class="col-md-8">
+                <div class="avatar-username">
                     @username
-                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 avatar-real-name">
+                <div class="avatar-real-name">
                     @realName
-                    </div>
                 </div>
+                @if(username != "guest") {
+                    <div class="row">
+                        <div class="col-md-2 col-xs-2 avatar-menu">
+                            <a href="@editLink">@Messages.get("commons.profile.edit")</a>
+                        </div>
+                        <div class="col-md-6 col-xs-6 avatar-menu">
+                            <a href="@logoutLink">@Messages.get("commons.profile.logout")</a>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
 
-        @if(username != "guest") {
-            <div class="row">
-                <div class="col-md-3 col-xs-3"></div>
-                <div class="col-md-2 col-xs-2 avatar-menu">
-                    <a href="@editLink">@Messages.get("commons.profile.edit")</a>
-                </div>
-                <div class="col-md-6 col-xs-6 avatar-menu">
-                    <a href="@logoutLink">@Messages.get("commons.profile.logout")</a>
-                </div>
-            </div>
-        }
     </div>
 </div>

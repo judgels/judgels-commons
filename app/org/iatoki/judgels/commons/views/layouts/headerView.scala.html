@@ -7,26 +7,25 @@
 @import play.mvc.Http
 
 <header>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="pull-left">
-                <img class="logo" src='@controllers.routes.Assets.versioned("images/logo.png")' alt="TOKI Learning Logo"/>
-            </div>
-
-            <div class="title pull-left">
-                <h1>@play.Play.application().configuration.getString("application.title")<br /><small>@play.Play.application().configuration.getString("application.sub-title")</small></h1>
-            </div>
-
-            <div class="right-info pull-right">
-                <div>
-                    @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss").format(new Date()))</span>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-left">
+                    <img class="logo" src='@controllers.routes.Assets.versioned("images/logo.png")' alt="TOKI Learning Logo"/>
                 </div>
-                <div class="languages">
-                    <select id="languages" class="form-control input-sm">
-                        @for(lang <- Lang.availables()) {
-                            <option value="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
-                        }
-                    </select>
+
+                <div class="title pull-left">
+                    <h1>@play.Play.application().configuration.getString("application.title")</h1>
+                </div>
+
+                <div class="right-info pull-right">
+                    <div class="languages">
+                        <select id="languages" class="form-control selectpicker">
+                            @for(lang <- Lang.availables()) {
+                                <option value="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
+                            }
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,9 +1,12 @@
 @(breadcrumbs: List[org.iatoki.judgels.commons.InternalLink])(content: Html)
 
-@breadcrumbsView(breadcrumbs)
+@import play.mvc.Http.Context
 
-<div class="row primary-content">
-    <div class="col-md-12">
-        @content
-    </div>
-</div>
+@if(Context.current().args.getOrDefault("breadcrumbs.isBefore", java.lang.Boolean.valueOf(true)) == true) {
+    @breadcrumbsView(breadcrumbs)
+    @content
+} else {
+    @content
+    @breadcrumbsView(breadcrumbs)
+}
+

@@ -1,5 +1,11 @@
 requirejs.config({
     shim: {
+        'bootstrap': {
+            deps: ['jquery']
+        },
+        'bootstrap-select': {
+            deps: ['bootstrap']
+        },
         'jquery-history': {
             deps: ['jquery']
         },
@@ -15,6 +21,7 @@ requirejs.config({
     },
     paths: {
         'bootstrap': '/assets/lib/bootstrap/js/bootstrap.min',
+        'bootstrap-select': '/assets/lib/bootstrap-select/js/bootstrap-select',
         'jquery': '/assets/lib/jquery/jquery.min',
         'jquery-timer': '/assets/javascripts/jquery.timer',
         'jquery-ui': '/assets/lib/jquery-ui/jquery-ui.min',

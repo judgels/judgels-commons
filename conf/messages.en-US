@@ -25,3 +25,5 @@ commons.outOf=out of
 commons.auth.login=Log In
 commons.auth.hello=Hello, guest. You are not logged in.
 commons.auth.loginWithTokiId=Log in with TOKI ID
+
+commons.more=More

@@ -1,14 +1,24 @@
 @(breadcrumbs: List[org.iatoki.judgels.commons.InternalLink])
 
-<div class="row primary-content-breadcrumb-row">
-    <div class="col-md-12 primary-content-breadcrumb">
-        <ol class="breadcrumb">
+@import play.i18n.Messages
+@import java.text.SimpleDateFormat
+@import java.util.Date
+
+<div class="primary-content-breadcrumb clearfix">
+    <div class="pull-right server-time">
+        @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(new Date()))</span>
+    </div>
+    <ol class="breadcrumb">
+        <li><a href="/" class="glyphicon glyphicon-home" aria-hidden="true"></a></li>
         @for(link <- breadcrumbs) {
             <li><a href="@link.getTarget" class="breadcrumb-link">@link.getLabel</a></li>
         }
-        </ol>
-    </div>
+    </ol>
 </div>
 
+<script type="text/javascript">
+    var date = new Date(@System.currentTimeMillis());
+</script>
 
+<script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/server-clock.js")"></script>
 <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/active.js")"></script>

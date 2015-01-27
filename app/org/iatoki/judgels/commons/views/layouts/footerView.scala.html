@@ -4,11 +4,13 @@
 @import play.i18n.Messages
 
 <footer>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="pull-left first">
-                <div class="copyright">
-                        &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @play.Play.application().configuration.getString("application.sub-title")
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-left first">
+                    <div class="copyright">
+                            &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @play.Play.application().configuration.getString("application.sub-title")
+                    </div>
                 </div>
             </div>
         </div>
