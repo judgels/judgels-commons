@@ -1,11 +1,13 @@
 require(["jquery", "jquery-timer"], function( __jquery__ ) {
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var date = new Date();
+    var localDate = new Date();
 
     $(document).stopTime("server");
     $(document).everyTime('1s', "server", function(i)
     {
-        date.setTime(date.getTime()+1000);
+        var currentDate = new Date();
+        date.setTime(date.getTime()+(currentDate.getTime() - localDate.getTime()));
+        localDate = currentDate;
         var str = "";
         str += date.getDate() + "-";
         str += months[date.getMonth()] + "-";
