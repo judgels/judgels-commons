@@ -56,6 +56,11 @@ public final class JudgelsUtils {
         }
     }
 
+    public static String prettifyUserDisplayName(String displayName) {
+        String[] parts = displayName.split("\\(|\\)");
+        return "<span class=\"username\">" + parts[0] + "</span>" + " <span class=\"user-real-name\">(" + parts[1] + ")</span>";
+    }
+
     private static String messageDigest(String s, String algorithm) {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
