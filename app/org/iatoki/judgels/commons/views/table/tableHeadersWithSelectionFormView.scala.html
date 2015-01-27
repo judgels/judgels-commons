@@ -1,4 +1,4 @@
-@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call, form: Form[org.iatoki.judgels.commons.ListTableSelectionForm])(headers: scala.Tuple2[String, String]*)
+@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)(headers: scala.Tuple2[String, String]*)
 
 @import org.iatoki.judgels.commons.views.html.table.pageLinkBuilder;
 
