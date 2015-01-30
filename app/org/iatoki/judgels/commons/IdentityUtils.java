@@ -9,7 +9,7 @@ public final class IdentityUtils {
     }
 
     public static String getUserJid() {
-        return ""; // TODO: get real user jid
+        return Http.Context.current().session().get("userJid");
     }
 
     public static String getUsername() {
@@ -22,10 +22,15 @@ public final class IdentityUtils {
     }
 
     public static String getUserRealName() {
-        return "Lorem Ipsum"; //TODO: get real user real name
+        return Http.Context.current().session().get("name");
     }
 
     public static String getIpAddress() {
         return Http.Context.current().request().remoteAddress();
     }
+
+    public static JidType getJidType(String jid) {
+        return JidType.PROBLEM;
+    }
+
 }

@@ -1,10 +1,2 @@
 # Home page
-GET        /language/:lang          org.iatoki.judgels.commons.controllers.Application.changeLanguage(lang: String)
-
-# Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file            controllers.Assets.at(path="/public", file)
-GET        /vassets/*file           controllers.Assets.versioned(path="/public", file: Asset)
-
-GET        /login                   org.iatoki.judgels.commons.controllers.JophielClientController.login(returnUri: String)
-GET        /verify                  org.iatoki.judgels.commons.controllers.JophielClientController.verify()
-GET        /logout/:returnUri       org.iatoki.judgels.commons.controllers.JophielClientController.logout(returnUri: String)
+GET        /language/:lang          org.iatoki.judgels.commons.controllers.ApplicationController.changeLanguage(lang: String)
