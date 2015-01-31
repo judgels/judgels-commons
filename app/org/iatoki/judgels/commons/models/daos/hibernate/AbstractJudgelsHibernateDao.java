@@ -27,6 +27,12 @@ public abstract class AbstractJudgelsHibernateDao<M extends AbstractJudgelsModel
     }
 
     @Override
+    public void persist(M model, String childJid, String user, String ipAddress) {
+        model.jid = childJid;
+        super.persist(model, user, ipAddress);
+    }
+
+    @Override
     public boolean existsByJid(String jid) {
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
