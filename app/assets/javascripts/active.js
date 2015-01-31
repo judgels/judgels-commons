@@ -1,4 +1,4 @@
-require(["jquery", "bootstrap", "bootstrap-select"], function( __jquery__ ) {
+require(["jquery", "bootstrap"], function( __jquery__ ) {
     $(document).ready(function() {
         $($(".breadcrumb-link").get().reverse()).each(function() {
             var href = $(this).attr("href");
