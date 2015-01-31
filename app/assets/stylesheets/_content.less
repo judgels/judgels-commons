@@ -63,6 +63,11 @@ h3 {
     font-weight: bold;
     font-size: 18px;
 }
+h4 {
+    font-family: @accent-font;
+    font-weight: bold;
+    font-size: 16px;
+}
 .content {
     padding-top: 15px;
     width: 100%;
@@ -252,4 +257,35 @@ th {
 
 .panel-heading {
   font-family: @accent-font;
+}
+
+.content-text table, .content-text th, .content-text td {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.content-text th, .content-text td {
+    padding: 5px;
+}
+
+.content-text th {
+    font-family: @accent-font;
+    font-weight: bold;
+    background-color: #EEEEEE;
+}
+
+.content-text em {
+    font-style: oblique;
+}
+
+.content-text strong {
+    font-family: @accent-font;
+}
+
+.content-text ol li, .content-text ul li {
+    margin-left: 25px;
+}
+
+.content-text ol.breadcrumb li {
+    margin-left: 0;
 }
