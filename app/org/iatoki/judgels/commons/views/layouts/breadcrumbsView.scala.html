@@ -6,7 +6,7 @@
 
 <div class="primary-content-breadcrumb clearfix">
     <div class="pull-right server-time">
-        @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(new Date()))</span>
+        @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(new Date()))</span> @(new SimpleDateFormat("zzzz").format(new Date()))
     </div>
     <ol class="breadcrumb">
         <li><a href="/" class="glyphicon glyphicon-home" aria-hidden="true"></a></li>
