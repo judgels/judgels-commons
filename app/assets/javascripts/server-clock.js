@@ -9,6 +9,7 @@ require(["jquery", "jquery-timer"], function( __jquery__ ) {
         date.setTime(date.getTime()+(currentDate.getTime() - localDate.getTime()));
         localDate = currentDate;
         var str = "";
+        str += (date.getDate() < 10) ? "0" : "";
         str += date.getDate() + "-";
         str += months[date.getMonth()] + "-";
         str += date.getFullYear() + " ";

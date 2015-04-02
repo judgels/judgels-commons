@@ -3,14 +3,12 @@ package org.iatoki.judgels.commons.models.daos.hibernate;
 import com.google.common.collect.ImmutableList;
 import org.iatoki.judgels.commons.JidService;
 import org.iatoki.judgels.commons.models.daos.interfaces.JudgelsDao;
-import org.iatoki.judgels.commons.models.domains.AbstractJidCacheModel_;
 import org.iatoki.judgels.commons.models.domains.AbstractJudgelsModel;
 import org.iatoki.judgels.commons.models.domains.AbstractJudgelsModel_;
 import play.db.jpa.JPA;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -61,15 +59,15 @@ public abstract class AbstractJudgelsHibernateDao<M extends AbstractJudgelsModel
     public List<M> findByJids(List<String> jids) {
         if (jids.isEmpty()) {
             return ImmutableList.of();
+        } else {
+            CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+            CriteriaQuery<M> query = cb.createQuery(getModelClass());
+
+            Root<M> root = query.from(getModelClass());
+
+            query.where(root.get(AbstractJudgelsModel_.jid).in(jids));
+
+            return JPA.em().createQuery(query).getResultList();
         }
-
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-        CriteriaQuery<M> query = cb.createQuery(getModelClass());
-
-        Root<M> root = query.from(getModelClass());
-
-        query.where(root.get(AbstractJudgelsModel_.jid).in(jids));
-
-        return JPA.em().createQuery(query).getResultList();
     }
 }

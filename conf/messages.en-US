@@ -27,3 +27,5 @@ commons.auth.hello=Hello, guest. You are not logged in.
 commons.auth.loginWithTokiId=Log in with TOKI ID
 
 commons.more=More
+commons.filter=Filter
+commons.add=Add

@@ -110,8 +110,8 @@ h4 {
     font-size: 10px;
 }
 .primary-content {
-    min-height: 724px;
     background-color: @content-color;
+    min-height: 624px;
     border: 1px solid @accent-color;
     .RoundBorders();
 }
@@ -189,7 +189,7 @@ ol.breadcrumb {
 }
 
 .menu > .nav li.active > a {
-    color: @primary-color;
+    color: @brand-primary;
 }
 
 .menu-arrow {
@@ -213,7 +213,7 @@ ol.breadcrumb {
 }
 
 .menu > .nav > li.active > .menu-arrow {
-    background: @primary-color center center no-repeat !important;
+    background: @brand-primary center center no-repeat !important;
 }
 
 ol.breadcrumb li {
@@ -251,13 +251,7 @@ th {
   width: 50px;
 }
 
-.form.form-inline.pull-right {
-  margin-bottom: 15px;
-}
-
-.panel-heading {
-  font-family: @accent-font;
-}
+/* This is for displaying html body text */
 
 .content-text table, .content-text th, .content-text td {
     border-collapse: collapse;
