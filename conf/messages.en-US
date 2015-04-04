@@ -31,3 +31,6 @@ commons.filter=Filter
 commons.add=Add
 commons.next=Next
 commons.enter=Enter
+commons.enable=Enable
+commons.disable=Disable
+commons.makeDefault=Make Default
