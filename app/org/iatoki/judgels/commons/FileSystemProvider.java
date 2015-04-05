@@ -9,6 +9,10 @@ public interface FileSystemProvider {
 
     void createFile(List<String> filePath);
 
+    void removeFile(List<String> filePath);
+
+    boolean fileExists(List<String> filePath);
+
     void writeToFile(List<String> filePath, String content);
 
     String readFromFile(List<String> filePath);
