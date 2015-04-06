@@ -42,5 +42,7 @@ commons.pageNotFound=Page Not Found
 commons.pageNotFound.message=Sorry, the page you are looking for doesn''t exist in the system.
 commons.entityNotFound=Entity Not Found
 commons.entityNotFound.message=that you are looking for doesn''t exist in the system.
+commons.unsupportedOperation=Unsupported Operation
+commons.unsupportedOperation.message=Your action is not yet supported.
 
 commons.actions=Actions
