@@ -43,7 +43,7 @@ public final class JudgelsUtils {
     }
 
     public static String escapeHtmlString(String string) {
-        return StringEscapeUtils.escapeHtml4(string).replaceAll("\r\n", "<br />");
+        return StringEscapeUtils.escapeHtml4(string).replaceAll("\r\n", "<br />").replaceAll("\n", "<br />");
     }
 
     public static String getUserDisplayName(String username, String name) {

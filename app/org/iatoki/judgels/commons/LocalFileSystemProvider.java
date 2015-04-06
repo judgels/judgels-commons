@@ -42,6 +42,21 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
+    public void removeFile(List<String> filePath) {
+        File file = FileUtils.getFile(baseDir, toArray(filePath));
+        try {
+            FileUtils.forceDelete(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean fileExists(List<String> filePath) {
+        return FileUtils.getFile(baseDir, toArray(filePath)).exists();
+    }
+
+    @Override
     public void writeToFile(List<String> filePath, String content) {
         File file = FileUtils.getFile(baseDir, toArray(filePath));
         try {
