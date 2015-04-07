@@ -24,6 +24,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public final class LocalFileSystemProvider implements FileSystemProvider {
+
     private static final Set<String> IGNORABLE_FILES = ImmutableSet.of(
             ".gitkeep",
             "__MACOSX"
@@ -77,13 +78,13 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
-    public void writeToFile(List<String> filePath, String content) throws IOException{
+    public void writeToFile(List<String> filePath, String content) throws IOException {
         File file = FileUtils.getFile(baseDir, toArray(filePath));
         FileUtils.writeStringToFile(file, content);
     }
 
     @Override
-    public String readFromFile(List<String> filePath) throws IOException{
+    public String readFromFile(List<String> filePath) throws IOException {
         File file = FileUtils.getFile(baseDir, toArray(filePath));
         return FileUtils.readFileToString(file);
     }

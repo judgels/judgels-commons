@@ -11,7 +11,6 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.IllegalTodoFileModification;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RebaseTodoLine;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -24,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 public final class LocalGitProvider implements GitProvider {
+
     private final LocalFileSystemProvider fileSystemProvider;
 
     public LocalGitProvider(LocalFileSystemProvider fileSystemProvider) {
@@ -36,7 +36,7 @@ public final class LocalGitProvider implements GitProvider {
 
         try {
             Git.init().setDirectory(dir).call().close();
-        } catch(GitAPIException e) {
+        } catch (GitAPIException e) {
             throw new RuntimeException(e);
         }
     }
@@ -49,7 +49,7 @@ public final class LocalGitProvider implements GitProvider {
 
         try {
             Git.cloneRepository().setURI(uri).setDirectory(root).call().close();
-        } catch(GitAPIException e) {
+        } catch (GitAPIException e) {
             throw new RuntimeException(e);
         }
     }

@@ -67,10 +67,10 @@ public final class LRUCache<K, V> {
     }
 
     class Node<A, B> {
-        Node<A, B> next;
-        Node<A, B> previous;
-        A key;
-        B value;
+        private Node<A, B> next;
+        private Node<A, B> previous;
+        private A key;
+        private B value;
 
         public Node(Node<A, B> next, Node<A, B> previous, A key, B value) {
             this.next = next;

@@ -340,7 +340,7 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
                         cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
                         return generatedURL;
                     } else {
-                        return checkCache.getURL();
+                        return checkCache.getUrl();
                     }
                 } else {
                     String generatedURL = generateSignedURL(key, getDefaultExpireTime());
