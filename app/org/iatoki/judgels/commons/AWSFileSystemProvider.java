@@ -168,9 +168,12 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         String contentType = URLConnection.guessContentTypeFromName(destinationFilename);
-        objectMetadata.setContentType(contentType);
-        if (contentType.startsWith("image/")) {
-            objectMetadata.setCacheControl("no-transform,public,max-age=300,s-maxage=900");
+
+        if (contentType != null) {
+            objectMetadata.setContentType(contentType);
+            if (contentType.startsWith("image/")) {
+                objectMetadata.setCacheControl("no-transform,public,max-age=300,s-maxage=900");
+            }
         }
 
         try {
