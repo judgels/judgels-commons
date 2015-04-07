@@ -107,6 +107,12 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
 
     @Override
     public long countByFilters(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn) {
+        for (Collection<String> values : filterColumnsIn.values()) {
+            if (values.isEmpty()) {
+                return 0;
+            }
+        }
+
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
         Root<M> root = query.from(getModelClass());
@@ -182,6 +188,12 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
 
     @Override
     public List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit) {
+        for (Collection<String> values : filterColumnsIn.values()) {
+            if (values.isEmpty()) {
+                return ImmutableList.of();
+            }
+        }
+
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<M> query = cb.createQuery(getModelClass());
         Root<M> root = query.from(getModelClass());
