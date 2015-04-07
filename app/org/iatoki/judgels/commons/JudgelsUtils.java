@@ -70,6 +70,11 @@ public final class JudgelsUtils {
         }
     }
 
+    public static String getOnlyUsername(String displayName) {
+        int spacePos = displayName.indexOf(' ');
+        return displayName.substring(0, spacePos);
+    }
+
     private static String messageDigest(String s, String algorithm) {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
