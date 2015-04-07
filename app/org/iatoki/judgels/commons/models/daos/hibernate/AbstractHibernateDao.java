@@ -204,7 +204,6 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
         } else {
             List<Predicate> byStringPredicates = Lists.transform(getColumnsFilterableByString(), c -> cb.like(root.get(c), "%" + filterString + "%"));
             byString = cb.or(byStringPredicates.toArray(new Predicate[byStringPredicates.size()]));
-
         }
 
         List<Predicate> byColumnPredicates = filterColumns.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());

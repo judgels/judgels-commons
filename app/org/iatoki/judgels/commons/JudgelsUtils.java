@@ -26,6 +26,11 @@ public final class JudgelsUtils {
         return formatter.format(timestamp);
     }
 
+    public static String formatDetailedDate(long timestamp) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
+        return formatter.format(timestamp);
+    }
+
     public static String formatBytesCount(long bytes) {
         return FileUtils.byteCountToDisplaySize(bytes);
     }
