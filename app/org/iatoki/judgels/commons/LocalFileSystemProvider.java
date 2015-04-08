@@ -1,6 +1,7 @@
 package org.iatoki.judgels.commons;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
 
@@ -15,11 +16,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public final class LocalFileSystemProvider implements FileSystemProvider {
+    private static final Set<String> IGNORABLE_FILES = ImmutableSet.of(
+            ".gitkeep",
+            "__MACOSX"
+    );
+
     private File baseDir;
 
     public LocalFileSystemProvider(File baseDir) {
@@ -165,7 +173,7 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
         Comparator<String> comparator = new NaturalFilenameComparator();
         Collections.sort(fileInfos, (FileInfo a, FileInfo b) -> comparator.compare(a.getName(), b.getName()));
 
-        return fileInfos;
+        return fileInfos.stream().filter(f -> !IGNORABLE_FILES.contains(f.getName())).collect(Collectors.toList());
     }
 
     @Override
