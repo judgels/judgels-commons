@@ -60,8 +60,23 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
+    public boolean directoryExists(List<String> directoryPath) {
+        return (FileUtils.getFile(baseDir, toArray(directoryPath)).exists()) && (FileUtils.getFile(baseDir, toArray(directoryPath)).isDirectory());
+    }
+
+    @Override
     public boolean fileExists(List<String> filePath) {
-        return FileUtils.getFile(baseDir, toArray(filePath)).exists();
+        return (FileUtils.getFile(baseDir, toArray(filePath)).exists()) && (FileUtils.getFile(baseDir, toArray(filePath)).isFile());
+    }
+
+    @Override
+    public void makeFilePublic(List<String> filePath) {
+        FileUtils.getFile(baseDir, toArray(filePath)).setReadable(true);
+    }
+
+    @Override
+    public void makeFilePrivate(List<String> filePath) {
+        FileUtils.getFile(baseDir, toArray(filePath)).setReadable(false, true);
     }
 
     @Override
