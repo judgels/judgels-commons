@@ -39,10 +39,12 @@ import java.util.zip.ZipOutputStream;
 public final class AWSFileSystemProvider implements FileSystemProvider {
     private AmazonS3 s3;
     private String bucket;
+    private LRUCache<String, String> cache;
 
     public AWSFileSystemProvider(AmazonS3 s3, String bucket, Region region) {
         this.s3 = s3;
         this.bucket = bucket;
+        this.cache = new LRUCache<>(1000);
 
         if (!s3.doesBucketExist(bucket)) {
             s3.createBucket(new CreateBucketRequest(bucket, region));
@@ -122,7 +124,11 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
             canonicalFileNameBuilder.append(destinationFilename);
 
             ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType(URLConnection.guessContentTypeFromName(destinationFilename));
+            String contentType = URLConnection.guessContentTypeFromName(destinationFilename);
+            objectMetadata.setContentType(contentType);
+            if (contentType.startsWith("image/")) {
+                objectMetadata.setCacheControl("no-transform,public,max-age=300,s-maxage=900");
+            }
             s3.putObject(new PutObjectRequest(bucket, canonicalFileNameBuilder.toString(), new FileInputStream(file), objectMetadata));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -138,7 +144,7 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
                 String filename = ze.getName();
 
                 if (ze.isDirectory()) {
-                    s3.putObject(new PutObjectRequest(bucket, StringUtils.join(destinationDirectoryPath, File.separator) + File.separator + filename + "_$folder$", new ByteArrayInputStream(new byte[0]), null));
+                    s3.putObject(new PutObjectRequest(bucket, StringUtils.join(destinationDirectoryPath, File.separator) + File.separator + filename + File.separator, new ByteArrayInputStream(new byte[0]), null));
                 } else {
                     ObjectMetadata objectMetadata = new ObjectMetadata();
                     objectMetadata.setContentType(URLConnection.guessContentTypeFromStream(zis));
@@ -158,13 +164,20 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
     @Override
     public ByteArrayOutputStream getZippedFilesInDirectory(List<String> directoryPath) {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-        ObjectListing objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(StringUtils.join(directoryPath, ",") + File.separator));
+        ObjectListing objectListing;
+        if (directoryPath.isEmpty()) {
+            objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(""));
+        } else {
+            objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(StringUtils.join(directoryPath, File.separator) + File.separator));
+        }
 
         try {
             ZipOutputStream zos = new ZipOutputStream(os);
             for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
-                int beginIndex = StringUtils.join(directoryPath, File.separator).length() + 1;
+                int beginIndex = StringUtils.join(directoryPath, File.separator).length();
+                if (!directoryPath.isEmpty()) {
+                    beginIndex += 1;
+                }
                 S3Object s3Object = s3.getObject(new GetObjectRequest(bucket, objectSummary.getKey()));
                 ZipEntry ze = new ZipEntry(objectSummary.getKey().substring(beginIndex));
                 zos.putNextEntry(ze);
@@ -183,11 +196,21 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
 
     @Override
     public List<FileInfo> listFilesInDirectory(List<String> directoryPath) {
-        ObjectListing objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(StringUtils.join(directoryPath, ",") + File.separator));
+        ObjectListing objectListing;
+        if (directoryPath.isEmpty()) {
+            objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(""));
+        } else {
+            objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(StringUtils.join(directoryPath, File.separator) + File.separator));
+        }
 
         List<FileInfo> fileInfos = Lists.newArrayList();
+        System.out.println(bucket);
+        System.out.println(objectListing.getObjectSummaries().size());
         for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
-            int beginIndex = StringUtils.join(directoryPath, File.separator).length() + 1;
+            int beginIndex = StringUtils.join(directoryPath, File.separator).length();
+            if (!directoryPath.isEmpty()) {
+                beginIndex += 1;
+            }
             if (!objectSummary.getKey().substring(beginIndex).contains(File.separator)) {
                 fileInfos.add(new FileInfo(objectSummary.getKey().substring(beginIndex), objectSummary.getSize(), objectSummary.getLastModified()));
             }
@@ -201,8 +224,16 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
 
     @Override
     public String getURL(List<String> filePath) {
-        GeneratePresignedUrlRequest presignedUrlRequest = new GeneratePresignedUrlRequest(bucket, StringUtils.join(filePath, File.separator));
-        presignedUrlRequest.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(120, TimeUnit.DAYS)));
-        return s3.generatePresignedUrl(presignedUrlRequest).toString();
+        String key = StringUtils.join(filePath, File.separator);
+        String checkCache = cache.get(key);
+        if (checkCache != null) {
+            return checkCache;
+        } else {
+            GeneratePresignedUrlRequest presignedUrlRequest = new GeneratePresignedUrlRequest(bucket, key);
+            presignedUrlRequest.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(120, TimeUnit.DAYS)));
+            String generatedURL = s3.generatePresignedUrl(presignedUrlRequest).toString();
+            cache.put(key, generatedURL);
+            return generatedURL;
+        }
     }
 }
