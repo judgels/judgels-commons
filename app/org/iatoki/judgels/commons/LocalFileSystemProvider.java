@@ -107,7 +107,7 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
                 File file = new File(destinationDirectory, filename);
 
                 // only process outer files
-                if (file.isDirectory() || destinationDirectory.getAbsolutePath().equals(file.getParentFile().getAbsolutePath())) {
+                if (destinationDirectory.getAbsolutePath().equals(file.getParentFile().getAbsolutePath())) {
                     try (FileOutputStream fos = new FileOutputStream(file)) {
                         int len;
                         while ((len = zis.read(buffer)) > 0) {
@@ -128,7 +128,7 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
 
     @Override
     public ByteArrayOutputStream getZippedFilesInDirectory(List<String> directoryPath) {
-        File rootDirectory = FileUtils.getFile(toArray(directoryPath));
+        File rootDirectory = FileUtils.getFile(baseDir, toArray(directoryPath));
         List<File> files = getAllFilesRecursively(rootDirectory);
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
