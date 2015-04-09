@@ -11,7 +11,13 @@ public interface FileSystemProvider {
 
     void removeFile(List<String> filePath);
 
+    boolean directoryExists(List<String> directoryPath);
+
     boolean fileExists(List<String> filePath);
+
+    void makeFilePublic(List<String> filePath);
+
+    void makeFilePrivate(List<String> filePath);
 
     void writeToFile(List<String> filePath, String content);
 
