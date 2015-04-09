@@ -32,7 +32,9 @@ import java.io.IOException;
 import java.net.URLConnection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -211,6 +213,8 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
 
     @Override
     public String getURL(List<String> filePath) {
-        return s3.generatePresignedUrl(new GeneratePresignedUrlRequest(bucket, StringUtils.join(filePath, File.separator))).toString();
+        GeneratePresignedUrlRequest presignedUrlRequest = new GeneratePresignedUrlRequest(bucket, StringUtils.join(filePath, File.separator));
+        presignedUrlRequest.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(120, TimeUnit.DAYS)));
+        return s3.generatePresignedUrl(presignedUrlRequest).toString();
     }
 }
