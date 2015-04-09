@@ -1,9 +1,6 @@
 package org.iatoki.judgels.commons;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.CreateBucketRequest;
@@ -43,17 +40,8 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
     private AmazonS3 s3;
     private String bucket;
 
-    public AWSFileSystemProvider(AWSCredentials credentials, String bucket, Region region) {
-        this.s3 = new AmazonS3Client(credentials);
-        this.bucket = bucket;
-
-        if (!s3.doesBucketExist(bucket)) {
-            s3.createBucket(new CreateBucketRequest(bucket, region));
-        }
-    }
-
-    public AWSFileSystemProvider(AWSCredentialsProvider credentialsProvider, String bucket, Region region) {
-        this.s3 = new AmazonS3Client(credentialsProvider);
+    public AWSFileSystemProvider(AmazonS3 s3, String bucket, Region region) {
+        this.s3 = s3;
         this.bucket = bucket;
 
         if (!s3.doesBucketExist(bucket)) {
