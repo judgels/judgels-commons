@@ -1,5 +1,10 @@
 package org.iatoki.judgels;
 
+import com.google.common.collect.ImmutableMap;
+import com.typesafe.config.ConfigValue;
+
+import java.util.Map;
+
 public final class Config {
     private final com.typesafe.config.Config config;
 
@@ -38,5 +43,23 @@ public final class Config {
             return null;
         }
         return config.getBoolean(key);
+    }
+
+    public <T> Map<String, T> requireMap(String key, Class<T> clazz) {
+        ImmutableMap.Builder<String, T> mapBuilder = ImmutableMap.builder();
+        com.typesafe.config.Config tempConfig = config.getConfig(key);
+        for (Map.Entry<String, ConfigValue> entrySet : tempConfig.entrySet()) {
+            mapBuilder.put(entrySet.getKey(), clazz.cast(entrySet.getValue().unwrapped()));
+        }
+
+        return mapBuilder.build();
+    }
+
+    public <T> Map<String, T> getMap(String key, Class<T> clazz) {
+        if (!config.hasPath(key)) {
+            return null;
+        }
+
+        return requireMap(key, clazz);
     }
 }
