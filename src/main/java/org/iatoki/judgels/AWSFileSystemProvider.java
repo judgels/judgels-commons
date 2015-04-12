@@ -1,4 +1,4 @@
-package org.iatoki.judgels.commons;
+package org.iatoki.judgels;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3;

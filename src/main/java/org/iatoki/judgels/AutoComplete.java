@@ -1,4 +1,4 @@
-package org.iatoki.judgels.commons;
+package org.iatoki.judgels;
 
 public final class AutoComplete {
 

@@ -1,4 +1,4 @@
-package org.iatoki.judgels.commons;
+package org.iatoki.judgels;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;

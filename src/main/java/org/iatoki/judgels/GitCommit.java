@@ -1,4 +1,4 @@
-package org.iatoki.judgels.commons;
+package org.iatoki.judgels;
 
 import java.util.Date;
 
