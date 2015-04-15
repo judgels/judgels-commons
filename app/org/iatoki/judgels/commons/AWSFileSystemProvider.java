@@ -8,9 +8,12 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.GetObjectMetadataRequest;
 import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.Grant;
+import com.amazonaws.services.s3.model.GroupGrantee;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.Permission;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.Region;
 import com.amazonaws.services.s3.model.S3Object;
@@ -38,6 +41,7 @@ import java.util.zip.ZipOutputStream;
 
 public final class AWSFileSystemProvider implements FileSystemProvider {
     private AmazonS3 s3;
+    private String cloudFrontURL;
     private String bucket;
     private LRUCache<String, AWSFileURL> cache;
 
@@ -45,7 +49,16 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
         this.s3 = s3;
         this.bucket = bucket;
         this.cache = new LRUCache<>(1000);
+        if (!s3.doesBucketExist(bucket)) {
+            s3.createBucket(new CreateBucketRequest(bucket, region));
+        }
+    }
 
+    public AWSFileSystemProvider(AmazonS3 s3, String bucket, String cloudFrontURL, Region region) {
+        this.s3 = s3;
+        this.cloudFrontURL = cloudFrontURL;
+        this.bucket = bucket;
+        this.cache = new LRUCache<>(1000);
         if (!s3.doesBucketExist(bucket)) {
             s3.createBucket(new CreateBucketRequest(bucket, region));
         }
@@ -223,25 +236,40 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
     @Override
     public String getURL(List<String> filePath) {
         String key = StringUtils.join(filePath, File.separator);
-        AWSFileURL checkCache = cache.get(key);
-        if (checkCache != null) {
-            if (System.currentTimeMillis() >= checkCache.getExpireTime()) {
-                String generatedURL = generateSignedURL(key);
-                cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
-                return generatedURL;
+        if (cloudFrontURL == null) {
+            boolean canPublicRead = false;
+            for (Grant grant : s3.getObjectAcl(bucket, key).getGrantsAsList()) {
+                if ((grant.getGrantee().equals(GroupGrantee.AllUsers)) && (grant.getPermission().equals(Permission.Read))) {
+                    canPublicRead = true;
+                }
+            }
+
+            if (canPublicRead) {
+                return "https://" + bucket + ".s3.amazonaws.com/" + key;
             } else {
-                return checkCache.getURL();
+                AWSFileURL checkCache = cache.get(key);
+                if (checkCache != null) {
+                    if (System.currentTimeMillis() >= (checkCache.getExpireTime() - TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES))) {
+                        String generatedURL = generateSignedURL(key, getDefaultExpireTime());
+                        cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
+                        return generatedURL;
+                    } else {
+                        return checkCache.getURL();
+                    }
+                } else {
+                    String generatedURL = generateSignedURL(key, getDefaultExpireTime());
+                    cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
+                    return generatedURL;
+                }
             }
         } else {
-            String generatedURL = generateSignedURL(key);
-            cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
-            return generatedURL;
+            return cloudFrontURL + key;
         }
     }
 
-    private String generateSignedURL(String key) {
+    private String generateSignedURL(String key, long expireTime) {
         GeneratePresignedUrlRequest presignedUrlRequest = new GeneratePresignedUrlRequest(bucket, key);
-        presignedUrlRequest.setExpiration(new Date(getDefaultExpireTime()));
+        presignedUrlRequest.setExpiration(new Date(expireTime));
         return s3.generatePresignedUrl(presignedUrlRequest).toString();
     }
 
