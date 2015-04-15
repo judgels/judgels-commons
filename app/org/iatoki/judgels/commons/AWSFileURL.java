@@ -2,9 +2,9 @@ package org.iatoki.judgels.commons;
 
 public final class AWSFileURL {
 
-    private String URL;
+    private final String URL;
 
-    private long expireTime;
+    private final long expireTime;
 
     public AWSFileURL(String URL, long expireTime) {
         this.URL = URL;
