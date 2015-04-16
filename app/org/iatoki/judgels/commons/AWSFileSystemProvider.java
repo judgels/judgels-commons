@@ -40,14 +40,15 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public final class AWSFileSystemProvider implements FileSystemProvider {
-    private AmazonS3 s3;
-    private String cloudFrontURL;
-    private String bucket;
-    private LRUCache<String, AWSFileURL> cache;
+    private final AmazonS3 s3;
+    private final String cloudFrontURL;
+    private final String bucket;
+    private final LRUCache<String, AWSFileURL> cache;
 
     public AWSFileSystemProvider(AmazonS3 s3, String bucket, Region region) {
         this.s3 = s3;
         this.bucket = bucket;
+        this.cloudFrontURL = null;
         this.cache = new LRUCache<>(1000);
         if (!s3.doesBucketExist(bucket)) {
             s3.createBucket(new CreateBucketRequest(bucket, region));
