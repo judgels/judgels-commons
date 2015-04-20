@@ -3,6 +3,7 @@ package org.iatoki.judgels;
 import java.util.Date;
 
 public final class GitCommit {
+
     private final String hash;
     private final String userJid;
     private final Date time;

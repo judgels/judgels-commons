@@ -33,7 +33,6 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
     private static final int TOOBIG = 0x40000000; // max size of unzipped data, 1GB
     private static final int TOOMANY = 4096;     // max number of files
 
-
     private File baseDir;
 
     public LocalFileSystemProvider(File baseDir) {

@@ -44,6 +44,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public final class AWSFileSystemProvider implements FileSystemProvider {
+
     private final AmazonS3 s3;
     private final String cloudFrontURL;
     private final String bucket;
@@ -322,35 +323,35 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
     @Override
     public String getURL(List<String> filePath) {
         String key = StringUtils.join(filePath, File.separator);
-        if (cloudFrontURL == null) {
-            boolean canPublicRead = false;
-            for (Grant grant : s3.getObjectAcl(bucket, key).getGrantsAsList()) {
-                if ((grant.getGrantee().equals(GroupGrantee.AllUsers)) && (grant.getPermission().equals(Permission.Read))) {
-                    canPublicRead = true;
-                }
-            }
-
-            if (canPublicRead) {
-                return "https://" + bucket + ".s3.amazonaws.com/" + key;
-            } else {
-                AWSFileURL checkCache = cache.get(key);
-                if (checkCache != null) {
-                    if (System.currentTimeMillis() >= (checkCache.getExpireTime() - TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES))) {
-                        String generatedURL = generateSignedURL(key, getDefaultExpireTime());
-                        cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
-                        return generatedURL;
-                    } else {
-                        return checkCache.getUrl();
-                    }
-                } else {
-                    String generatedURL = generateSignedURL(key, getDefaultExpireTime());
-                    cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
-                    return generatedURL;
-                }
-            }
-        } else {
+        if (cloudFrontURL != null) {
             return cloudFrontURL + key;
         }
+
+        boolean canPublicRead = false;
+        for (Grant grant : s3.getObjectAcl(bucket, key).getGrantsAsList()) {
+            if ((grant.getGrantee().equals(GroupGrantee.AllUsers)) && (grant.getPermission().equals(Permission.Read))) {
+                canPublicRead = true;
+            }
+        }
+
+        if (canPublicRead) {
+            return "https://" + bucket + ".s3.amazonaws.com/" + key;
+        }
+
+        AWSFileURL checkCache = cache.get(key);
+        if (checkCache == null) {
+            String generatedURL = generateSignedURL(key, getDefaultExpireTime());
+            cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
+            return generatedURL;
+        }
+
+        if (System.currentTimeMillis() < (checkCache.getExpireTime() - TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES))) {
+            return checkCache.getUrl();
+        }
+
+        String generatedURL = generateSignedURL(key, getDefaultExpireTime());
+        cache.put(key, new AWSFileURL(generatedURL, getDefaultExpireTime()));
+        return generatedURL;
     }
 
     private String generateSignedURL(String key, long expireTime) {

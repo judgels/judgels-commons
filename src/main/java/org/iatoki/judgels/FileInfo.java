@@ -3,6 +3,7 @@ package org.iatoki.judgels;
 import java.util.Date;
 
 public final class FileInfo {
+
     private final String name;
     private final long size;
     private final Date lastModifiedTime;

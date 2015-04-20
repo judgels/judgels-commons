@@ -3,6 +3,7 @@ package org.iatoki.judgels;
 import java.util.List;
 
 public interface GitProvider {
+
     void init(List<String> rootDirPath);
 
     void clone(List<String> originDirPath, List<String> rootDirPath);

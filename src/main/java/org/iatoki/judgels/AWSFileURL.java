@@ -3,7 +3,6 @@ package org.iatoki.judgels;
 public final class AWSFileURL {
 
     private final String url;
-
     private final long expireTime;
 
     public AWSFileURL(String url, long expireTime) {

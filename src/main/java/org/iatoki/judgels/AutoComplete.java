@@ -3,9 +3,7 @@ package org.iatoki.judgels;
 public final class AutoComplete {
 
     private final String id;
-
     private final String value;
-
     private final String label;
 
     public AutoComplete(String id, String value, String label) {
