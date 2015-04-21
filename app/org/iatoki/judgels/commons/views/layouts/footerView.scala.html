@@ -11,12 +11,12 @@
             <div class="col-md-12">
                 <div class="pull-left first">
                     <div class="copyright">
-                            &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @play.Play.application().configuration.getString("application.copyright")
+                        &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @play.Play.application().configuration.getString("application.copyright")
                     </div>
                 </div>
                 <div class="pull-right first">
                     <div class="copyright">
-                            @Messages.get("commons.poweredBy") <a href="@play.Play.application().configuration.getString("link.github")">@Messages.get("commons.judgels") @StringUtils.capitalize(JudgelsProperties.getInstance().getAppName) @JudgelsProperties.getInstance().getAppVersion</a>
+                        @Messages.get("commons.poweredBy") <a href="@play.Play.application().configuration.getString("link.github")" target="_blank">@Messages.get("commons.judgels") @StringUtils.capitalize(JudgelsProperties.getInstance().getAppName) @JudgelsProperties.getInstance().getAppVersion</a>
                     </div>
                 </div>
             </div>
