@@ -151,9 +151,31 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
+    public void writeByteArrayToFile(List<String> filePath, byte[] content) throws IOException {
+        String cannonicalFilename = StringUtils.join(filePath, File.separator);
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(URLConnection.guessContentTypeFromName(cannonicalFilename));
+
+        try {
+            s3.putObject(new PutObjectRequest(bucket, cannonicalFilename, new ByteArrayInputStream(content), objectMetadata));
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
+        }
+    }
+
+    @Override
     public String readFromFile(List<String> filePath) throws IOException {
         try {
             return IOUtils.toString(s3.getObject(new GetObjectRequest(bucket, StringUtils.join(filePath, File.separator))).getObjectContent());
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
+        }
+    }
+
+    @Override
+    public byte[] readByteArrayFromFile(List<String> filePath) throws IOException {
+        try {
+            return IOUtils.toByteArray(s3.getObject(new GetObjectRequest(bucket, StringUtils.join(filePath, File.separator))).getObjectContent());
         } catch (AmazonClientException e) {
             throw new IOException(e);
         }

@@ -24,7 +24,11 @@ public interface FileSystemProvider {
 
     void writeToFile(List<String> filePath, String content) throws IOException;
 
+    void writeByteArrayToFile(List<String> filePath, byte[] content) throws IOException;
+
     String readFromFile(List<String> filePath) throws IOException;
+
+    byte[] readByteArrayFromFile(List<String> filePath) throws IOException;
 
     void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename) throws IOException;
 

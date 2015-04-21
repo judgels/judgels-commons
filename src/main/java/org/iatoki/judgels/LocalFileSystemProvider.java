@@ -83,9 +83,21 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
+    public void writeByteArrayToFile(List<String> filePath, byte[] content) throws IOException {
+        File file = FileUtils.getFile(baseDir, toArray(filePath));
+        FileUtils.writeByteArrayToFile(file, content);
+    }
+
+    @Override
     public String readFromFile(List<String> filePath) throws IOException {
         File file = FileUtils.getFile(baseDir, toArray(filePath));
         return FileUtils.readFileToString(file);
+    }
+
+    @Override
+    public byte[] readByteArrayFromFile(List<String> filePath) throws IOException {
+        File file = FileUtils.getFile(baseDir, toArray(filePath));
+        return FileUtils.readFileToByteArray(file);
     }
 
     @Override
