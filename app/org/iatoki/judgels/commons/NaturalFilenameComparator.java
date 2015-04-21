@@ -2,7 +2,7 @@ package org.iatoki.judgels.commons;
 
 import java.util.Comparator;
 
-public class NaturalFilenameComparator implements Comparator<String> {
+public final class NaturalFilenameComparator implements Comparator<String> {
     /**
      * Enumeration type denoting the type of a character in a file name
      */
