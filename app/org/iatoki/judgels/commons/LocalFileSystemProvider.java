@@ -28,6 +28,10 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
             "__MACOSX"
     );
 
+    private static final int TOOBIG = 0x40000000; // max size of unzipped data, 1GB
+    private static final int TOOMANY = 4096;     // max number of files
+
+
     private File baseDir;
 
     public LocalFileSystemProvider(File baseDir) {
@@ -35,28 +39,20 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
-    public void createDirectory(List<String> directoryPath) {
+    public void createDirectory(List<String> directoryPath) throws IOException {
         File directory = FileUtils.getFile(baseDir, toArray(directoryPath));
-        try {
-            FileUtils.forceMkdir(directory);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        FileUtils.forceMkdir(directory);
     }
 
     @Override
-    public void createFile(List<String> filePath) {
+    public void createFile(List<String> filePath) throws IOException {
         writeToFile(filePath, "");
     }
 
     @Override
-    public void removeFile(List<String> filePath) {
+    public void removeFile(List<String> filePath) throws IOException {
         File file = FileUtils.getFile(baseDir, toArray(filePath));
-        try {
-            FileUtils.forceDelete(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        FileUtils.forceDelete(file);
     }
 
     @Override
@@ -70,79 +66,81 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
-    public void makeFilePublic(List<String> filePath) {
-        FileUtils.getFile(baseDir, toArray(filePath)).setReadable(true);
+    public boolean makeFilePublic(List<String> filePath) {
+        return FileUtils.getFile(baseDir, toArray(filePath)).setReadable(true);
     }
 
     @Override
-    public void makeFilePrivate(List<String> filePath) {
-        FileUtils.getFile(baseDir, toArray(filePath)).setReadable(false, true);
+    public boolean makeFilePrivate(List<String> filePath) {
+        return FileUtils.getFile(baseDir, toArray(filePath)).setReadable(false, true);
     }
 
     @Override
-    public void writeToFile(List<String> filePath, String content) {
+    public void writeToFile(List<String> filePath, String content) throws IOException{
         File file = FileUtils.getFile(baseDir, toArray(filePath));
-        try {
-            FileUtils.writeStringToFile(file, content);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        FileUtils.writeStringToFile(file, content);
     }
 
     @Override
-    public String readFromFile(List<String> filePath) {
+    public String readFromFile(List<String> filePath) throws IOException{
         File file = FileUtils.getFile(baseDir, toArray(filePath));
-        try {
-            return FileUtils.readFileToString(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return FileUtils.readFileToString(file);
     }
 
     @Override
-    public void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename) {
+    public void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename) throws IOException {
         File destinationFile = FileUtils.getFile(FileUtils.getFile(baseDir, toArray(destinationDirectoryPath)), destinationFilename);
-        try {
-            FileUtils.copyFile(file, destinationFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        FileUtils.copyFile(file, destinationFile);
     }
 
     @Override
-    public void uploadZippedFiles(List<String> destinationDirectoryPath, File zippedFiles) {
+    public void uploadZippedFiles(List<String> destinationDirectoryPath, File zippedFiles, boolean includeDirectory) throws IOException {
         File destinationDirectory = FileUtils.getFile(baseDir, toArray(destinationDirectoryPath));
-
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(zippedFiles));
         byte[] buffer = new byte[4096];
+        int entries = 0;
+        long total = 0;
+        ZipEntry ze = zis.getNextEntry();
         try {
-            ZipInputStream zis = new ZipInputStream(new FileInputStream(zippedFiles));
-            ZipEntry ze = zis.getNextEntry();
             while (ze != null) {
-                String filename = ze.getName();
+                String filename = validateFilename(ze.getName(), ".");
                 File file = new File(destinationDirectory, filename);
-
-                // only process outer files
-                if (destinationDirectory.getAbsolutePath().equals(file.getParentFile().getAbsolutePath())) {
-                    try (FileOutputStream fos = new FileOutputStream(file)) {
-                        int len;
-                        while ((len = zis.read(buffer)) > 0) {
-                            fos.write(buffer, 0, len);
+                if ((includeDirectory) && (ze.isDirectory())) {
+                    file.mkdirs();
+                }
+                else {
+                    if ((includeDirectory) || (destinationDirectory.getAbsolutePath().equals(file.getParentFile().getAbsolutePath()))) {
+                        FileOutputStream fos = new FileOutputStream(file);
+                        try {
+                            int len;
+                            while ((len = zis.read(buffer)) > 0) {
+                                fos.write(buffer, 0, len);
+                                total += len;
+                            }
+                            entries++;
+                        } finally {
+                            fos.close();
                         }
                     }
                 }
 
+                zis.closeEntry();
+                if (entries > TOOMANY) {
+                    throw new IllegalStateException("Too many files to unzip.");
+                }
+                if (total > TOOBIG) {
+                    throw new IllegalStateException("File too big to unzip.");
+                }
+
                 ze = zis.getNextEntry();
             }
-
-            zis.closeEntry();
+        } finally {
             zis.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public ByteArrayOutputStream getZippedFilesInDirectory(List<String> directoryPath) {
+    public ByteArrayOutputStream getZippedFilesInDirectory(List<String> directoryPath) throws IOException {
         File rootDirectory = FileUtils.getFile(baseDir, toArray(directoryPath));
         List<File> files = getAllFilesRecursively(rootDirectory);
 
@@ -150,8 +148,8 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
 
         byte[] buffer = new byte[1024];
 
+        ZipOutputStream zos = new ZipOutputStream(os);
         try {
-            ZipOutputStream zos = new ZipOutputStream(os);
             for (File file : files) {
                 int beginIndex = file.getAbsolutePath().indexOf(rootDirectory.getAbsolutePath()) + rootDirectory.getAbsolutePath().length() + 1;
                 ZipEntry ze = new ZipEntry(file.getAbsolutePath().substring(beginIndex));
@@ -166,9 +164,8 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
             }
 
             zos.closeEntry();
+        } finally {
             zos.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
 
         return os;
@@ -212,6 +209,18 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
                     visitDirectory(newNode, files);
                 }
             }
+        }
+    }
+
+    private String validateFilename(String filename, String intendedDir) throws IOException{
+        File f = new File(filename);
+        String canonicalPath = f.getCanonicalPath();
+        File iD = new File(intendedDir);
+        String canonicalID = iD.getCanonicalPath();
+        if (canonicalPath.startsWith(canonicalID)) {
+            return canonicalPath;
+        } else {
+            throw new IllegalStateException("File is outside extraction target directory.");
         }
     }
 

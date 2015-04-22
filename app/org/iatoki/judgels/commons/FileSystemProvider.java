@@ -2,32 +2,33 @@ package org.iatoki.judgels.commons;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public interface FileSystemProvider {
-    void createDirectory(List<String> directoryPath);
+    void createDirectory(List<String> directoryPath) throws IOException;
 
-    void createFile(List<String> filePath);
+    void createFile(List<String> filePath) throws IOException;
 
-    void removeFile(List<String> filePath);
+    void removeFile(List<String> filePath) throws IOException;
 
     boolean directoryExists(List<String> directoryPath);
 
     boolean fileExists(List<String> filePath);
 
-    void makeFilePublic(List<String> filePath);
+    boolean makeFilePublic(List<String> filePath);
 
-    void makeFilePrivate(List<String> filePath);
+    boolean makeFilePrivate(List<String> filePath);
 
-    void writeToFile(List<String> filePath, String content);
+    void writeToFile(List<String> filePath, String content) throws IOException;
 
-    String readFromFile(List<String> filePath);
+    String readFromFile(List<String> filePath) throws IOException;
 
-    void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename);
+    void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename) throws IOException;
 
-    void uploadZippedFiles(List<String> destinationDirectoryPath, File zippedFiles);
+    void uploadZippedFiles(List<String> destinationDirectoryPath, File zippedFiles, boolean includeDirectory) throws IOException;
 
-    ByteArrayOutputStream getZippedFilesInDirectory(List<String> directoryPath);
+    ByteArrayOutputStream getZippedFilesInDirectory(List<String> directoryPath) throws IOException;
 
     List<FileInfo> listFilesInDirectory(List<String> directoryPath);
 
