@@ -1,5 +1,6 @@
 package org.iatoki.judgels.commons;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -27,7 +28,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.Collections;
@@ -66,18 +66,30 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
-    public void createDirectory(List<String> directoryPath) {
-        s3.putObject(new PutObjectRequest(bucket, StringUtils.join(directoryPath, File.separator) + File.separator, new ByteArrayInputStream(new byte[0]), null));
+    public void createDirectory(List<String> directoryPath) throws IOException {
+        try {
+            s3.putObject(new PutObjectRequest(bucket, StringUtils.join(directoryPath, File.separator) + File.separator, new ByteArrayInputStream(new byte[0]), null));
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
-    public void createFile(List<String> filePath) {
-        s3.putObject(new PutObjectRequest(bucket, StringUtils.join(filePath, File.separator), new ByteArrayInputStream(new byte[0]), null));
+    public void createFile(List<String> filePath) throws IOException {
+        try {
+            s3.putObject(new PutObjectRequest(bucket, StringUtils.join(filePath, File.separator), new ByteArrayInputStream(new byte[0]), null));
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
-    public void removeFile(List<String> filePath) {
-        s3.deleteObject(new DeleteObjectRequest(bucket, StringUtils.join(filePath, File.separator)));
+    public void removeFile(List<String> filePath) throws IOException {
+        try {
+            s3.deleteObject(new DeleteObjectRequest(bucket, StringUtils.join(filePath, File.separator)));
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
@@ -101,92 +113,117 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
     }
 
     @Override
-    public void makeFilePublic(List<String> filePath) {
-        s3.setObjectAcl(new SetObjectAclRequest(bucket, StringUtils.join(filePath, File.separator), CannedAccessControlList.PublicRead));
+    public boolean makeFilePublic(List<String> filePath) {
+        try {
+            s3.setObjectAcl(new SetObjectAclRequest(bucket, StringUtils.join(filePath, File.separator), CannedAccessControlList.PublicRead));
+            return true;
+        } catch (AmazonClientException e) {
+            return false;
+        }
     }
 
     @Override
-    public void makeFilePrivate(List<String> filePath) {
-        s3.setObjectAcl(new SetObjectAclRequest(bucket, StringUtils.join(filePath, File.separator), CannedAccessControlList.AuthenticatedRead));
+    public boolean makeFilePrivate(List<String> filePath) {
+        try {
+            s3.setObjectAcl(new SetObjectAclRequest(bucket, StringUtils.join(filePath, File.separator), CannedAccessControlList.AuthenticatedRead));
+            return true;
+        } catch (AmazonClientException e) {
+            return false;
+        }
     }
 
     @Override
-    public void writeToFile(List<String> filePath, String content) {
+    public void writeToFile(List<String> filePath, String content) throws IOException {
         String cannonicalFilename = StringUtils.join(filePath, File.separator);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(URLConnection.guessContentTypeFromName(cannonicalFilename));
-        s3.putObject(new PutObjectRequest(bucket, cannonicalFilename, new ByteArrayInputStream(content.getBytes()), objectMetadata));
+
+        try {
+            s3.putObject(new PutObjectRequest(bucket, cannonicalFilename, new ByteArrayInputStream(content.getBytes()), objectMetadata));
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
-    public String readFromFile(List<String> filePath) {
+    public String readFromFile(List<String> filePath) throws IOException {
         try {
             return IOUtils.toString(s3.getObject(new GetObjectRequest(bucket, StringUtils.join(filePath, File.separator))).getObjectContent());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
         }
     }
 
     @Override
-    public void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename) {
-        try {
-            StringBuilder canonicalFileNameBuilder = new StringBuilder();
-            if (!destinationDirectoryPath.isEmpty()) {
-                canonicalFileNameBuilder.append(StringUtils.join(destinationDirectoryPath, File.separator));
-                canonicalFileNameBuilder.append(File.separator);
-            }
-            canonicalFileNameBuilder.append(destinationFilename);
+    public void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename) throws IOException {
+        StringBuilder canonicalFileNameBuilder = new StringBuilder();
+        if (!destinationDirectoryPath.isEmpty()) {
+            canonicalFileNameBuilder.append(StringUtils.join(destinationDirectoryPath, File.separator));
+            canonicalFileNameBuilder.append(File.separator);
+        }
+        canonicalFileNameBuilder.append(destinationFilename);
 
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            String contentType = URLConnection.guessContentTypeFromName(destinationFilename);
-            objectMetadata.setContentType(contentType);
-            if (contentType.startsWith("image/")) {
-                objectMetadata.setCacheControl("no-transform,public,max-age=300,s-maxage=900");
-            }
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        String contentType = URLConnection.guessContentTypeFromName(destinationFilename);
+        objectMetadata.setContentType(contentType);
+        if (contentType.startsWith("image/")) {
+            objectMetadata.setCacheControl("no-transform,public,max-age=300,s-maxage=900");
+        }
+
+        try {
             s3.putObject(new PutObjectRequest(bucket, canonicalFileNameBuilder.toString(), new FileInputStream(file), objectMetadata));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
         }
     }
 
     @Override
-    public void uploadZippedFiles(List<String> destinationDirectoryPath, File zippedFiles) {
+    public void uploadZippedFiles(List<String> destinationDirectoryPath, File zippedFiles, boolean includeDirectory) throws IOException {
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(zippedFiles));
+        ZipEntry ze = zis.getNextEntry();
         try {
-            ZipInputStream zis = new ZipInputStream(new FileInputStream(zippedFiles));
-            ZipEntry ze = zis.getNextEntry();
             while (ze != null) {
-                String filename = ze.getName();
+                String filename = validateFilename(ze.getName(), ".");
 
-                if (ze.isDirectory()) {
+                if ((includeDirectory) && (ze.isDirectory())) {
                     s3.putObject(new PutObjectRequest(bucket, StringUtils.join(destinationDirectoryPath, File.separator) + File.separator + filename + File.separator, new ByteArrayInputStream(new byte[0]), null));
                 } else {
-                    ObjectMetadata objectMetadata = new ObjectMetadata();
-                    objectMetadata.setContentType(URLConnection.guessContentTypeFromStream(zis));
-                    s3.putObject(new PutObjectRequest(bucket, StringUtils.join(destinationDirectoryPath, File.separator) + File.separator + filename, zis, objectMetadata));
+                    if ((includeDirectory) || (!filename.contains(File.separator))) {
+                        ObjectMetadata objectMetadata = new ObjectMetadata();
+                        String contentType = URLConnection.guessContentTypeFromStream(zis);
+                        objectMetadata.setContentType(contentType);
+                        if (contentType.startsWith("image/")) {
+                            objectMetadata.setCacheControl("no-transform,public,max-age=300,s-maxage=900");
+                        }
+                        s3.putObject(new PutObjectRequest(bucket, StringUtils.join(destinationDirectoryPath, File.separator) + File.separator + filename, zis, objectMetadata));
+                    }
                 }
-
+                zis.closeEntry();
                 ze = zis.getNextEntry();
             }
-
-            zis.closeEntry();
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
+        } finally {
             zis.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public ByteArrayOutputStream getZippedFilesInDirectory(List<String> directoryPath) {
+    public ByteArrayOutputStream getZippedFilesInDirectory(List<String> directoryPath) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ObjectListing objectListing;
-        if (directoryPath.isEmpty()) {
-            objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(""));
-        } else {
-            objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(StringUtils.join(directoryPath, File.separator) + File.separator));
+        try {
+            if (directoryPath.isEmpty()) {
+                objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(""));
+            } else {
+                objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(StringUtils.join(directoryPath, File.separator) + File.separator));
+            }
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
         }
 
+        ZipOutputStream zos = new ZipOutputStream(os);
         try {
-            ZipOutputStream zos = new ZipOutputStream(os);
             for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
                 int beginIndex = StringUtils.join(directoryPath, File.separator).length();
                 if (!directoryPath.isEmpty()) {
@@ -200,9 +237,10 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
             }
 
             zos.closeEntry();
+        } catch (AmazonClientException e) {
+            throw new IOException(e);
+        } finally {
             zos.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
 
         return os;
@@ -276,5 +314,17 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
 
     public long getDefaultExpireTime() {
         return System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS);
+    }
+
+    private String validateFilename(String filename, String intendedDir) throws IOException{
+        File f = new File(filename);
+        String canonicalPath = f.getCanonicalPath();
+        File iD = new File(intendedDir);
+        String canonicalID = iD.getCanonicalPath();
+        if (canonicalPath.startsWith(canonicalID)) {
+            return canonicalPath;
+        } else {
+            throw new IllegalStateException("File is outside extraction target directory.");
+        }
     }
 }
