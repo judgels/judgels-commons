@@ -1,5 +1,6 @@
 package org.iatoki.judgels.commons.models.domains;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -11,5 +12,6 @@ public abstract class AbstractJudgelsModel extends AbstractModel {
     @GeneratedValue
     public long id;
 
+    @Column(unique = true)
     public String jid;
 }
