@@ -4,7 +4,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
-public final class ApplicationController extends Controller {
+public final class ApplicationController extends BaseController {
 
     public static Result changeLanguage(String newLang) {
         Http.Context.current().changeLang(newLang);

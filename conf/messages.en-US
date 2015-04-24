@@ -37,3 +37,8 @@ commons.makeDefault=Make Default
 
 commons.poweredBy=Powered by
 commons.judgels=Judgels
+
+commons.pageNotFound=Page Not Found
+commons.pageNotFound.message=Sorry, the page you are looking for doesn''t exist in the system.
+commons.entityNotFound=Entity Not Found
+commons.entityNotFound.message=that you are looking for doesn''t exist in the system.
