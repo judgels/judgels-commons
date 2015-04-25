@@ -103,13 +103,12 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
         ZipEntry ze = zis.getNextEntry();
         try {
             while (ze != null) {
-                String filename = validateFilename(ze.getName(), ".");
+                String filename = ze.getName();
                 File file = new File(destinationDirectory, filename);
                 if ((includeDirectory) && (ze.isDirectory())) {
                     file.mkdirs();
-                }
-                else {
-                    if ((includeDirectory) || (destinationDirectory.getAbsolutePath().equals(file.getParentFile().getAbsolutePath()))) {
+                } else {
+                    if (((includeDirectory) && (file.getCanonicalPath().startsWith(destinationDirectory.getCanonicalPath()))) || (destinationDirectory.getAbsolutePath().equals(file.getParentFile().getAbsolutePath()))) {
                         FileOutputStream fos = new FileOutputStream(file);
                         try {
                             int len;
@@ -209,18 +208,6 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
                     visitDirectory(newNode, files);
                 }
             }
-        }
-    }
-
-    private String validateFilename(String filename, String intendedDir) throws IOException{
-        File f = new File(filename);
-        String canonicalPath = f.getCanonicalPath();
-        File iD = new File(intendedDir);
-        String canonicalID = iD.getCanonicalPath();
-        if (canonicalPath.startsWith(canonicalID)) {
-            return canonicalPath;
-        } else {
-            throw new IllegalStateException("File is outside extraction target directory.");
         }
     }
 

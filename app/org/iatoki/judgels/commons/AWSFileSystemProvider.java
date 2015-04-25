@@ -21,6 +21,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.services.s3.model.SetObjectAclRequest;
 import com.google.common.collect.Lists;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -183,12 +184,14 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
         ZipEntry ze = zis.getNextEntry();
         try {
             while (ze != null) {
-                String filename = validateFilename(ze.getName(), ".");
+                String filename = ze.getName();
+                File destinationDirectory = FileUtils.getFile(destinationDirectoryPath.toArray(new String[destinationDirectoryPath.size()]));
+                File file = new File(destinationDirectory, filename);
 
                 if ((includeDirectory) && (ze.isDirectory())) {
                     s3.putObject(new PutObjectRequest(bucket, StringUtils.join(destinationDirectoryPath, File.separator) + File.separator + filename + File.separator, new ByteArrayInputStream(new byte[0]), null));
                 } else {
-                    if ((includeDirectory) || (!filename.contains(File.separator))) {
+                    if (((includeDirectory) && (file.getCanonicalPath().startsWith(destinationDirectory.getCanonicalPath()))) || (!filename.contains(File.separator))) {
                         ObjectMetadata objectMetadata = new ObjectMetadata();
                         String contentType = URLConnection.guessContentTypeFromStream(zis);
                         objectMetadata.setContentType(contentType);
@@ -314,17 +317,5 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
 
     public long getDefaultExpireTime() {
         return System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS);
-    }
-
-    private String validateFilename(String filename, String intendedDir) throws IOException{
-        File f = new File(filename);
-        String canonicalPath = f.getCanonicalPath();
-        File iD = new File(intendedDir);
-        String canonicalID = iD.getCanonicalPath();
-        if (canonicalPath.startsWith(canonicalID)) {
-            return canonicalPath;
-        } else {
-            throw new IllegalStateException("File is outside extraction target directory.");
-        }
     }
 }
