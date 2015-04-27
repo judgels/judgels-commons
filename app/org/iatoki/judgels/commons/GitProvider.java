@@ -13,11 +13,11 @@ public interface GitProvider {
 
     void commit(List<String> rootDirPath, String committerName, String committerEmail, String title, String description);
 
-    boolean merge(List<String> rootDirPath);
+    boolean rebase(List<String> rootDirPath);
 
     boolean push(List<String> rootDirPath);
 
-    void resetSoftToParent(List<String> rootDirPath);
+    void resetToParent(List<String> rootDirPath);
 
     void resetHard(List<String> rootDirPath);
 
