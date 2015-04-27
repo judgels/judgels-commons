@@ -2,8 +2,8 @@ package org.iatoki.judgels.commons;
 
 import com.google.common.collect.ImmutableList;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.RebaseCommand;
+import org.eclipse.jgit.api.RebaseResult;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.RevertCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -101,18 +101,18 @@ public final class LocalGitProvider implements GitProvider {
     }
 
     @Override
-    public boolean merge(List<String> rootDirPath) {
+    public boolean rebase(List<String> rootDirPath) {
         File root = new File(fileSystemProvider.getURL(rootDirPath));
 
         try {
             Repository repo = FileRepositoryBuilder.create(new File(root, ".git"));
-            MergeResult result = new Git(repo).merge().include(repo.getRef("origin/master")).setCommit(false).call();
-            if (result.getMergeStatus() == MergeResult.MergeStatus.CONFLICTING) {
-                resetHard(rootDirPath);
+            RebaseResult result = new Git(repo).rebase().setUpstream("origin/master").call();
+
+            if (result.getStatus() == RebaseResult.Status.STOPPED) {
+                new Git(repo).rebase().setOperation(RebaseCommand.Operation.ABORT).call();
                 repo.close();
                 return false;
             }
-            new Git(repo).merge().include(repo.getRef("origin/master")).call();
             return true;
 
         } catch (IOException | GitAPIException e) {
@@ -138,12 +138,12 @@ public final class LocalGitProvider implements GitProvider {
     }
 
     @Override
-    public void resetSoftToParent(List<String> rootDirPath) {
+    public void resetToParent(List<String> rootDirPath) {
         File root = new File(fileSystemProvider.getURL(rootDirPath));
 
         try {
             Repository repo = FileRepositoryBuilder.create(new File(root, ".git"));
-            new Git(repo).reset().setMode(ResetCommand.ResetType.SOFT).setRef(repo.resolve("HEAD^").getName()).call();
+            new Git(repo).reset().setRef(repo.resolve("HEAD^").getName()).call();
             repo.close();
         } catch (IOException | GitAPIException e) {
             throw new RuntimeException(e);
@@ -201,8 +201,6 @@ public final class LocalGitProvider implements GitProvider {
                 command.include(rev);
             }
             command.call();
-
-            System.out.println("SDFDS " + head.getName());
 
             new Git(repo).rebase().setUpstream(head).runInteractively(new RebaseCommand.InteractiveHandler() {
                 @Override
