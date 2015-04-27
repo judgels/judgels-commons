@@ -21,15 +21,25 @@ public final class EntityNotFoundGuardAction extends Action<EntityNotFoundGuard>
         try {
             return this.delegate.call(context);
         } catch (EntityNotFoundException e) {
-            return F.Promise.promise(() -> {
-                      LazyHtml content = new LazyHtml(messageView.render(EntityNotFoundException.class.cast(e).getEntityName() + " " + Messages.get("commons.entityNotFound.message")));
-                      content.appendLayout(c -> headingLayout.render(Messages.get("commons.entityNotFound"), c));
-                      content.appendLayout(c -> centerLayout.render(c));
-                      content.appendLayout(c -> headerFooterLayout.render(c));
-                      content.appendLayout(c -> baseLayout.render("commons.entityNotFound", c));
-                      return Results.notFound(content.render(0));
-                  }
-            );
+            return showEntityNotFound(e);
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof EntityNotFoundException) {
+                return showEntityNotFound(e.getCause());
+            } else {
+                throw e;
+            }
         }
     }
-}
+
+    private F.Promise<Result> showEntityNotFound(Throwable e) {
+        return F.Promise.promise(() -> {
+                  LazyHtml content = new LazyHtml(messageView.render(EntityNotFoundException.class.cast(e).getEntityName() + " " + Messages.get("commons.entityNotFound.message")));
+                  content.appendLayout(c -> headingLayout.render(Messages.get("commons.entityNotFound"), c));
+                  content.appendLayout(c -> centerLayout.render(c));
+                  content.appendLayout(c -> headerFooterLayout.render(c));
+                  content.appendLayout(c -> baseLayout.render("commons.entityNotFound", c));
+                  return Results.notFound(content.render(0));
+              }
+        );
+    }
+ }
