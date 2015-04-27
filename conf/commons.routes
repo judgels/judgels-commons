@@ -1,2 +1,3 @@
 # Home page
 GET        /language/:lang          org.iatoki.judgels.commons.controllers.ApplicationController.changeLanguage(lang: String)
+GET        /checkHealth             org.iatoki.judgels.commons.controllers.ApplicationController.checkHealth()

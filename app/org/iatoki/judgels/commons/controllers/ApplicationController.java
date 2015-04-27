@@ -1,6 +1,5 @@
 package org.iatoki.judgels.commons.controllers;
 
-import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
@@ -12,4 +11,7 @@ public final class ApplicationController extends BaseController {
         return redirect(request().getHeader("Referer"));
     }
 
+    public static Result checkHealth() {
+        return ok("");
+    }
 }
