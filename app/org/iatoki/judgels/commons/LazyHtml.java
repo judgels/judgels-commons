@@ -19,6 +19,10 @@ public final class LazyHtml {
         transformations.add(transformation);
     }
 
+    public Html render() {
+        return render(0);
+    }
+
     public Html render(int level) {
         Html content = baseContent;
 

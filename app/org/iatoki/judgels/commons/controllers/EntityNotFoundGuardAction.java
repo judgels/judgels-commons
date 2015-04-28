@@ -38,7 +38,7 @@ public final class EntityNotFoundGuardAction extends Action<EntityNotFoundGuard>
                   content.appendLayout(c -> centerLayout.render(c));
                   content.appendLayout(c -> headerFooterLayout.render(c));
                   content.appendLayout(c -> baseLayout.render("commons.entityNotFound", c));
-                  return Results.notFound(content.render(0));
+                  return Results.notFound(content.render());
               }
         );
     }

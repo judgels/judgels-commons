@@ -30,7 +30,7 @@ public abstract class Global extends GlobalSettings {
                   content.appendLayout(c -> centerLayout.render(c));
                   content.appendLayout(c -> headerFooterLayout.render(c));
                   content.appendLayout(c -> baseLayout.render("commons.pageNotFound", c));
-                  return Results.notFound(content.render(0));
+                  return Results.notFound(content.render());
               }
         );
     }

@@ -1,4 +1,4 @@
-@(username: String, realName: String, editLink: String, logoutLink: String, menus: List[org.iatoki.judgels.commons.InternalLink])(content: Html)
+@(sidebarContent: Html)(content: Html)
 
 @import play.mvc.Http.Context
 
@@ -7,7 +7,7 @@
         @if(Context.current().args.getOrDefault("sidebar.isBefore", java.lang.Boolean.valueOf(true)) == true) {
             <div class="col-md-3">
                 <div class="sidebar">
-                    @sidebarView(username, realName, editLink, logoutLink, menus)
+                    @sidebarContent
                 </div>
             </div>
             <div class="col-md-9">
@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-3">
                 <div class="row sidebar r">
-                @sidebarView(username, realName, editLink, logoutLink, menus)
+                    @sidebarContent
                 </div>
             </div>
         }

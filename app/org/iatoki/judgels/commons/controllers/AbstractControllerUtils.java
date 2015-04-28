@@ -31,11 +31,11 @@ public abstract class AbstractControllerUtils {
     public Result getResult(LazyHtml content, int statusCode) {
         switch (statusCode) {
             case Http.Status.OK:
-                return Results.ok(content.render(0));
+                return Results.ok(content.render());
             case Http.Status.NOT_FOUND:
-                return Results.notFound(content.render(0));
+                return Results.notFound(content.render());
             default:
-                return Results.badRequest(content.render(0));
+                return Results.badRequest(content.render());
         }
     }
 }
