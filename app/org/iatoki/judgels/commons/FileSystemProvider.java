@@ -32,5 +32,7 @@ public interface FileSystemProvider {
 
     List<FileInfo> listFilesInDirectory(List<String> directoryPath);
 
+    List<FileInfo> listDirectoriesInDirectory(List<String> directoryPath);
+
     String getURL(List<String> filePath);
 }

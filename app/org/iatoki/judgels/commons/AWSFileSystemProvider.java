@@ -21,6 +21,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.services.s3.model.SetObjectAclRequest;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +36,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -264,8 +266,41 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
             if (!directoryPath.isEmpty()) {
                 beginIndex += 1;
             }
-            if (!objectSummary.getKey().substring(beginIndex).contains(File.separator)) {
-                fileInfos.add(new FileInfo(objectSummary.getKey().substring(beginIndex), objectSummary.getSize(), objectSummary.getLastModified()));
+            String key = objectSummary.getKey().substring(beginIndex);
+            if (!key.contains(File.separator)) {
+                fileInfos.add(new FileInfo(key, objectSummary.getSize(), objectSummary.getLastModified()));
+            }
+        }
+
+        Comparator<String> comparator = new NaturalFilenameComparator();
+        Collections.sort(fileInfos, (FileInfo a, FileInfo b) -> comparator.compare(a.getName(), b.getName()));
+
+        return fileInfos;
+    }
+
+    @Override
+    public List<FileInfo> listDirectoriesInDirectory(List<String> directoryPath) {
+        ObjectListing objectListing;
+        if (directoryPath.isEmpty()) {
+            objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(""));
+        } else {
+            objectListing = s3.listObjects(new ListObjectsRequest().withBucketName(bucket).withPrefix(StringUtils.join(directoryPath, File.separator) + File.separator));
+        }
+
+        Set<String> seenDirectoryNames = Sets.newHashSet();
+        List<FileInfo> fileInfos = Lists.newArrayList();
+        for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+            int beginIndex = StringUtils.join(directoryPath, File.separator).length();
+            if (!directoryPath.isEmpty()) {
+                beginIndex += 1;
+            }
+            String key = objectSummary.getKey().substring(beginIndex);
+            if (StringUtils.countMatches(key, "/") == 1 && !key.endsWith("/")) {
+                key = key.substring(0, key.indexOf("/"));
+                if (!seenDirectoryNames.contains(key)) {
+                    seenDirectoryNames.add(key);
+                    fileInfos.add(new FileInfo(key, objectSummary.getSize(), objectSummary.getLastModified()));
+                }
             }
         }
 
