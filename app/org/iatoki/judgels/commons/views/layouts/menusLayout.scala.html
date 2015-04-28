@@ -2,10 +2,4 @@
 
 @content
 
-<div class="row menu">
-    <ul class="nav nav-stacked">
-    @for(menu <- menus) {
-        <li role="presentation"><a href="@menu.getTarget">@menu.getLabel</a><div class="menu-arrow">&gt;</div></li>
-    }
-    </ul>
-</div>
+@menusView(menus)
