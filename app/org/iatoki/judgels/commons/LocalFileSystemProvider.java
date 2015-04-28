@@ -179,12 +179,33 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
             return ImmutableList.of();
         }
 
-        ArrayList<FileInfo> fileInfos = Lists.newArrayList(Lists.transform(Arrays.asList(files), file -> new FileInfo(file.getName(), file.length(), new Date(file.lastModified()))));
+        List<File> filteredFiles = Arrays.asList(files).stream().filter(f -> f.isFile()).collect(Collectors.toList());
+
+        ArrayList<FileInfo> fileInfos = Lists.newArrayList(Lists.transform(filteredFiles, file -> new FileInfo(file.getName(), file.length(), new Date(file.lastModified()))));
 
         Comparator<String> comparator = new NaturalFilenameComparator();
         Collections.sort(fileInfos, (FileInfo a, FileInfo b) -> comparator.compare(a.getName(), b.getName()));
 
         return fileInfos.stream().filter(f -> !IGNORABLE_FILES.contains(f.getName())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FileInfo> listDirectoriesInDirectory(List<String> directoryPath) {
+        File directory = FileUtils.getFile(baseDir, toArray(directoryPath));
+        File[] files = directory.listFiles();
+
+        if (files == null) {
+            return ImmutableList.of();
+        }
+
+        List<File> filteredFiles = Arrays.asList(files).stream().filter(f -> f.isDirectory()).collect(Collectors.toList());
+
+        ArrayList<FileInfo> fileInfos = Lists.newArrayList(Lists.transform(filteredFiles, file -> new FileInfo(file.getName(), file.length(), new Date(file.lastModified()))));
+
+        Comparator<String> comparator = new NaturalFilenameComparator();
+        Collections.sort(fileInfos, (FileInfo a, FileInfo b) -> comparator.compare(a.getName(), b.getName()));
+
+        return ImmutableList.copyOf(fileInfos);
     }
 
     @Override
