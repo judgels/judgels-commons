@@ -1,10 +1,12 @@
 @(pageTitle: String)(content: Html)
 
+@import org.iatoki.judgels.commons.JudgelsProperties
+
 <!DOCTYPE html>
 
 <html>
     <head>
-        <title>@play.Play.application().configuration.getString("application.title") @if(!"".equals(pageTitle)) { - @pageTitle }</title>
+        <title>@JudgelsProperties.getInstance.getAppTitle @if(!"".equals(pageTitle)) { - @pageTitle }</title>
         <link rel="shortcut icon" type="image/ico" href='@controllers.routes.Assets.versioned("images/favicon.ico")'>
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
         <script type="text/javascript" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
