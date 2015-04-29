@@ -1,6 +1,6 @@
 package org.iatoki.judgels.commons;
 
-import play.Configuration;
+import com.typesafe.config.Config;
 
 public final class JudgelsProperties {
     private static JudgelsProperties INSTANCE;
@@ -8,18 +8,16 @@ public final class JudgelsProperties {
     private final String appName;
     private final String appVersion;
 
-    private final Configuration conf;
-    private final String confLocation;
+    private final Config config;
 
     private String appTitle;
     private String appCopyright;
     private String githubLink;
 
-    private JudgelsProperties(String appName, String appVersion, Configuration conf, String confLocation) {
+    private JudgelsProperties(String appName, String appVersion, Config config) {
         this.appName = appName;
         this.appVersion = appVersion;
-        this.conf = conf;
-        this.confLocation = confLocation;
+        this.config = config;
     }
 
     public String getAppName() {
@@ -42,11 +40,11 @@ public final class JudgelsProperties {
         return githubLink;
     }
 
-    public synchronized static void buildInstance(String appName, String appVersion, Configuration conf, String confLocation) {
+    public synchronized static void buildInstance(String appName, String appVersion, Config config) {
         if (INSTANCE != null) {
             throw new UnsupportedOperationException("JudgelsProperties instance has already been built");
         }
-        INSTANCE = new JudgelsProperties(appName, appVersion, conf, confLocation);
+        INSTANCE = new JudgelsProperties(appName, appVersion, config);
         INSTANCE.build();
     }
 
@@ -64,14 +62,13 @@ public final class JudgelsProperties {
     }
 
     private String getStringValue(String key) {
-        return conf.getString(key);
+        return config.getString(key);
     }
 
     private String requireStringValue(String key) {
-        String value = getStringValue(key);
-        if (value == null) {
-            throw new RuntimeException("Missing " + key + " property in " + confLocation);
+        if (!config.hasPath(key)) {
+            return null;
         }
-        return value;
+        return config.getString(key);
     }
 }
