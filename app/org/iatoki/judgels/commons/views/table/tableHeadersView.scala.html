@@ -1,6 +1,7 @@
 @(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)(headers: scala.Tuple2[String, String]*)
 
 @import org.iatoki.judgels.commons.views.html.table.pageLinkBuilder;
+@import play.i18n.Messages
 
 <thead>
     <tr>
@@ -18,6 +19,6 @@
                 </a>
             </th>
         }
-        <th></th>
+        <th>@Messages.get("commons.actions")</th>
     </tr>
 </thead>
