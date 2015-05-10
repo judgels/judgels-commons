@@ -5,15 +5,17 @@
 @import java.util.Date
 
 <div class="primary-content-breadcrumb clearfix">
-    <div class="pull-right server-time">
-        @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(new Date()))</span> @(new SimpleDateFormat("Z").format(new Date()))
-    </div>
-    <ol class="breadcrumb">
+    <ol class="breadcrumb col-md-7">
         <li><a href="/" class="glyphicon glyphicon-home" aria-hidden="true"></a></li>
         @for(link <- breadcrumbs) {
             <li><a href="@link.getTarget" class="breadcrumb-link">@link.getLabel</a></li>
         }
     </ol>
+    <div class="server-time col-md-5 clearfix">
+        <div class="pull-right">
+            @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(new Date()))</span> @(new SimpleDateFormat("Z").format(new Date()))
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -21,4 +23,3 @@
 </script>
 
 <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/server-clock.js")"></script>
-<script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/active.js")"></script>

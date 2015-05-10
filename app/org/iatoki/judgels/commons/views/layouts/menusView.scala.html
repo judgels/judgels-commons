@@ -1,6 +1,6 @@
 @(menus: List[org.iatoki.judgels.commons.InternalLink])
 
-<div class="row menu">
+<div class="menu clearfix">
     <ul class="nav nav-stacked">
     @for(menu <- menus) {
         <li role="presentation"><a href="@menu.getTarget">@menu.getLabel</a><div class="menu-arrow">&gt;</div></li>

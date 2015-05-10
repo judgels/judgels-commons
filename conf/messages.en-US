@@ -46,3 +46,4 @@ commons.unsupportedOperation=Unsupported Operation
 commons.unsupportedOperation.message=Your action is not yet supported.
 
 commons.actions=Actions
+commons.menu=Menu

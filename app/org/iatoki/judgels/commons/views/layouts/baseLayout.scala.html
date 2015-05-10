@@ -11,12 +11,13 @@
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
         <script type="text/javascript" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
         <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/settings.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/language.js")"></script>
         <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/form.js")"></script>
     </head>
     <body>
         <div class="container-fluid">
             @content
         </div>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/language.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/active.js")"></script>
     </body>
 </html>
