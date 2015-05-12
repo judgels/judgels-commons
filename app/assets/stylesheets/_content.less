@@ -84,7 +84,7 @@ h4 {
   height: 64px;
   width: 64px;
   border: 1px solid lighten(@accent-color, 10%);
-  .RoundBorders(50%);
+  .RoundBorders();
 }
 .avatar-username {
   font-family: @accent-font;
@@ -110,11 +110,17 @@ h4 {
   border: 1px solid @accent-color;
   .RoundBorders();
 }
+.box.no-margin {
+  margin: 0px;
+}
 .primary-content {
   background-color: @content-color;
   min-height: 624px;
   border: 1px solid @accent-color;
   .RoundBorders();
+}
+.primary-content:not(:only-child) {
+  margin-top: 15px;
 }
 .primary-content-breadcrumb {
   margin: 15px 15px 0 15px;
@@ -138,6 +144,13 @@ ol.breadcrumb {
 
 .menu:not(:only-child) {
   margin-top: 15px;
+}
+
+.sidebar-wrapper {
+  -webkit-transition: width 0.3s ease;
+  -moz-transition:  width 0.3s ease;
+  -o-transition:  width 0.3s ease;
+  transition:  width 0.3s ease;
 }
 
 .sidebar.r > .menu {

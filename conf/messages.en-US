@@ -47,3 +47,9 @@ commons.unsupportedOperation.message=Your action is not yet supported.
 
 commons.actions=Actions
 commons.menu=Menu
+
+commons.sidebar.show=Show Sidebar
+commons.sidebar.hide=Hide Sidebar
+commons.fullscreen.enter=Enter Fullscreen
+commons.fullscreen.exit=Exit Fullscreen
+commons.viewMenu=Views Menu

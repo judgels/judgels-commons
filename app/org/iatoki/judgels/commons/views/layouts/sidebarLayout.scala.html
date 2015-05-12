@@ -1,33 +1,82 @@
 @(sidebarContent: Html)(content: Html)
 
 @import play.mvc.Http.Context
+@import play.i18n.Messages
+@import org.iatoki.judgels.commons.JudgelsUtils
 
 <div class="row content">
-    @if(Context.current().args.getOrDefault("sidebar.isBefore", java.lang.Boolean.valueOf(true)) == true) {
-        <div class="col-md-3">
-            <div class="sidebar clearfix">
-                @sidebarContent
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="primary-content clearfix">
-                <div class="col-md-12">
-                @content
+    @if(Context.current().args.getOrDefault("sidebar.isBefore", java.lang.Boolean.valueOf("true")) == true) {
+        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+            <div class="col-md-3">
+                <div class="sidebar clearfix">
+                    @sidebarContent
                 </div>
             </div>
-        </div>
+        }
+        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+            <div class="col-md-9">
+        } else {
+            <div class="col-md-12">
+        }
+                <div class="box no-margin clearfix">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <h5>@Messages.get("commons.viewMenu")</h5>
+                        </div>
+                        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+                            <a href="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.hideSidebar()" class="btn btn-default" data-toggle="tooltip" title="@Messages.get("commons.sidebar.hide")"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                        }
+                        @if(!JudgelsUtils.isSidebarShown(Context.current().request())) {
+                            <a href="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.showSidebar()" class="btn btn-default" data-toggle="tooltip" title="@Messages.get("commons.sidebar.show")"><span class="glyphicon glyphicon-arrow-right"></span></a>
+                        }
+                        @if(!JudgelsUtils.isFullscreen(Context.current().request())) {
+                            <a href="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.enterFullscreen()" class="btn btn-default" data-toggle="tooltip" title="@Messages.get("commons.fullscreen.enter")"><span class="glyphicon glyphicon-fullscreen"></span></a>
+                        }
+                        @if(JudgelsUtils.isFullscreen(Context.current().request())) {
+                            <a href="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.exitFullscreen()" class="btn btn-default" data-toggle="tooltip" title="@Messages.get("commons.fullscreen.exit")"><span class="glyphicon glyphicon-resize-small"></span></a>
+                        }
+                    </div>
+                </div>
+                <div class="primary-content clearfix">
+                    <div class="col-md-12">
+                        @content
+                    </div>
+                </div>
+            </div>
     } else {
-        <div class="col-md-9">
+        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+            <div class="col-md-9">
+        } else {
+            <div class="col-md-12">
+        }
             <div class="primary-content l clearfix">
+                <div class="box no-margin clearfix">
+                    <div class="col-md-12">
+                        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+                            <a href="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.hideSidebar()" class="btn btn-default" title="@Messages.get("commons.sidebar.hide")"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                        }
+                        @if(!JudgelsUtils.isSidebarShown(Context.current().request())) {
+                            <a href="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.showSidebar()" class="btn btn-default" title="@Messages.get("commons.sidebar.show")"><span class="glyphicon glyphicon-arrow-right"></span></a>
+                        }
+                        @if(!JudgelsUtils.isFullscreen(Context.current().request())) {
+                            <a href="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.enterFullscreen()" class="btn btn-default" title="@Messages.get("commons.fullscreen.enter")"><span class="glyphicon glyphicon-fullscreen"></span></a>
+                        }
+                        @if(JudgelsUtils.isFullscreen(Context.current().request())) {
+                            <a href="@org.iatoki.judgels.commons.controllers.routes.ApplicationController.exitFullscreen()" class="btn btn-default" title="@Messages.get("commons.fullscreen.exit")"><span class="glyphicon glyphicon-resize-small"></span></a>
+                        }
+                    </div>
+                </div>
                 <div class="col-md-12">
                 @content
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="sidebar r clearfix">
+        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+            <div class="col-md-3 sidebar-wrapper">
+                <div class="sidebar r clearfix">
                 @sidebarContent
+                </div>
             </div>
-        </div>
+        }
     }
 </div>

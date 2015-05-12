@@ -1,3 +1,7 @@
 # Home page
 GET        /language/:lang          org.iatoki.judgels.commons.controllers.ApplicationController.changeLanguage(lang: String)
+GET        /showSidebar             org.iatoki.judgels.commons.controllers.ApplicationController.showSidebar()
+GET        /hideSidebar             org.iatoki.judgels.commons.controllers.ApplicationController.hideSidebar()
+GET        /enterFullscreen         org.iatoki.judgels.commons.controllers.ApplicationController.enterFullscreen()
+GET        /exitFullscreen          org.iatoki.judgels.commons.controllers.ApplicationController.exitFullscreen()
 GET        /checkHealth             org.iatoki.judgels.commons.controllers.ApplicationController.checkHealth()

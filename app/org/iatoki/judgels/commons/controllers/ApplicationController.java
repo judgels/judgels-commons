@@ -11,6 +11,26 @@ public final class ApplicationController extends BaseController {
         return redirect(request().getHeader("Referer"));
     }
 
+    public static Result showSidebar() {
+        response().setCookie("sidebar", "true");
+        return redirect(request().getHeader("Referer"));
+    }
+
+    public static Result hideSidebar() {
+        response().setCookie("sidebar", "false");
+        return redirect(request().getHeader("Referer"));
+    }
+
+    public static Result enterFullscreen() {
+        response().setCookie("fullscreen", "true");
+        return redirect(request().getHeader("Referer"));
+    }
+
+    public static Result exitFullscreen() {
+        response().setCookie("fullscreen", "false");
+        return redirect(request().getHeader("Referer"));
+    }
+
     public static Result checkHealth() {
         return ok("");
     }

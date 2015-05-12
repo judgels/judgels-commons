@@ -5,13 +5,13 @@
 @import java.util.Date
 
 <div class="primary-content-breadcrumb clearfix">
-    <ol class="breadcrumb col-md-7">
+    <ol class="breadcrumb col-md-8">
         <li><a href="/" class="glyphicon glyphicon-home" aria-hidden="true"></a></li>
         @for(link <- breadcrumbs) {
             <li><a href="@link.getTarget" class="breadcrumb-link">@link.getLabel</a></li>
         }
     </ol>
-    <div class="server-time col-md-5 clearfix">
+    <div class="server-time col-md-4 clearfix">
         <div class="pull-right">
             @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(new Date()))</span> @(new SimpleDateFormat("Z").format(new Date()))
         </div>

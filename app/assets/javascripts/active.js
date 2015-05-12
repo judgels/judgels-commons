@@ -3,12 +3,11 @@ require(["jquery", "bootstrap"], function( __jquery__ ) {
         var href = $(this).attr("href");
         $("a[href='" + href +"']").each(function() {
             var parent = $(this).parent();
-            if (parent.siblings(".active").size() === 0) {
-                parent.addClass("active");
-                if (parent.is("li")) {
-                    parent.parentsUntil("body", "li").addClass("active");
-                }
+            parent.addClass("active");
+            if (parent.is("li")) {
+                parent.parentsUntil("body", "li").addClass("active");
             }
         });
     });
+    $('[data-toggle="tooltip"]').tooltip();
 });

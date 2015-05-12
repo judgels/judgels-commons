@@ -3,6 +3,7 @@ package org.iatoki.judgels.commons;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import play.mvc.Http;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -76,6 +77,14 @@ public final class JudgelsUtils {
             return displayName;
         }
         return displayName.substring(0, spacePos);
+    }
+
+    public static boolean isSidebarShown(Http.Request request) {
+        return ((request.cookie("sidebar") == null) || (request.cookie("sidebar").value().equals("true")));
+    }
+
+    public static boolean isFullscreen(Http.Request request) {
+        return ((request.cookie("fullscreen") != null) && (request.cookie("fullscreen").value().equals("true")));
     }
 
     private static String messageDigest(String s, String algorithm) {

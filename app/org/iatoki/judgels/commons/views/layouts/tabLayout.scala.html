@@ -17,7 +17,7 @@
                 <ul class="nav navbar-nav">
                     @for((tab, index) <- tabs.zipWithIndex) {
                         @if((tabs.size() > 5) && (index == 4)) {
-                            <li role="presentation" class="visible-lg visible-xs"><a href="@tab.getTarget">@tab.getLabel</a></li>
+                            <li role="presentation" class="visible-lg"><a href="@tab.getTarget">@tab.getLabel</a></li>
                         } else {
                             @if((tabs.size() > 6) && (index == 5)) {
                                 <li class="dropdown visible-lg">
@@ -41,7 +41,7 @@
                                     <li role="presentation"><a href="@tab.getTarget">@tab.getLabel</a></li>
                         } else {
                             @if(index > 4) {
-                                <li role="presentation"><a href="@tab.getTarget">@tab.getLabel</a></li>
+                                <li role="presentation" class="visible-md visible-sm"><a href="@tab.getTarget">@tab.getLabel</a></li>
                             }
                         }
                         @if((tabs.size() > 5) &&  (index == tabs.size()-1)) {
