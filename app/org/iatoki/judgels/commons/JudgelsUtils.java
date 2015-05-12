@@ -72,6 +72,9 @@ public final class JudgelsUtils {
 
     public static String getOnlyUsername(String displayName) {
         int spacePos = displayName.indexOf(' ');
+        if (spacePos == -1) {
+            return displayName;
+        }
         return displayName.substring(0, spacePos);
     }
 
