@@ -13,6 +13,8 @@ public final class JudgelsProperties {
     private String appTitle;
     private String appCopyright;
     private String githubLink;
+    private boolean usingGoogleAnalytics;
+    private String googleAnalyticsId;
 
     private JudgelsProperties(String appName, String appVersion, Config config) {
         this.appName = appName;
@@ -40,6 +42,14 @@ public final class JudgelsProperties {
         return githubLink;
     }
 
+    public boolean isUsingGoogleAnalytics() {
+        return usingGoogleAnalytics;
+    }
+
+    public String getGoogleAnalyticsId() {
+        return googleAnalyticsId;
+    }
+
     public synchronized static void buildInstance(String appName, String appVersion, Config config) {
         if (INSTANCE != null) {
             throw new UnsupportedOperationException("JudgelsProperties instance has already been built");
@@ -59,6 +69,8 @@ public final class JudgelsProperties {
         this.appTitle = requireStringValue("application.title");
         this.appCopyright = requireStringValue("application.copyright");
         this.githubLink = requireStringValue("link.github");
+        this.usingGoogleAnalytics = requireBooleanValue("googleAnalytics.use");
+        this.googleAnalyticsId = getStringValue("googleAnalytics.id");
     }
 
     private String getStringValue(String key) {
@@ -71,4 +83,16 @@ public final class JudgelsProperties {
         }
         return config.getString(key);
     }
+
+    private Boolean getBooleanValue(String key) {
+        if (!config.hasPath(key)) {
+            return null;
+        }
+        return config.getBoolean(key);
+    }
+
+    private boolean requireBooleanValue(String key) {
+        return config.getBoolean(key);
+    }
+
 }
