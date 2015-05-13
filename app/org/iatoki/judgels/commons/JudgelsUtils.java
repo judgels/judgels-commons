@@ -87,6 +87,22 @@ public final class JudgelsUtils {
         return ((request.cookie("fullscreen") != null) && (request.cookie("fullscreen").value().equals("true")));
     }
 
+    public static boolean hasViewPoint() {
+        return Http.Context.current().session().containsKey("viewpoint");
+    }
+
+    public static String getViewPoint() {
+        return getFromSession("viewpoint");
+    }
+
+    public static void setViewPointInSession(String userJid) {
+        putInSession("viewpoint", userJid);
+    }
+
+    public static void removeViewPoint() {
+        Http.Context.current().session().remove("viewpoint");
+    }
+
     private static String messageDigest(String s, String algorithm) {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
@@ -95,5 +111,13 @@ public final class JudgelsUtils {
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void putInSession(String key, String value) {
+        Http.Context.current().session().put(key, value);
+    }
+
+    private static String getFromSession(String key) {
+        return Http.Context.current().session().get(key);
     }
 }

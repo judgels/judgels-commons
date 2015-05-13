@@ -53,3 +53,8 @@ commons.sidebar.hide=Hide Sidebar
 commons.fullscreen.enter=Enter Fullscreen
 commons.fullscreen.exit=Exit Fullscreen
 commons.viewMenu=Views Menu
+
+commons.noViewpoint=No Viewpoint
+commons.viewAs=View As
+commons.resetViewAs=Reset View
+
