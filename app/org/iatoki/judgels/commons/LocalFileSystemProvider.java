@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,8 +90,13 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
 
     @Override
     public void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename) throws IOException {
+        uploadFileFromStream(destinationDirectoryPath, new FileInputStream(file), destinationFilename);
+    }
+
+    @Override
+    public void uploadFileFromStream(List<String> destinationDirectoryPath, InputStream inputStream, String destinationFilename) throws IOException {
         File destinationFile = FileUtils.getFile(FileUtils.getFile(baseDir, toArray(destinationDirectoryPath)), destinationFilename);
-        FileUtils.copyFile(file, destinationFile);
+        FileUtils.copyInputStreamToFile(inputStream, destinationFile);
     }
 
     @Override

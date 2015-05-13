@@ -30,6 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.Collections;
@@ -159,6 +160,11 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
 
     @Override
     public void uploadFile(List<String> destinationDirectoryPath, File file, String destinationFilename) throws IOException {
+        uploadFileFromStream(destinationDirectoryPath, new FileInputStream(file), destinationFilename);
+    }
+
+    @Override
+    public void uploadFileFromStream(List<String> destinationDirectoryPath, InputStream inputStream, String destinationFilename) throws IOException {
         StringBuilder canonicalFileNameBuilder = new StringBuilder();
         if (!destinationDirectoryPath.isEmpty()) {
             canonicalFileNameBuilder.append(StringUtils.join(destinationDirectoryPath, File.separator));
@@ -177,7 +183,7 @@ public final class AWSFileSystemProvider implements FileSystemProvider {
         }
 
         try {
-            s3.putObject(new PutObjectRequest(bucket, canonicalFileNameBuilder.toString(), new FileInputStream(file), objectMetadata));
+            s3.putObject(new PutObjectRequest(bucket, canonicalFileNameBuilder.toString(), inputStream, objectMetadata));
         } catch (AmazonClientException e) {
             throw new IOException(e);
         }
