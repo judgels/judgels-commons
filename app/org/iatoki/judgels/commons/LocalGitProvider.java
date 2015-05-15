@@ -113,6 +113,7 @@ public final class LocalGitProvider implements GitProvider {
                 repo.close();
                 return false;
             }
+            repo.close();
             return true;
 
         } catch (IOException | GitAPIException e) {
