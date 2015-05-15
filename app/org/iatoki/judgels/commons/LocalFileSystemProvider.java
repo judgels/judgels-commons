@@ -157,7 +157,7 @@ public final class LocalFileSystemProvider implements FileSystemProvider {
         try {
             for (File file : files) {
                 int beginIndex = file.getAbsolutePath().indexOf(rootDirectory.getAbsolutePath()) + rootDirectory.getAbsolutePath().length() + 1;
-                ZipEntry ze = new ZipEntry(file.getAbsolutePath().substring(beginIndex));
+                ZipEntry ze = new ZipEntry(file.getAbsolutePath().substring(beginIndex).replace("\\", "/"));
                 zos.putNextEntry(ze);
 
                 try (FileInputStream fin = new FileInputStream(file)) {
