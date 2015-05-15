@@ -1,24 +1,45 @@
 require(["jquery", "jquery-timer"], function( __jquery__ ) {
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var localDate = new Date();
-
-    $(document).stopTime("server");
-    $(document).everyTime('1s', "server", function(i)
-    {
-        var currentDate = new Date();
-        date.setTime(date.getTime()+(currentDate.getTime() - localDate.getTime()));
-        localDate = currentDate;
+    var clientDate = new Date();
+    var toString = function(number, length, signed) {
         var str = "";
-        str += (date.getDate() < 10) ? "0" : "";
-        str += date.getDate() + "-";
-        str += months[date.getMonth()] + "-";
-        str += date.getFullYear() + " ";
-        str += (date.getHours() < 10) ? "0" : "";
-        str += date.getHours() + ":";
-        str += (date.getMinutes() < 10) ? "0" : "";
-        str += date.getMinutes() + ":";
-        str += (date.getSeconds() < 10) ? "0" : "";
-        str += date.getSeconds();
+        if (signed === true) {
+            str += (number < 0 ? "-" : "+");
+            number = Math.abs(number);
+            length--;
+        }
+        else if (number < 0) {
+            str += "-";
+            number = -number;
+            length--;
+        }
+        number = number.toString();
+        length -= number.length;
+        for (var i = 0; i < length; i++)
+            str += "0";
+        str += number;
+        return str;
+    };
+    var update = function() {
+        var currentDate = new Date();
+        serverDate.setTime(serverDate.getTime() + (currentDate.getTime() - clientDate.getTime()));
+        clientDate = currentDate;
+        var str = "";
+        str += toString(serverDate.getDate(), 2, false) + "-";
+        str += months[serverDate.getMonth()] + "-";
+        str += serverDate.getFullYear() + " ";
+        str += toString(serverDate.getHours(), 2, false) + ":";
+        str += toString(serverDate.getMinutes(), 2, false) + ":";
+        str += toString(serverDate.getSeconds(), 2, false) + " ";
+        var offset = -serverDate.getTimezoneOffset();
+        var offsetHours = offset / 60;
+        var offsetMinutes = offset % 60;
+        str += toString(offsetHours, 3, true) + ":";
+        str += toString(offsetMinutes, 2, false);
         $("#server-clock").text(str);
-    });
+    };
+
+    $(document).ready(update);
+    $(document).stopTime("server");
+    $(document).everyTime('1s', "server", update);
 });

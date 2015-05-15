@@ -13,13 +13,13 @@
     </ol>
     <div class="server-time col-md-4 clearfix">
         <div class="pull-right">
-            @Messages.get("commons.header.serverTime"): <span id="server-clock">@(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(new Date()))</span> @(new SimpleDateFormat("Z").format(new Date()))
+            @Messages.get("commons.header.serverTime"): <span id="server-clock"></span>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    var date = new Date(@(new SimpleDateFormat("yyyy").format(new Date())), @(new SimpleDateFormat("M").format(new Date()))-1, @(new SimpleDateFormat("dd").format(new Date())), @(new SimpleDateFormat("H").format(new Date())), @(new SimpleDateFormat("m").format(new Date())), @(new SimpleDateFormat("s").format(new Date())), @(new SimpleDateFormat("S").format(new Date())));
+    var serverDate = new Date(@((new Date()).getTime()));
 </script>
 
 <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/server-clock.js")"></script>
