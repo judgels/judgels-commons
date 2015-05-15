@@ -79,6 +79,14 @@ public final class JudgelsUtils {
         return displayName.substring(0, spacePos);
     }
 
+    public static String getOnlyRealName(String displayName) {
+        int spacePos = displayName.indexOf(' ');
+        if (spacePos == -1) {
+            return displayName;
+        }
+        return displayName.substring(spacePos + 2, displayName.length() - 1);
+    }
+
     public static boolean isSidebarShown(Http.Request request) {
         return ((request.cookie("sidebar") == null) || (request.cookie("sidebar").value().equals("true")));
     }
