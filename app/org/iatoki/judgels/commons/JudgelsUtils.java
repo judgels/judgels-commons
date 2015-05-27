@@ -9,6 +9,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
 
@@ -30,6 +34,18 @@ public final class JudgelsUtils {
     public static String formatDetailedDate(long timestamp) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
         return formatter.format(timestamp);
+    }
+
+    public static String formatDetailedDateTime(long timestamp) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss XXX");
+        return formatter.format(zonedDateTime);
+    }
+
+    public static String formatISOUTCDateTime(long timestamp) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.UTC);
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        return formatter.format(zonedDateTime);
     }
 
     public static String formatBytesCount(long bytes) {
