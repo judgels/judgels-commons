@@ -26,6 +26,6 @@ requirejs.config({
         'jquery-timer': '/assets/javascripts/jquery.timer',
         'jquery-ui': '/assets/lib/jquery-ui/jquery-ui.min',
         'prettify': '/assets/lib/prettify/prettify',
-        'moment': '/assets/lib/moment/min/moment-with-locales.min',
+        'moment': '/assets/lib/momentjs/min/moment-with-locales.min',
     }
 });
