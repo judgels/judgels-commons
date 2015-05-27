@@ -47,7 +47,7 @@ public final class JidService {
         return jid.substring(jidLength, jidLength + prefixLength);
     }
 
-    private String generateNewJid(String code) {
+    public String generateNewJid(String code) {
         String prefix = "JID" + code;
         String suffix = RandomStringUtils.randomAlphanumeric(20);
 
