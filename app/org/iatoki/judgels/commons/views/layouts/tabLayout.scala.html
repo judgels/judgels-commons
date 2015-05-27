@@ -1,7 +1,7 @@
 @(tabs: java.util.List[org.iatoki.judgels.commons.InternalLink])(content: Html)
 
 @import play.i18n.Messages
-<div class="clearfix">
+@if(tabs.size > 1) {
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -58,6 +58,6 @@
             </div>
         </div>
     </nav>
-</div>
+}
 
 @content

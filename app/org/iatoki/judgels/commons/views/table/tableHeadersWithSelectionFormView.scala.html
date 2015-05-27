@@ -3,11 +3,13 @@
 @import org.iatoki.judgels.commons.views.html.table.pageLinkBuilder;
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#selectAll').on('click', function() {
-            var checked = $('#selectAll').prop('checked');
-            $('.checkboxJid').each(function() {
-                $(this).prop('checked', checked);
+    require(["jquery"], function( __jquery__ ) {
+        $(document).ready(function() {
+            $('#selectAll').on('click', function() {
+                var checked = $('#selectAll').prop('checked');
+                $('.checkboxJid').each(function() {
+                    $(this).prop('checked', checked);
+                });
             });
         });
     });
