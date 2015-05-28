@@ -1,25 +1,25 @@
 @(breadcrumbs: List[org.iatoki.judgels.commons.InternalLink])
 
 @import play.i18n.Messages
-@import java.text.SimpleDateFormat
 @import java.util.Date
+@import org.iatoki.judgels.commons.JudgelsUtils
 
-<div class="primary-content-breadcrumb clearfix">
-    <ol class="breadcrumb col-md-8">
-        <li><a href="/" class="glyphicon glyphicon-home" aria-hidden="true"></a></li>
-        @for(link <- breadcrumbs) {
-            <li><a href="@link.getTarget" class="breadcrumb-link">@link.getLabel</a></li>
-        }
-    </ol>
-    <div class="server-time col-md-4 clearfix">
-        <div class="pull-right">
-            @Messages.get("commons.header.serverTime"): <span id="server-clock"></span>
+@defining(new Date().getTime()) { millis =>
+    <div class="primary-content-breadcrumb clearfix">
+        <ol class="breadcrumb col-md-8">
+            <li><a href="/" class="glyphicon glyphicon-home" aria-hidden="true"></a></li>
+            @for(link <- breadcrumbs) {
+                <li><a href="@link.getTarget" class="breadcrumb-link">@link.getLabel</a></li>
+            }
+        </ol>
+        <div class="server-time col-md-4 clearfix">
+            <div class="pull-right">
+                @Messages.get("commons.header.serverTime"): <time id="server-time" datetime="@JudgelsUtils.formatISOUTCDateTime(millis)">@JudgelsUtils.formatDetailedDateTime(millis)</time>
+            </div>
         </div>
     </div>
-</div>
+}
 
-<script type="text/javascript">
-    var serverDate = new Date(@((new Date()).getTime()));
-</script>
-
-<script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/server-clock.js")"></script>
+<script>var language = "@Messages.get("commons.moment.locale")";</script>
+<script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/display-time.js")"></script>
+<script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/server-time.js")"></script>

@@ -8,32 +8,16 @@ import play.mvc.Http;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.UUID;
 
 public final class JudgelsUtils {
 
     private JudgelsUtils() {
         // prevents instantiation
-    }
-
-    public static String formatDate(Date date) {
-        return formatDate(date.getTime());
-    }
-
-    public static String formatDate(long timestamp) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm");
-        return formatter.format(timestamp);
-    }
-
-    public static String formatDetailedDate(long timestamp) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
-        return formatter.format(timestamp);
     }
 
     public static String formatDetailedDateTime(long timestamp) {
