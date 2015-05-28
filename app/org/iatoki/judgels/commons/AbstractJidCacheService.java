@@ -1,19 +1,17 @@
 package org.iatoki.judgels.commons;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.iatoki.judgels.commons.models.daos.interfaces.BaseJidCacheDao;
 import org.iatoki.judgels.commons.models.domains.AbstractJidCacheModel;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
-    private BaseJidCacheDao<M> jidCacheDao;
+    private final BaseJidCacheDao<M> jidCacheDao;
 
-    public final void setDao(BaseJidCacheDao<M> jidCacheDao) {
+    public AbstractJidCacheService(BaseJidCacheDao<M> jidCacheDao) {
         this.jidCacheDao = jidCacheDao;
     }
 
