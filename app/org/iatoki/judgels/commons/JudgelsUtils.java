@@ -20,6 +20,18 @@ public final class JudgelsUtils {
         // prevents instantiation
     }
 
+    public static String formatDateTime(long timestamp) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss XXX");
+        return formatter.format(zonedDateTime);
+    }
+
+    public static long parseDateTime(String string) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss XXX");
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(string, formatter);
+        return zonedDateTime.toInstant().toEpochMilli();
+    }
+
     public static String formatDetailedDateTime(long timestamp) {
         ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss XXX");
