@@ -1,8 +1,10 @@
 package org.iatoki.judgels.commons;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import play.mvc.Http;
 
 import java.io.UnsupportedEncodingException;
@@ -121,6 +123,15 @@ public final class JudgelsUtils {
 
     public static void removeViewPoint() {
         Http.Context.current().session().remove("viewpoint");
+    }
+
+    public static UsernamePasswordCredentials parseBasicAuthFromRequest(Http.Request request) {
+        UsernamePasswordCredentials credentials = null;
+        if ((request.hasHeader("Authorization")) && (request.getHeader("Authorization").startsWith("Basic "))) {
+            credentials = new UsernamePasswordCredentials(new String(Base64.decodeBase64(request.getHeader("Authorization").substring("Basic ".length()))));
+        }
+
+        return credentials;
     }
 
     private static String messageDigest(String s, String algorithm) {
