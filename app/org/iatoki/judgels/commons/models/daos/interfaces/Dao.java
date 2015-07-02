@@ -13,6 +13,8 @@ public interface Dao<K, M extends AbstractModel> {
 
     M edit(M model, String user, String ipAddress);
 
+    void flush();
+
     void remove(M model);
 
     boolean existsById(K id);

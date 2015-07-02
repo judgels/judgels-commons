@@ -48,6 +48,11 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
+    public void flush() {
+        JPA.em().flush();
+    }
+
+    @Override
     public final void remove(M model) {
         JPA.em().remove(model);
     }
