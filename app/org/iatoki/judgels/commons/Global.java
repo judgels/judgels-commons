@@ -6,8 +6,6 @@ import org.iatoki.judgels.commons.views.html.layouts.headerFooterLayout;
 import org.iatoki.judgels.commons.views.html.layouts.headingLayout;
 import org.iatoki.judgels.commons.views.html.layouts.messageView;
 import play.GlobalSettings;
-import play.api.mvc.EssentialFilter;
-import play.filters.gzip.GzipFilter;
 import play.i18n.Messages;
 import play.libs.F;
 import play.mvc.Http;
@@ -15,12 +13,6 @@ import play.mvc.Result;
 import play.mvc.Results;
 
 public abstract class Global extends GlobalSettings {
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T extends EssentialFilter> Class<T>[] filters() {
-        return new Class[]{GzipFilter.class};
-    }
 
     @Override
     public F.Promise<Result> onHandlerNotFound(Http.RequestHeader requestHeader) {

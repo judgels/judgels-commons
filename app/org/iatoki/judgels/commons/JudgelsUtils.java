@@ -2,9 +2,11 @@ package org.iatoki.judgels.commons;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.iatoki.judgels.commons.services.BaseJidCacheService;
 import play.mvc.Http;
 
 import java.io.UnsupportedEncodingException;
@@ -51,15 +53,15 @@ public final class JudgelsUtils {
     }
 
     public static String generateNewSecret() {
-        return messageDigest(UUID.randomUUID().toString(), "MD5");
+        return hashMD5(UUID.randomUUID().toString());
     }
 
     public static String hashSHA256(String s) {
-        return messageDigest(s, "SHA-256");
+        return messageDigest(s, MessageDigestAlgorithms.SHA_256);
     }
 
     public static String hashMD5(String s) {
-        return messageDigest(s, "MD5");
+        return messageDigest(s, MessageDigestAlgorithms.MD5);
     }
 
     public static String escapeHtmlString(String string) {
@@ -70,7 +72,7 @@ public final class JudgelsUtils {
         return username + " (" + name + ")";
     }
 
-    public static void updateUserJidCache(AbstractJidCacheService<?> jidCacheService) {
+    public static void updateUserJidCache(BaseJidCacheService<?> jidCacheService) {
         if (IdentityUtils.getUserJid() != null) {
             jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsUtils.getUserDisplayName(IdentityUtils.getUsername(), IdentityUtils.getUserRealName()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
         }

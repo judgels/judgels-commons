@@ -10,18 +10,18 @@
         <meta charset="UTF-8">
         <meta name=viewport content="width=device-width, initial-scale=1">
         <title>@JudgelsProperties.getInstance.getAppTitle @if(!"".equals(pageTitle)) { - @pageTitle }</title>
-        <link rel="shortcut icon" type="image/ico" href='@controllers.routes.Assets.versioned("images/favicon.ico")'>
+        <link rel="shortcut icon" type="image/ico" href='@controllers.routes.Assets.versioned("lib/playcommons/images/favicon.ico")'>
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
-        <script type="text/javascript" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/settings.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/form.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.at("/lib/requirejs/require.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/settings.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/form.js")"></script>
     </head>
     <body>
         <div class="container-fluid">
             @content
         </div>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/language.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/active.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/language.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/active.js")"></script>
         @if(JudgelsProperties.getInstance().isUsingGoogleAnalytics) {
             <script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

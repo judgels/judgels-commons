@@ -1,20 +1,23 @@
-package org.iatoki.judgels.commons;
+package org.iatoki.judgels.commons.services.impls;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.iatoki.judgels.commons.models.daos.interfaces.BaseJidCacheDao;
 import org.iatoki.judgels.commons.models.domains.AbstractJidCacheModel;
+import org.iatoki.judgels.commons.services.BaseJidCacheService;
 
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
+public abstract class AbstractBaseJidCacheServiceImpl<M extends AbstractJidCacheModel> implements BaseJidCacheService<M> {
+
     private final BaseJidCacheDao<M> jidCacheDao;
 
-    public AbstractJidCacheService(BaseJidCacheDao<M> jidCacheDao) {
+    public AbstractBaseJidCacheServiceImpl(BaseJidCacheDao<M> jidCacheDao) {
         this.jidCacheDao = jidCacheDao;
     }
 
+    @Override
     public final void putDisplayName(String jid, String displayName, String user, String ipAddress) {
         if (jidCacheDao.existsByJid(jid)) {
             editDisplayName(jid, displayName, user, ipAddress);
@@ -23,6 +26,7 @@ public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
         }
     }
 
+    @Override
     public final String getDisplayName(String jid) {
 
         if (!jidCacheDao.existsByJid(jid)) {
@@ -33,6 +37,7 @@ public abstract class AbstractJidCacheService<M extends AbstractJidCacheModel> {
         }
     }
 
+    @Override
     public final Map<String, String> getDisplayNames(List<String> jids) {
         List<M> entries = jidCacheDao.findByJids(jids);
 
