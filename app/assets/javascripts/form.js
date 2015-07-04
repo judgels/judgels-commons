@@ -1,5 +1,5 @@
 require(["jquery"], function( __jquery__ ) {
-    $(document).ready(function() {
+    function prepareForm() {
         $("input[type='radio']").change(function(e) {
             var that = $(this);
             var all = $("input[type='radio'][name='" + that.attr("name") + "']");
@@ -31,5 +31,11 @@ require(["jquery"], function( __jquery__ ) {
 
             return this;
         });
+    }
+    $(document).ready(function() {
+        prepareForm();
+    });
+    $(document).ajaxComplete(function () {
+        prepareForm();
     });
 });
