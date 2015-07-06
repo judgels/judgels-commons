@@ -1,5 +1,5 @@
 require(["jquery"], function( __jquery__ ) {
-    function prepareForm() {
+    function prepareRadioButton() {
         $("input[type='radio']").change(function(e) {
             var that = $(this);
             var all = $("input[type='radio'][name='" + that.attr("name") + "']");
@@ -17,8 +17,9 @@ require(["jquery"], function( __jquery__ ) {
                 that.addClass("singleCheck");
             }, 100);
         });
-
-        $("form").submit(function(e) {
+    }
+    function prepareForm() {
+        $("form").submit(function (e) {
             var $form = $(this);
 
             if ($form.data('submitted') === true) {
@@ -34,8 +35,9 @@ require(["jquery"], function( __jquery__ ) {
     }
     $(document).ready(function() {
         prepareForm();
+        prepareRadioButton();
     });
     $(document).ajaxComplete(function () {
-        prepareForm();
+        prepareRadioButton();
     });
 });
