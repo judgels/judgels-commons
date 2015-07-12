@@ -1,10 +1,10 @@
-package org.iatoki.judgels.play.models.daos.hibernate;
+package org.iatoki.judgels.play.models.daos.impls;
 
 import com.google.common.collect.ImmutableList;
 import org.iatoki.judgels.play.JidService;
-import org.iatoki.judgels.play.models.daos.interfaces.JudgelsDao;
-import org.iatoki.judgels.play.models.domains.AbstractJudgelsModel;
-import org.iatoki.judgels.play.models.domains.AbstractJudgelsModel_;
+import org.iatoki.judgels.play.models.daos.JudgelsDao;
+import org.iatoki.judgels.play.models.entities.AbstractJudgelsModel;
+import org.iatoki.judgels.play.models.entities.AbstractJudgelsModel_;
 import play.db.jpa.JPA;
 
 import javax.persistence.criteria.CriteriaBuilder;

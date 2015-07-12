@@ -1,4 +1,4 @@
-package org.iatoki.judgels.play.models.domains;
+package org.iatoki.judgels.play.models.entities;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

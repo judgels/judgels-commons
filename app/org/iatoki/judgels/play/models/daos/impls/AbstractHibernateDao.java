@@ -1,10 +1,9 @@
-package org.iatoki.judgels.play.models.daos.hibernate;
+package org.iatoki.judgels.play.models.daos.impls;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import org.iatoki.judgels.play.models.daos.AbstractDao;
-import org.iatoki.judgels.play.models.domains.AbstractModel;
+import org.iatoki.judgels.play.models.entities.AbstractModel;
 import play.db.jpa.JPA;
 
 import javax.persistence.TypedQuery;

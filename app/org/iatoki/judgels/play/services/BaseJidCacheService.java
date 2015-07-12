@@ -1,6 +1,6 @@
 package org.iatoki.judgels.play.services;
 
-import org.iatoki.judgels.play.models.domains.AbstractJidCacheModel;
+import org.iatoki.judgels.play.models.entities.AbstractJidCacheModel;
 
 import java.util.List;
 import java.util.Map;

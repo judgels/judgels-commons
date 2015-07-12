@@ -1,6 +1,6 @@
-package org.iatoki.judgels.play.models.daos.interfaces;
+package org.iatoki.judgels.play.models.daos;
 
-import org.iatoki.judgels.play.models.domains.AbstractModel;
+import org.iatoki.judgels.play.models.entities.AbstractModel;
 
 import java.util.List;
 

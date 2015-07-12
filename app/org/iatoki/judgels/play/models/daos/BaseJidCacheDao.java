@@ -1,6 +1,6 @@
-package org.iatoki.judgels.play.models.daos.interfaces;
+package org.iatoki.judgels.play.models.daos;
 
-import org.iatoki.judgels.play.models.domains.AbstractJidCacheModel;
+import org.iatoki.judgels.play.models.entities.AbstractJidCacheModel;
 
 import java.util.List;
 

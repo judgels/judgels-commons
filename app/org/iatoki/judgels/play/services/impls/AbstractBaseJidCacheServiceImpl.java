@@ -2,8 +2,8 @@ package org.iatoki.judgels.play.services.impls;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import org.iatoki.judgels.play.models.daos.interfaces.BaseJidCacheDao;
-import org.iatoki.judgels.play.models.domains.AbstractJidCacheModel;
+import org.iatoki.judgels.play.models.daos.BaseJidCacheDao;
+import org.iatoki.judgels.play.models.entities.AbstractJidCacheModel;
 import org.iatoki.judgels.play.services.BaseJidCacheService;
 
 import java.util.List;

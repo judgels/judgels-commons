@@ -1,4 +1,4 @@
-package org.iatoki.judgels.play.models.domains;
+package org.iatoki.judgels.play.models.entities;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

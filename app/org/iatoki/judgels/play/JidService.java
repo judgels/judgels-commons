@@ -3,7 +3,7 @@ package org.iatoki.judgels.play;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.iatoki.judgels.play.models.JidChildPrefixes;
 import org.iatoki.judgels.play.models.JidPrefix;
-import org.iatoki.judgels.play.models.domains.AbstractJudgelsModel;
+import org.iatoki.judgels.play.models.entities.AbstractJudgelsModel;
 
 public final class JidService {
     private static JidService INSTANCE;

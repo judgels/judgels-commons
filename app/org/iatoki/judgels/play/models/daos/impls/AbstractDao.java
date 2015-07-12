@@ -1,7 +1,7 @@
-package org.iatoki.judgels.play.models.daos;
+package org.iatoki.judgels.play.models.daos.impls;
 
-import org.iatoki.judgels.play.models.daos.interfaces.Dao;
-import org.iatoki.judgels.play.models.domains.AbstractModel;
+import org.iatoki.judgels.play.models.daos.Dao;
+import org.iatoki.judgels.play.models.entities.AbstractModel;
 
 public abstract class AbstractDao<K, M extends AbstractModel> implements Dao<K, M> {
     private final Class<M> modelClass;
