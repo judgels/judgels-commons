@@ -11,7 +11,7 @@ import play.mvc.Results;
 
 import java.util.List;
 
-public abstract class AbstractControllerUtils {
+public abstract class AbstractJudgelsControllerUtils {
 
     public void appendBreadcrumbsLayout(LazyHtml content, List<InternalLink> links) {
         content.appendLayout(c -> breadcrumbsLayout.render(links, c));

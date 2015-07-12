@@ -4,6 +4,6 @@ import play.mvc.Controller;
 
 @EntityNotFoundGuard
 @UnsupportedOperationGuard
-public abstract class BaseController extends Controller {
+public abstract class AbstractJudgelsController extends Controller {
 
 }
