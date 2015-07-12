@@ -1,7 +1,0 @@
-@(currentPage: org.iatoki.judgels.play.Page[_], id: Long, currentSortBy: String, currentOrder: String, currentFilter: String, func: (scala.Long, scala.Long, String, String, String) => play.api.mvc.Call)
-
-@import org.iatoki.judgels.play.views.html.pagination.link2
-@import org.iatoki.judgels.play.views.html.pagination.genericPagination
-
-@shortLink(newPage: Long) = {@link2(id, false, currentSortBy, currentOrder, currentFilter, newPage, currentSortBy, func)}
-@genericPagination(currentPage, shortLink)
