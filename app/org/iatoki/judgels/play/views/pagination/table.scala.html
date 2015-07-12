@@ -1,0 +1,33 @@
+@(currentPage: org.iatoki.judgels.play.Page[_], currentSortBy: String, currentOrder: String, currentFilter: String, idFunc: (Int) => scala.Long, headers: Seq[(String, String)], bodyFuncs: Seq[(Int) => String], enterFunc: (scala.Long) => play.api.mvc.Call, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)
+
+@import play.i18n.Messages
+
+
+@shortLink(newPage: scala.Long, newSortBy: String) = {@link(currentSortBy, true, currentOrder, currentFilter, newPage, newSortBy, listFunc)}
+
+<div class="table-responsive">
+    <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                @tableHeader("id", Messages.get("commons.field.id"), currentSortBy, currentOrder, shortLink(currentPage.getPageIndex(), "id"))
+                @for(header <- headers) {
+                    @tableHeader(header._1, header._2, currentSortBy, currentOrder, shortLink(currentPage.getPageIndex(), header._1))
+                }
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(i <- 0 until currentPage.getData.size()) {
+            <tr>
+                <td>@idFunc(i)</td>
+                @for(body <- bodyFuncs) {
+                    <td>@body(i)</td>
+                }
+                <td class="text-center">
+                    <a href="@enterFunc(idFunc(i))"><span class="glyphicon glyphicon-asterisk"></span></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,5 +1,0 @@
-@(currentPage: org.iatoki.judgels.commons.Page[_], currentSortBy: String, currentOrder: String, currentFilter: String, func: (scala.Long, String, String, String) => play.api.mvc.Call)
-
-@shortLink(newPage: Long) = {@link(currentSortBy, false, currentOrder, currentFilter, newPage, currentSortBy, func)}
-
-@genericPagination(currentPage, shortLink)

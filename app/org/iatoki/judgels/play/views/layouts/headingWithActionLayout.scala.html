@@ -1,0 +1,5 @@
+@(heading: String, action: org.iatoki.judgels.play.InternalLink)(content: Html)
+
+<h2>@heading <a class="btn btn-primary btn-sm" href="@action.getTarget">@action.getLabel</a></h2>
+
+@content

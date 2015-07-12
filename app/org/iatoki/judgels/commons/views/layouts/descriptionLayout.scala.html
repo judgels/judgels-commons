@@ -1,9 +1,0 @@
-@(description: String)(content: Html)
-
-@import org.iatoki.judgels.commons.JudgelsUtils
-
-<div class="well">
-    @Html(JudgelsUtils.escapeHtmlString(description))
-</div>
-
-@content
