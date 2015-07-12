@@ -1,9 +1,9 @@
 @(description: String)(content: Html)
 
-@import org.iatoki.judgels.play.JudgelsUtils
+@import org.iatoki.judgels.play.JudgelsPlayUtils
 
 <div class="well">
-    @Html(JudgelsUtils.escapeHtmlString(description))
+    @Html(JudgelsPlayUtils.escapeHtmlString(description))
 </div>
 
 @content

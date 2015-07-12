@@ -18,9 +18,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-public final class JudgelsUtils {
+public final class JudgelsPlayUtils {
 
-    private JudgelsUtils() {
+    private JudgelsPlayUtils() {
         // prevents instantiation
     }
 
@@ -74,7 +74,7 @@ public final class JudgelsUtils {
 
     public static void updateUserJidCache(BaseJidCacheService<?> jidCacheService) {
         if (IdentityUtils.getUserJid() != null) {
-            jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsUtils.getUserDisplayName(IdentityUtils.getUsername(), IdentityUtils.getUserRealName()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
+            jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsPlayUtils.getUserDisplayName(IdentityUtils.getUsername(), IdentityUtils.getUserRealName()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
         }
     }
 

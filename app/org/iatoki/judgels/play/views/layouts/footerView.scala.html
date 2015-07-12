@@ -2,7 +2,7 @@
 @import java.util.Date
 
 @import play.i18n.Messages
-@import org.iatoki.judgels.play.JudgelsProperties
+@import org.iatoki.judgels.play.JudgelsPlayProperties
 @import org.apache.commons.lang3.StringUtils;
 
 <footer>
@@ -11,12 +11,12 @@
             <div class="col-md-12">
                 <div class="pull-left first">
                     <div class="copyright">
-                        &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @JudgelsProperties.getInstance.getAppCopyright
+                        &#169; @(new SimpleDateFormat("yyyy").format(new Date())) @JudgelsPlayProperties.getInstance.getAppCopyright
                     </div>
                 </div>
                 <div class="pull-right first">
                     <div class="copyright">
-                        @Messages.get("commons.poweredBy") <a href="@JudgelsProperties.getInstance.getGithubLink" target="_blank">@Messages.get("commons.judgels") @StringUtils.capitalize(JudgelsProperties.getInstance.getAppName) @JudgelsProperties.getInstance.getAppVersion</a>
+                        @Messages.get("commons.poweredBy") <a href="@JudgelsPlayProperties.getInstance.getGithubLink" target="_blank">@Messages.get("commons.judgels") @StringUtils.capitalize(JudgelsPlayProperties.getInstance.getAppName) @JudgelsPlayProperties.getInstance.getAppVersion</a>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 @(content: Html)
 
 @import play.mvc.Http.Context
-@import org.iatoki.judgels.play.JudgelsUtils
+@import org.iatoki.judgels.play.JudgelsPlayUtils
 
-@if(!JudgelsUtils.isFullscreen(Context.current().request())) {
+@if(!JudgelsPlayUtils.isFullscreen(Context.current().request())) {
     @headerView()
 }
 
@@ -11,6 +11,6 @@
     @content
 </div>
 
-@if(!JudgelsUtils.isFullscreen(Context.current().request())) {
+@if(!JudgelsPlayUtils.isFullscreen(Context.current().request())) {
     @footerView()
 }

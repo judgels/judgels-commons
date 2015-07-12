@@ -2,8 +2,8 @@ package org.iatoki.judgels.play;
 
 import com.typesafe.config.Config;
 
-public final class JudgelsProperties {
-    private static JudgelsProperties INSTANCE;
+public final class JudgelsPlayProperties {
+    private static JudgelsPlayProperties INSTANCE;
 
     private final String appName;
     private final String appVersion;
@@ -16,7 +16,7 @@ public final class JudgelsProperties {
     private boolean usingGoogleAnalytics;
     private String googleAnalyticsId;
 
-    private JudgelsProperties(String appName, String appVersion, Config config) {
+    private JudgelsPlayProperties(String appName, String appVersion, Config config) {
         this.appName = appName;
         this.appVersion = appVersion;
         this.config = config;
@@ -52,15 +52,15 @@ public final class JudgelsProperties {
 
     public synchronized static void buildInstance(String appName, String appVersion, Config config) {
         if (INSTANCE != null) {
-            throw new UnsupportedOperationException("JudgelsProperties instance has already been built");
+            throw new UnsupportedOperationException("JudgelsPlayProperties instance has already been built");
         }
-        INSTANCE = new JudgelsProperties(appName, appVersion, config);
+        INSTANCE = new JudgelsPlayProperties(appName, appVersion, config);
         INSTANCE.build();
     }
 
-    public static JudgelsProperties getInstance() {
+    public static JudgelsPlayProperties getInstance() {
         if (INSTANCE == null) {
-            throw new UnsupportedOperationException("JudgelsProperties instance has not been built");
+            throw new UnsupportedOperationException("JudgelsPlayProperties instance has not been built");
         }
         return INSTANCE;
     }

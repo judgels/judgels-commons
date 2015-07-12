@@ -1,18 +1,18 @@
 @(sidebarContent: Html)(content: Html)
 
 @import play.mvc.Http.Context
-@import org.iatoki.judgels.play.JudgelsUtils
+@import org.iatoki.judgels.play.JudgelsPlayUtils
 
 <div class="row content">
     @if(Context.current().args.getOrDefault("sidebar.isBefore", java.lang.Boolean.valueOf("true")) == true) {
-        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+        @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
             <div class="col-md-3">
                 <div class="sidebar clearfix">
                     @sidebarContent
                 </div>
             </div>
         }
-        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+        @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
             <div class="col-md-9">
         } else {
             <div class="col-md-12">
@@ -25,7 +25,7 @@
                 </div>
             </div>
     } else {
-        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+        @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
             <div class="col-md-9">
         } else {
             <div class="col-md-12">
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        @if(JudgelsUtils.isSidebarShown(Context.current().request())) {
+        @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
             <div class="col-md-3 sidebar-wrapper">
                 <div class="sidebar r clearfix">
                 @sidebarContent
