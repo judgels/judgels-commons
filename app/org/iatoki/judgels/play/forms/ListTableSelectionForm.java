@@ -1,4 +1,4 @@
-package org.iatoki.judgels.play;
+package org.iatoki.judgels.play.forms;
 
 import java.util.List;
 
