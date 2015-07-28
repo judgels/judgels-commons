@@ -8,6 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(DataVersionModel.class)
 public abstract class DataVersionModel_ {
 
+	public static volatile SingularAttribute<DataVersionModel, Long> id;
 	public static volatile SingularAttribute<DataVersionModel, Long> version;
 }
 

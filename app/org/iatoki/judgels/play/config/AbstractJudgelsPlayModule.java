@@ -6,7 +6,7 @@ import org.reflections.Reflections;
 import javax.inject.Named;
 import java.util.Set;
 
-public abstract class AbstractJudgelsModule extends AbstractModule {
+public abstract class AbstractJudgelsPlayModule extends AbstractModule {
 
     @Override
     protected final void configure() {

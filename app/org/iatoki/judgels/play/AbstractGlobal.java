@@ -15,19 +15,13 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 
-public abstract class Global extends GlobalSettings {
-
-    private final BaseDataMigrationService dataMigrationService;
-
-    public Global(BaseDataMigrationService dataMigrationService) {
-        this.dataMigrationService = dataMigrationService;
-    }
+public abstract class AbstractGlobal extends GlobalSettings {
 
     @Override
     public void onStart(Application application) {
         super.onStart(application);
         JPA.withTransaction(() -> {
-            dataMigrationService.checkDatabase();
+            getDataMigrationService().checkDatabase();
         });
     }
 
@@ -43,4 +37,6 @@ public abstract class Global extends GlobalSettings {
               }
         );
     }
+
+    protected abstract BaseDataMigrationService getDataMigrationService();
 }
