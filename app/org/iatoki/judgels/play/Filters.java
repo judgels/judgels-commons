@@ -17,6 +17,6 @@ public final class Filters implements HttpFilters {
 
     @Override
     public EssentialFilter[] filters() {
-        return new EssentialFilter[] { gzipFilter };
+        return new EssentialFilter[] {gzipFilter};
     }
 }

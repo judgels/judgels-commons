@@ -21,20 +21,20 @@ public abstract class AbstractGlobal extends GlobalSettings {
     public void onStart(Application application) {
         super.onStart(application);
         JPA.withTransaction(() -> {
-            getDataMigrationService().checkDatabase();
-        });
+                getDataMigrationService().checkDatabase();
+            });
     }
 
     @Override
     public F.Promise<Result> onHandlerNotFound(Http.RequestHeader requestHeader) {
         return F.Promise.promise(() -> {
-                  LazyHtml content = new LazyHtml(messageView.render(Messages.get("commons.pageNotFound.message")));
-                  content.appendLayout(c -> headingLayout.render(Messages.get("commons.pageNotFound"), c));
-                  content.appendLayout(c -> centerLayout.render(c));
-                  content.appendLayout(c -> headerFooterLayout.render(c));
-                  content.appendLayout(c -> baseLayout.render("commons.pageNotFound", c));
-                  return Results.notFound(content.render());
-              }
+                LazyHtml content = new LazyHtml(messageView.render(Messages.get("commons.pageNotFound.message")));
+                content.appendLayout(c -> headingLayout.render(Messages.get("commons.pageNotFound"), c));
+                content.appendLayout(c -> centerLayout.render(c));
+                content.appendLayout(c -> headerFooterLayout.render(c));
+                content.appendLayout(c -> baseLayout.render("commons.pageNotFound", c));
+                return Results.notFound(content.render());
+            }
         );
     }
 

@@ -19,14 +19,6 @@ public final class JidService {
         return INSTANCE;
     }
 
-    public <M extends AbstractJudgelsModel> String generateNewJid(Class<M> modelClass) {
-        if (!modelClass.isAnnotationPresent(JidPrefix.class)) {
-            throw new IllegalStateException("Model " + modelClass.getSimpleName() + " must have JidPrefix annotation");
-        }
-
-        return generateNewJid(modelClass.getAnnotation(JidPrefix.class).value());
-    }
-
     public <M extends AbstractJudgelsModel> String generateNewChildJid(Class<M> modelClass, int childIndex) {
         if (!modelClass.isAnnotationPresent(JidChildPrefixes.class)) {
             throw new IllegalStateException("Model " + modelClass.getSimpleName() + " must have JidChildPrefixes annotation");
@@ -45,6 +37,14 @@ public final class JidService {
         int prefixLength = 4;
 
         return jid.substring(jidLength, jidLength + prefixLength);
+    }
+
+    public <M extends AbstractJudgelsModel> String generateNewJid(Class<M> modelClass) {
+        if (!modelClass.isAnnotationPresent(JidPrefix.class)) {
+            throw new IllegalStateException("Model " + modelClass.getSimpleName() + " must have JidPrefix annotation");
+        }
+
+        return generateNewJid(modelClass.getAnnotation(JidPrefix.class).value());
     }
 
     public String generateNewJid(String code) {

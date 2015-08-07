@@ -8,8 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@With({EntityNotFoundGuardAction.class})
-@Target({ElementType.TYPE})
+@With(EntityNotFoundGuardAction.class)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EntityNotFoundGuard {
     Class<? extends Security.Authenticator>[] value() default Security.Authenticator.class;

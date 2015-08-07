@@ -8,8 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@With({UnsupportedOperationGuardAction.class})
-@Target({ElementType.TYPE})
+@With(UnsupportedOperationGuardAction.class)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UnsupportedOperationGuard {
     Class<? extends Security.Authenticator>[] value() default Security.Authenticator.class;

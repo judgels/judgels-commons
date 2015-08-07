@@ -85,31 +85,6 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public long countByFilters(String filterString, Map<String, String> filterColumns) {
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-        CriteriaQuery<Long> query = cb.createQuery(Long.class);
-        Root<M> root = query.from(getModelClass());
-
-        Predicate byString;
-        if (getColumnsFilterableByString().isEmpty()) {
-            byString = cb.and();
-        } else {
-            List<Predicate> byStringPredicates = Lists.transform(getColumnsFilterableByString(), c -> cb.like(root.get(c), "%" + filterString + "%"));
-            byString = cb.or(byStringPredicates.toArray(new Predicate[byStringPredicates.size()]));
-
-        }
-
-        List<Predicate> byColumnPredicates = filterColumns.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());
-        Predicate byColumn = cb.and(byColumnPredicates.toArray(new Predicate[byColumnPredicates.size()]));
-
-        query
-                .select(cb.count(root))
-                .where(cb.and(byString, byColumn));
-
-        return JPA.em().createQuery(query).getSingleResult();
-    }
-
-    @Override
     public long countByFilters(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn) {
         for (Collection<String> values : filterColumnsIn.values()) {
             if (values.isEmpty()) {
@@ -150,44 +125,6 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     @Override
     public List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, long offset, long limit) {
         return findSortedByFilters(orderBy, orderDir, filterString, ImmutableMap.of(), ImmutableMap.of(), offset, limit);
-    }
-
-    @Override
-    public List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<String, String> filterColumns, long offset, long limit) {
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-        CriteriaQuery<M> query = cb.createQuery(getModelClass());
-        Root<M> root = query.from(getModelClass());
-
-        Predicate byString;
-        if (getColumnsFilterableByString().isEmpty()) {
-            byString = cb.and();
-        } else {
-            List<Predicate> byStringPredicates = Lists.transform(getColumnsFilterableByString(), c -> cb.like(root.get(c), "%" + filterString + "%"));
-            byString = cb.or(byStringPredicates.toArray(new Predicate[byStringPredicates.size()]));
-
-        }
-
-        List<Predicate> byColumnPredicates = filterColumns.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());
-        Predicate byColumn = cb.and(byColumnPredicates.toArray(new Predicate[byColumnPredicates.size()]));
-
-
-        Order order;
-        if ("asc".equals(orderDir)) {
-            order = cb.asc(root.get(orderBy));
-        } else {
-            order = cb.desc(root.get(orderBy));
-        }
-
-        query
-                .where(cb.and(byString, byColumn))
-                .orderBy(order);
-
-        TypedQuery<M> q = JPA.em().createQuery(query).setFirstResult((int) offset);
-        if (limit != -1) {
-            q.setMaxResults((int) limit);
-        }
-
-        return q.getResultList();
     }
 
     @Override

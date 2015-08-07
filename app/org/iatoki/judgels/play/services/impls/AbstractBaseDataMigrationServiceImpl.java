@@ -41,11 +41,11 @@ public abstract class AbstractBaseDataMigrationServiceImpl implements BaseDataMi
         ResultSet resultSet = statement.executeQuery("SHOW TABLES LIKE '" + tableName + "'");
 
         if (!resultSet.next()) {
-            statement.execute("CREATE TABLE " + tableName + "(" +
-                  "id bigint(20) NOT NULL AUTO_INCREMENT," +
-                  "version bigint(20) NOT NULL," +
-                  "PRIMARY KEY (id)" +
-                  ")");
+            statement.execute("CREATE TABLE " + tableName + "("
+                    + "id bigint(20) NOT NULL AUTO_INCREMENT,"
+                    + "version bigint(20) NOT NULL,"
+                    + "PRIMARY KEY (id)"
+                    + ")");
             statement.executeUpdate("INSERT INTO `judgels_data_version` (`version`) VALUES (" + getCodeDataVersion() + ");");
         }
 

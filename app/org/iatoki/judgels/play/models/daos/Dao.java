@@ -25,15 +25,9 @@ public interface Dao<K, M extends AbstractModel> {
 
     long countByFilters(String filterString);
 
-    @Deprecated
-    long countByFilters(String filterString, Map<String, String> filterColumns);
-
     long countByFilters(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn);
 
     List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, long offset, long limit);
-
-    @Deprecated
-    List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<String, String> filterColumns, long offset, long limit);
 
     List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit);
 }

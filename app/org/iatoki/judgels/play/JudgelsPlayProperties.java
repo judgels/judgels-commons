@@ -3,6 +3,7 @@ package org.iatoki.judgels.play;
 import com.typesafe.config.Config;
 
 public final class JudgelsPlayProperties {
+
     private static JudgelsPlayProperties INSTANCE;
 
     private final String appName;
@@ -20,6 +21,21 @@ public final class JudgelsPlayProperties {
         this.appName = appName;
         this.appVersion = appVersion;
         this.config = config;
+    }
+
+    public static synchronized void buildInstance(String appName, String appVersion, Config config) {
+        if (INSTANCE != null) {
+            throw new UnsupportedOperationException("JudgelsPlayProperties instance has already been built");
+        }
+        INSTANCE = new JudgelsPlayProperties(appName, appVersion, config);
+        INSTANCE.build();
+    }
+
+    public static JudgelsPlayProperties getInstance() {
+        if (INSTANCE == null) {
+            throw new UnsupportedOperationException("JudgelsPlayProperties instance has not been built");
+        }
+        return INSTANCE;
     }
 
     public String getAppName() {
@@ -48,21 +64,6 @@ public final class JudgelsPlayProperties {
 
     public String getGoogleAnalyticsId() {
         return googleAnalyticsId;
-    }
-
-    public synchronized static void buildInstance(String appName, String appVersion, Config config) {
-        if (INSTANCE != null) {
-            throw new UnsupportedOperationException("JudgelsPlayProperties instance has already been built");
-        }
-        INSTANCE = new JudgelsPlayProperties(appName, appVersion, config);
-        INSTANCE.build();
-    }
-
-    public static JudgelsPlayProperties getInstance() {
-        if (INSTANCE == null) {
-            throw new UnsupportedOperationException("JudgelsPlayProperties instance has not been built");
-        }
-        return INSTANCE;
     }
 
     private void build() {
@@ -94,5 +95,4 @@ public final class JudgelsPlayProperties {
     private boolean requireBooleanValue(String key) {
         return config.getBoolean(key);
     }
-
 }

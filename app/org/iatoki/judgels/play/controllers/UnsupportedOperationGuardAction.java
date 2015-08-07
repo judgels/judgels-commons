@@ -32,13 +32,13 @@ public final class UnsupportedOperationGuardAction extends Action<UnsupportedOpe
 
     private F.Promise<Result> showUnsupportedOperation(Throwable e) {
         return F.Promise.promise(() -> {
-                  LazyHtml content = new LazyHtml(messageView.render(Messages.get("commons.unsupportedOperation.message")));
-                  content.appendLayout(c -> headingLayout.render(Messages.get("commons.unsupportedOperation"), c));
-                  content.appendLayout(c -> centerLayout.render(c));
-                  content.appendLayout(c -> headerFooterLayout.render(c));
-                  content.appendLayout(c -> baseLayout.render("commons.unsupportedOperation", c));
-                  return Results.badRequest(content.render());
-              }
+                LazyHtml content = new LazyHtml(messageView.render(Messages.get("commons.unsupportedOperation.message")));
+                content.appendLayout(c -> headingLayout.render(Messages.get("commons.unsupportedOperation"), c));
+                content.appendLayout(c -> centerLayout.render(c));
+                content.appendLayout(c -> headerFooterLayout.render(c));
+                content.appendLayout(c -> baseLayout.render("commons.unsupportedOperation", c));
+                return Results.badRequest(content.render());
+            }
         );
     }
- }
+}
