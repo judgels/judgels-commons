@@ -1,6 +1,7 @@
-@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)
-
 @import play.i18n.Messages
+@import play.api.mvc.Call
+
+@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => Call)
 
 <form class="form form-inline pull-right" action='@listFunc(pageIndex, orderBy, orderDir, "")' method="GET">
     <div class="form-group">

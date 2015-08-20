@@ -26,9 +26,9 @@ public final class DataVersionHibernateDao implements DataVersionDao {
 
         if (dataVersionModels.isEmpty()) {
             return 0;
-        } else {
-            return dataVersionModels.get(0).version;
         }
+
+        return dataVersionModels.get(0).version;
     }
 
     @Override

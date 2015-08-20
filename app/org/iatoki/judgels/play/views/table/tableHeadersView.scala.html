@@ -1,7 +1,8 @@
-@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)(headers: scala.Tuple2[String, String]*)
-
-@import org.iatoki.judgels.play.views.html.table.pageLinkBuilder;
 @import play.i18n.Messages
+@import play.api.mvc.Call
+@import org.iatoki.judgels.play.views.html.table.pageLinkBuilder
+
+@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => Call)(headers: scala.Tuple2[String, String]*)
 
 <thead>
     <tr>

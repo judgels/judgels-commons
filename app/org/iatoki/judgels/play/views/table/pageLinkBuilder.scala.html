@@ -1,4 +1,6 @@
-@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, newOrderBy: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)
+@import play.api.mvc.Call
+
+@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, newOrderBy: String, listFunc: (scala.Long, String, String, String) => Call)
 
 @if(newOrderBy.equals("")) {
     #

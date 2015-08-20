@@ -6,6 +6,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class AbstractJidCacheModel extends AbstractModel {
+
     @Id
     @GeneratedValue
     public long id;

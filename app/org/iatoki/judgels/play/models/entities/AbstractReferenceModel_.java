@@ -10,6 +10,5 @@ public abstract class AbstractReferenceModel_ extends AbstractModel_ {
 
 	public static volatile SingularAttribute<AbstractReferenceModel, String> name;
 	public static volatile SingularAttribute<AbstractReferenceModel, String> description;
-
 }
 

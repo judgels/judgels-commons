@@ -2,6 +2,7 @@ package org.iatoki.judgels.play.models.daos;
 
 import org.iatoki.judgels.play.models.entities.AbstractModel;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface JudgelsDao<M extends AbstractModel> extends Dao<Long, M> {
@@ -12,5 +13,5 @@ public interface JudgelsDao<M extends AbstractModel> extends Dao<Long, M> {
 
     M findByJid(String jid);
 
-    List<M> findByJids(List<String> jids);
+    List<M> getByJids(Collection<String> jids);
 }

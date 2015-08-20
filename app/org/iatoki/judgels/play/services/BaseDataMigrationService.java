@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public interface BaseDataMigrationService {
 
-    void checkDatabase() throws SQLException;
-
     long getCodeDataVersion();
+
+    void checkDatabase() throws SQLException;
 }

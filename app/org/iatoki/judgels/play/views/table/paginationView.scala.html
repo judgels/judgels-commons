@@ -1,7 +1,9 @@
-@(page: org.iatoki.judgels.play.Page[_], orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => play.api.mvc.Call)
-
 @import play.i18n.Messages
+@import play.api.mvc.Call
 @import org.iatoki.judgels.play.views.html.table.pageLinkBuilder
+@import org.iatoki.judgels.play.Page
+
+@(page: Page[_], orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) =>Call)
 
 @newPageLink(newPageIndex: Long) = @{pageLinkBuilder(newPageIndex, null, orderDir, filterString, orderBy, listFunc)}
 

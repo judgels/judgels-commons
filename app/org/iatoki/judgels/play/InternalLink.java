@@ -3,6 +3,7 @@ package org.iatoki.judgels.play;
 import play.api.mvc.Call;
 
 public final class InternalLink {
+
     private String label;
     private Call target;
 

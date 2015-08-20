@@ -3,7 +3,7 @@ require(["jquery", "bootstrap"], function( __jquery__ ) {
         var href = $(this).attr("href");
         $("a[href='" + href +"']").each(function() {
             var parent = $(this).parent();
-            if (!$(this).hasClass("breadcrumb-link")) {
+            if (!$(this).hasClass("breadcrumb-link") && parent.siblings(".active").size() === 0) {
                 parent.addClass("active");
             }
             if (parent.is("li")) {

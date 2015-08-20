@@ -1,13 +1,11 @@
 package org.iatoki.judgels.play.controllers;
 
-import play.mvc.Http;
 import play.mvc.Result;
 
 public final class ApplicationController extends AbstractJudgelsController {
 
     public static Result changeLanguage(String newLang) {
-        Http.Context.current().changeLang(newLang);
-        response().setCookie("lang", newLang);
+        ctx().changeLang(newLang);
         return redirect(request().getHeader("Referer"));
     }
 

@@ -1,7 +1,7 @@
-@(sidebarContent: Html)(content: Html)
-
 @import play.mvc.Http.Context
 @import org.iatoki.judgels.play.JudgelsPlayUtils
+
+@(sidebarContent: Html)(content: Html)
 
 <div class="row content">
     @if(Context.current().args.getOrDefault("sidebar.isBefore", java.lang.Boolean.valueOf("true")) == true) {

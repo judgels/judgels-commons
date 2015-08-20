@@ -10,6 +10,5 @@ public abstract class AbstractJudgelsModel_ extends AbstractModel_ {
 
 	public static volatile SingularAttribute<AbstractJudgelsModel, Long> id;
 	public static volatile SingularAttribute<AbstractJudgelsModel, String> jid;
-
 }
 

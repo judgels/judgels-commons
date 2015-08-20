@@ -1,7 +1,7 @@
-@(content: Html)
-
 @import play.mvc.Http.Context
 @import org.iatoki.judgels.play.JudgelsPlayUtils
+
+@(content: Html)
 
 @if(!JudgelsPlayUtils.isFullscreen(Context.current().request())) {
     @headerView()

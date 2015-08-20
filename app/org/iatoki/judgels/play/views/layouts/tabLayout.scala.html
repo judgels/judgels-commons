@@ -1,6 +1,8 @@
-@(tabs: java.util.List[org.iatoki.judgels.play.InternalLink])(content: Html)
-
 @import play.i18n.Messages
+@import org.iatoki.judgels.play.InternalLink
+
+@(tabs: List[InternalLink])(content: Html)
+
 @if(tabs.size > 1) {
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">

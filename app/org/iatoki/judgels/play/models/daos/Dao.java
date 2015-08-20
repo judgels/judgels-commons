@@ -21,13 +21,21 @@ public interface Dao<K, M extends AbstractModel> {
 
     M findById(K id);
 
-    List<M> findAll();
+    List<M> getAll();
 
     long countByFilters(String filterString);
 
-    long countByFilters(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn);
+    long countByFilters(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn);
+
+    long countByFiltersEq(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq);
+
+    long countByFiltersIn(String filterString, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn);
 
     List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, long offset, long limit);
 
-    List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit);
+    List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit);
+
+    List<M> findSortedByFiltersEq(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, long offset, long limit);
+
+    List<M> findSortedByFiltersIn(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit);
 }

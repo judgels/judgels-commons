@@ -1,8 +1,9 @@
-@(breadcrumbs: List[org.iatoki.judgels.play.InternalLink])
-
-@import play.i18n.Messages
 @import java.util.Date
+@import play.i18n.Messages
 @import org.iatoki.judgels.play.JudgelsPlayUtils
+@import org.iatoki.judgels.play.InternalLink
+
+@(breadcrumbs: List[InternalLink])
 
 @defining(new Date().getTime()) { millis =>
     <div class="primary-content-breadcrumb clearfix">

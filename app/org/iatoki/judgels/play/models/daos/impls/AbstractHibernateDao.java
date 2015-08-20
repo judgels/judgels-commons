@@ -75,7 +75,7 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public final List<M> findAll() {
+    public final List<M> getAll() {
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<M> query = cb.createQuery(getModelClass());
 
@@ -85,7 +85,12 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public long countByFilters(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn) {
+    public long countByFilters(String filterString) {
+        return countByFilters(filterString, ImmutableMap.of(), ImmutableMap.of());
+    }
+
+    @Override
+    public long countByFilters(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn) {
         for (Collection<String> values : filterColumnsIn.values()) {
             if (values.isEmpty()) {
                 return 0;
@@ -105,21 +110,26 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
 
         }
 
-        List<Predicate> byColumnPredicates = filterColumns.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());
+        List<Predicate> byColumnPredicates = filterColumnsEq.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());
         List<Predicate> byColumnInPredicates = filterColumnsIn.entrySet().stream().filter(e -> ((e != null) && (!e.getValue().isEmpty()))).map(e -> root.get(e.getKey()).in(e.getValue())).collect(Collectors.toList());
         Predicate byColumn = cb.and(byColumnPredicates.toArray(new Predicate[byColumnPredicates.size()]));
         Predicate byColumnIn = cb.and(byColumnInPredicates.toArray(new Predicate[byColumnInPredicates.size()]));
 
         query
-              .select(cb.count(root))
-              .where(cb.and(byString, byColumn, byColumnIn));
+                .select(cb.count(root))
+                .where(cb.and(byString, byColumn, byColumnIn));
 
         return JPA.em().createQuery(query).getSingleResult();
     }
 
     @Override
-    public long countByFilters(String filterString) {
-        return countByFilters(filterString, ImmutableMap.of(), ImmutableMap.of());
+    public long countByFiltersEq(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq) {
+        return countByFilters(filterString, filterColumnsEq, ImmutableMap.of());
+    }
+
+    @Override
+    public long countByFiltersIn(String filterString, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn) {
+        return countByFilters(filterString, ImmutableMap.of(), filterColumnsIn);
     }
 
     @Override
@@ -128,7 +138,7 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumns, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit) {
+    public List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit) {
         for (Collection<String> values : filterColumnsIn.values()) {
             if (values.isEmpty()) {
                 return ImmutableList.of();
@@ -147,7 +157,7 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
             byString = cb.or(byStringPredicates.toArray(new Predicate[byStringPredicates.size()]));
         }
 
-        List<Predicate> byColumnPredicates = filterColumns.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());
+        List<Predicate> byColumnPredicates = filterColumnsEq.entrySet().stream().map(e -> cb.equal(root.get(e.getKey()), e.getValue())).collect(Collectors.toList());
         List<Predicate> byColumnInPredicates = filterColumnsIn.entrySet().stream().filter(e -> ((e != null) && (!e.getValue().isEmpty()))).map(e -> root.get(e.getKey()).in(e.getValue())).collect(Collectors.toList());
         Predicate byColumn = cb.and(byColumnPredicates.toArray(new Predicate[byColumnPredicates.size()]));
         Predicate byColumnIn = cb.and(byColumnInPredicates.toArray(new Predicate[byColumnInPredicates.size()]));
@@ -160,8 +170,8 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
         }
 
         query
-              .where(cb.and(byString, byColumn, byColumnIn))
-              .orderBy(order);
+                .where(cb.and(byString, byColumn, byColumnIn))
+                .orderBy(order);
 
         TypedQuery<M> q = JPA.em().createQuery(query).setFirstResult((int) offset);
         if (limit != -1) {
@@ -169,6 +179,16 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
         }
 
         return q.getResultList();
+    }
+
+    @Override
+    public List<M> findSortedByFiltersEq(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, long offset, long limit) {
+        return findSortedByFilters(orderBy, orderDir, filterString, filterColumnsEq, ImmutableMap.of(), offset, limit);
+    }
+
+    @Override
+    public List<M> findSortedByFiltersIn(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit) {
+        return findSortedByFilters(orderBy, orderDir, filterString, ImmutableMap.of(), filterColumnsIn, offset, limit);
     }
 
     protected List<SingularAttribute<M, String>> getColumnsFilterableByString() {

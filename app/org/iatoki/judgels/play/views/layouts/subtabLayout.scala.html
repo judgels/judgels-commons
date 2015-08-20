@@ -1,4 +1,6 @@
-@(tabs: List[org.iatoki.judgels.play.InternalLink])(content: Html)
+@import org.iatoki.judgels.play.InternalLink
+
+@(tabs: List[InternalLink])(content: Html)
 
 <ul class="nav nav-tabs">
     @for(tab <- tabs) {

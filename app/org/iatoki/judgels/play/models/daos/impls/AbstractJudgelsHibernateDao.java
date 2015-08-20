@@ -10,6 +10,7 @@ import play.db.jpa.JPA;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractJudgelsHibernateDao<M extends AbstractJudgelsModel> extends AbstractHibernateDao<Long, M> implements JudgelsDao<M> {
@@ -56,18 +57,18 @@ public abstract class AbstractJudgelsHibernateDao<M extends AbstractJudgelsModel
     }
 
     @Override
-    public List<M> findByJids(List<String> jids) {
+    public List<M> getByJids(Collection<String> jids) {
         if (jids.isEmpty()) {
             return ImmutableList.of();
-        } else {
-            CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-            CriteriaQuery<M> query = cb.createQuery(getModelClass());
-
-            Root<M> root = query.from(getModelClass());
-
-            query.where(root.get(AbstractJudgelsModel_.jid).in(jids));
-
-            return JPA.em().createQuery(query).getResultList();
         }
+
+        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+        CriteriaQuery<M> query = cb.createQuery(getModelClass());
+
+        Root<M> root = query.from(getModelClass());
+
+        query.where(root.get(AbstractJudgelsModel_.jid).in(jids));
+
+        return JPA.em().createQuery(query).getResultList();
     }
 }

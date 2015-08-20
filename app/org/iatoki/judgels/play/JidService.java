@@ -6,6 +6,7 @@ import org.iatoki.judgels.play.models.JidPrefix;
 import org.iatoki.judgels.play.models.entities.AbstractJudgelsModel;
 
 public final class JidService {
+
     private static JidService INSTANCE;
 
     private JidService() {

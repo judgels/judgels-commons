@@ -1,5 +1,6 @@
 @import play.i18n.Lang
 @import play.mvc.Http
+@import org.iatoki.judgels.play.controllers.routes
 
 <header>
     <div class="container">
@@ -17,7 +18,7 @@
                     <div class="languages">
                         <select id="languages" class="form-control selectpicker">
                             @for(lang <- Lang.availables()) {
-                                <option value="@org.iatoki.judgels.play.controllers.routes.ApplicationController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
+                                <option value="@routes.ApplicationController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
                             }
                         </select>
                     </div>

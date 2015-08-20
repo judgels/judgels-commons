@@ -14,6 +14,5 @@ public abstract class AbstractModel_ {
 	public static volatile SingularAttribute<AbstractModel, Long> timeUpdate;
 	public static volatile SingularAttribute<AbstractModel, String> ipUpdate;
 	public static volatile SingularAttribute<AbstractModel, String> ipCreate;
-
 }
 
