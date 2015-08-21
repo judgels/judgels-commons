@@ -4,6 +4,7 @@ import org.iatoki.judgels.play.models.daos.DataVersionDao;
 import org.iatoki.judgels.play.models.entities.DataVersionModel;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
@@ -45,10 +46,13 @@ public final class DataVersionHibernateDao implements DataVersionDao {
 
             entityManager.persist(dataVersionModel);
         } else {
-            DataVersionModel dataVersionModel =  dataVersionModels.get(0);
+            DataVersionModel dataVersionModel =  entityManager.createQuery(query).getSingleResult();
             dataVersionModel.version = version;
 
+            EntityTransaction entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
             entityManager.merge(dataVersionModel);
+            entityTransaction.commit();
         }
     }
 }
