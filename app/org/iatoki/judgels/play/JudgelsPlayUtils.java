@@ -12,16 +12,35 @@ import play.mvc.Http;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public final class JudgelsPlayUtils {
 
     private JudgelsPlayUtils() {
         // prevents instantiation
+    }
+
+    public static String formatDate(long timestamp) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return simpleDateFormat.format(new Date(timestamp));
+    }
+
+    public static long parseDate(String string) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return simpleDateFormat.parse(string).getTime();
+        } catch (ParseException e) {
+            return 0;
+        }
     }
 
     public static String formatDateTime(long timestamp) {
@@ -68,13 +87,17 @@ public final class JudgelsPlayUtils {
         return StringEscapeUtils.escapeHtml4(string).replaceAll("\r\n", "<br />").replaceAll("\n", "<br />");
     }
 
+    public static String getUserDisplayName(String username) {
+        return username;
+    }
+
     public static String getUserDisplayName(String username, String name) {
         return username + " (" + name + ")";
     }
 
     public static void updateUserJidCache(BaseJidCacheService<?> jidCacheService) {
         if (IdentityUtils.getUserJid() != null) {
-            jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsPlayUtils.getUserDisplayName(IdentityUtils.getUsername(), IdentityUtils.getUserRealName()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
+            jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsPlayUtils.getUserDisplayName(IdentityUtils.getUsername()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
         }
     }
 

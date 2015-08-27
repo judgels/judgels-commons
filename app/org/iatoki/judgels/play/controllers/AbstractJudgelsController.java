@@ -8,6 +8,14 @@ import play.mvc.Result;
 @UnsupportedOperationGuard
 public abstract class AbstractJudgelsController extends Controller {
 
+    protected static void flashInfo(String message) {
+        flash("flashInfo", message);
+    }
+
+    protected static void flashError(String message) {
+        flash("flashError", message);
+    }
+
     protected static boolean formHasErrors(Form form) {
         return form.hasErrors() || form.hasGlobalErrors();
     }

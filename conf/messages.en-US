@@ -15,6 +15,8 @@ commons.view=View
 commons.update=Update
 commons.search=Search
 commons.upload=Upload
+commons.remove=Remove
+commons.delete=Delete
 
 commons.info=Info
 commons.value=Value
