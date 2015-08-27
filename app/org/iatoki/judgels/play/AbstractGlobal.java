@@ -25,8 +25,8 @@ public abstract class AbstractGlobal extends GlobalSettings {
     public void onStart(Application application) {
         super.onStart(application);
         JPA.withTransaction(() -> {
-            getDataMigrationService().checkDatabase();
-        });
+                getDataMigrationService().checkDatabase();
+            });
 
         File logoFile = new File("external-assets/logo.png");
         if (!logoFile.exists()) {
@@ -47,7 +47,6 @@ public abstract class AbstractGlobal extends GlobalSettings {
             } catch (IOException e) {
                 throw new IllegalStateException("Cannot create default logo.");
             }
-
         }
     }
 
