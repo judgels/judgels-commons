@@ -61,3 +61,6 @@ commons.viewAs=View As
 commons.resetViewAs=Reset View
 
 commons.moment.locale=en
+commons.login=Login
+commons.register=Register
+commons.helloGuest=Hello, Guest

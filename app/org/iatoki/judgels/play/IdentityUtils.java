@@ -14,9 +14,6 @@ public final class IdentityUtils {
 
     public static String getUsername() {
         String username = Http.Context.current().session().get("username");
-        if (username == null) {
-            username = "guest";
-        }
 
         return username;
     }
