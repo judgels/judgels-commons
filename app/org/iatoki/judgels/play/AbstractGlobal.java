@@ -28,7 +28,7 @@ public abstract class AbstractGlobal extends GlobalSettings {
                 getDataMigrationService().checkDatabase();
             });
 
-        File logoFile = new File("external-assets/logo.png");
+        File logoFile = new File(application.getFile("external-assets"), "logo.png");
         if (!logoFile.exists()) {
             logoFile.getParentFile().mkdirs();
             try {
@@ -39,7 +39,7 @@ public abstract class AbstractGlobal extends GlobalSettings {
 
         }
 
-        File favIconFile = new File("external-assets/favicon.ico");
+        File favIconFile = new File(application.getFile("external-assets"), "favicon.ico");
         if (!favIconFile.exists()) {
             favIconFile.getParentFile().mkdirs();
             try {

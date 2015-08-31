@@ -1,9 +1,10 @@
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.at(path="/public", file)
 GET         /vassets/*file          controllers.Assets.versioned(path="/public", file: Asset)
-GET         /eassets/*file          controllers.ExternalAssets.at(path="external-assets", file: String)
 
 # Home page
+GET        /favicon                 org.iatoki.judgels.play.controllers.ApplicationController.favicon()
+GET        /logo                    org.iatoki.judgels.play.controllers.ApplicationController.logo()
 GET        /language/:lang          org.iatoki.judgels.play.controllers.ApplicationController.changeLanguage(lang: String)
 GET        /showSidebar             org.iatoki.judgels.play.controllers.ApplicationController.showSidebar()
 GET        /hideSidebar             org.iatoki.judgels.play.controllers.ApplicationController.hideSidebar()

@@ -1,8 +1,33 @@
 package org.iatoki.judgels.play.controllers;
 
+import play.Play;
 import play.mvc.Result;
 
+import java.io.File;
+
 public final class ApplicationController extends AbstractJudgelsController {
+
+    public static Result favicon() {
+        File faviconFile = new File(Play.application().getFile("external-assets"), "favicon.ico");
+
+        if (faviconFile.exists()) {
+            response().setHeader(CACHE_CONTROL, "max-age=3600");
+            return ok(faviconFile);
+        } else {
+            return notFound();
+        }
+    }
+
+    public static Result logo() {
+        File logoFile = new File(Play.application().getFile("external-assets"), "logo.png");
+
+        if (logoFile.exists()) {
+            response().setHeader(CACHE_CONTROL, "max-age=3600");
+            return ok(logoFile);
+        } else {
+            return notFound();
+        }
+    }
 
     public static Result changeLanguage(String newLang) {
         ctx().changeLang(newLang);

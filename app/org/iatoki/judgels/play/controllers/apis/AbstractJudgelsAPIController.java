@@ -1,14 +1,15 @@
 package org.iatoki.judgels.play.controllers.apis;
 
+import org.apache.commons.lang3.StringUtils;
 import play.mvc.Controller;
 
 public abstract class AbstractJudgelsAPIController extends Controller {
 
     protected static void setAccessControlOrigin(String domains, String methods, long maxAge) {
-        response().setHeader("Access-Control-Allow-Origin", domains);
-        response().setHeader("Access-Control-Allow-Methods", methods);
-        response().setHeader("Access-Control-Max-Age", maxAge + "");
-        response().setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, domains);
+        response().setHeader(ACCESS_CONTROL_ALLOW_METHODS, methods);
+        response().setHeader(ACCESS_CONTROL_MAX_AGE, maxAge + "");
+        response().setHeader(ACCESS_CONTROL_ALLOW_HEADERS, StringUtils.join(new String[] { ORIGIN, X_REQUESTED_WITH, CONTENT_TYPE, ACCEPT, AUTHORIZATION }, ','));
     }
 
     protected static String createJsonPResponse(String callback, String json) {

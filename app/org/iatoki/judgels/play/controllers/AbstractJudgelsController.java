@@ -21,6 +21,6 @@ public abstract class AbstractJudgelsController extends Controller {
     }
 
     protected static Result redirectToReferer() {
-        return redirect(request().getHeader("Referer"));
+        return redirect(request().getHeader(REFERER));
     }
 }
