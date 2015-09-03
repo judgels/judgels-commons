@@ -9,7 +9,7 @@ public abstract class AbstractJudgelsAPIController extends Controller {
         response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, domains);
         response().setHeader(ACCESS_CONTROL_ALLOW_METHODS, methods);
         response().setHeader(ACCESS_CONTROL_MAX_AGE, maxAge + "");
-        response().setHeader(ACCESS_CONTROL_ALLOW_HEADERS, StringUtils.join(new String[] { ORIGIN, X_REQUESTED_WITH, CONTENT_TYPE, ACCEPT, AUTHORIZATION }, ','));
+        response().setHeader(ACCESS_CONTROL_ALLOW_HEADERS, StringUtils.join(new String[] {ORIGIN, X_REQUESTED_WITH, CONTENT_TYPE, ACCEPT, AUTHORIZATION}, ','));
     }
 
     protected static String createJsonPResponse(String callback, String json) {
