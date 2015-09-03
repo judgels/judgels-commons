@@ -1,5 +1,6 @@
 package org.iatoki.judgels.play.controllers;
 
+import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import org.iatoki.judgels.play.InternalLink;
 import org.iatoki.judgels.play.LazyHtml;
 import org.iatoki.judgels.play.views.html.layouts.baseLayout;
@@ -8,6 +9,7 @@ import org.iatoki.judgels.play.views.html.layouts.headerFooterLayout;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.twirl.api.Html;
 
 import java.util.List;
 
@@ -29,13 +31,15 @@ public abstract class AbstractJudgelsControllerUtils {
     }
 
     public Result getResult(LazyHtml content, int statusCode) {
+        HtmlCompressor htmlCompressor = new HtmlCompressor();
+        Html compressedContent = new Html(htmlCompressor.compress(content.render().body()));
         switch (statusCode) {
             case Http.Status.OK:
-                return Results.ok(content.render());
+                return Results.ok(compressedContent);
             case Http.Status.NOT_FOUND:
-                return Results.notFound(content.render());
+                return Results.notFound(compressedContent);
             default:
-                return Results.badRequest(content.render());
+                return Results.badRequest(compressedContent);
         }
     }
 }
