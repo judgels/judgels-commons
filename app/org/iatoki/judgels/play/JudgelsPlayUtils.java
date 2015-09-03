@@ -7,6 +7,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.iatoki.judgels.play.services.BaseJidCacheService;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import play.mvc.Http;
 
 import java.io.UnsupportedEncodingException;
@@ -157,6 +159,10 @@ public final class JudgelsPlayUtils {
         }
 
         return credentials;
+    }
+
+    public static String toSafeHtml(String html) {
+        return Jsoup.clean(html, Whitelist.basic().addTags("iframe", "embed").addAttributes("iframe", "src", "style", "frameborder", "class").addAttributes("embed", "src", "class", "height"));
     }
 
     private static String messageDigest(String s, String algorithm) {
