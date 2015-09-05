@@ -51,6 +51,14 @@ public abstract class AbstractGlobal extends GlobalSettings {
     }
 
     @Override
+    public F.Promise<Result> onBadRequest(Http.RequestHeader requestHeader, String s) {
+        if (s.contains("Cannot parse")) {
+            return onHandlerNotFound(requestHeader);
+        }
+        return super.onBadRequest(requestHeader, s);
+    }
+
+    @Override
     public F.Promise<Result> onHandlerNotFound(Http.RequestHeader requestHeader) {
         return F.Promise.promise(() -> {
                 LazyHtml content = new LazyHtml(messageView.render(Messages.get("commons.pageNotFound.message")));
