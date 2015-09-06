@@ -5,6 +5,10 @@ import play.mvc.Http;
 
 public final class JudgelsAPIControllerUtils implements Http.HeaderNames {
 
+    private JudgelsAPIControllerUtils() {
+        // prevent instantiation
+    }
+
     public static void setAccessControlOrigin(String domains, String methods, long maxAge) {
         Http.Context.current().response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, domains);
         Http.Context.current().response().setHeader(ACCESS_CONTROL_ALLOW_METHODS, methods);
