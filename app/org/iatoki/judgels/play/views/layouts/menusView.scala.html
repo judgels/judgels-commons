@@ -2,10 +2,10 @@
 
 @(menus: List[InternalLink])
 
-<div class="menu clearfix">
+<nav class="menu clearfix">
     <ul class="nav nav-stacked">
     @for(menu <- menus) {
         <li role="presentation"><a href="@menu.getTarget">@menu.getLabel</a><div class="menu-arrow">&gt;</div></li>
     }
     </ul>
-</div>
+</nav>

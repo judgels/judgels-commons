@@ -13,7 +13,10 @@ public final class JudgelsPlayProperties {
 
     private String appTitle;
     private String appCopyright;
+    private String canonicalUrl;
     private String githubLink;
+    private String metaKeywords;
+    private String metaDescription;
     private boolean usingGoogleAnalytics;
     private String googleAnalyticsId;
 
@@ -54,6 +57,18 @@ public final class JudgelsPlayProperties {
         return appCopyright;
     }
 
+    public String getCanonicalUrl() {
+        return canonicalUrl;
+    }
+
+    public String getMetaKeywords() {
+        return metaKeywords;
+    }
+
+    public String getMetaDescription() {
+        return metaDescription;
+    }
+
     public String getGithubLink() {
         return githubLink;
     }
@@ -69,6 +84,9 @@ public final class JudgelsPlayProperties {
     private void build() {
         this.appTitle = requireStringValue("application.title");
         this.appCopyright = requireStringValue("application.copyright");
+        this.canonicalUrl = requireStringValue("link.canonicalUrl");
+        this.metaKeywords = requireStringValue("seo.metaKeywords");
+        this.metaDescription = requireStringValue("seo.metaDescription");
         this.githubLink = requireStringValue("link.github");
         this.usingGoogleAnalytics = requireBooleanValue("googleAnalytics.use");
         this.googleAnalyticsId = getStringValue("googleAnalytics.id");

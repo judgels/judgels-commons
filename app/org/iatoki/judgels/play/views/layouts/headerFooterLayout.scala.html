@@ -7,9 +7,9 @@
     @headerView()
 }
 
-<div class="container">
+<main class="container">
     @content
-</div>
+</main>
 
 @if(!JudgelsPlayUtils.isFullscreen(Context.current().request())) {
     @footerView()

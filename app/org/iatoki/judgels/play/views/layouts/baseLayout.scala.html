@@ -1,16 +1,25 @@
+@import org.iatoki.judgels.play.controllers.ControllerUtils
 @import org.iatoki.judgels.play.JudgelsPlayProperties
 @import org.iatoki.judgels.play.IdentityUtils
-@import play.mvc.Controller
+@import play.mvc.Http
 
 @(pageTitle: String)(content: Html)
 
 <!DOCTYPE html>
 
-<html>
-    <head>
+<html lang="@Http.Context.current().lang().code()">
+    <head itemscope itemtype="http://schema.org/WebSite">
         <meta charset="UTF-8">
         <meta name=viewport content="width=device-width, initial-scale=1">
-        <title>@JudgelsPlayProperties.getInstance.getAppTitle @if(!"".equals(pageTitle)) { - @pageTitle }</title>
+        <meta name="keywords" content="@JudgelsPlayProperties.getInstance().getMetaKeywords">
+        <meta name="description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
+        <meta property="og:site_name" content="@(JudgelsPlayProperties.getInstance().getAppCopyright + " " + JudgelsPlayProperties.getInstance.getAppTitle)">
+        <meta property="og:title" content="@if(!pageTitle.isEmpty) { @pageTitle } else { @JudgelsPlayProperties.getInstance.getAppTitle }">
+        <meta property="og:url" content="@ControllerUtils.getCurrentUrl(Http.Context.current().request())">
+        <meta property="og:description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
+        <meta property="og:locale" content="@Http.Context.current().lang().code()" />
+        <link rel="canonical" href="@JudgelsPlayProperties.getInstance().getCanonicalUrl" itemprop="url">
+        <title itemprop='name'>@JudgelsPlayProperties.getInstance.getAppTitle @if(!pageTitle.isEmpty) { - @pageTitle }</title>
         <link rel="shortcut icon" type="image/ico" href='@org.iatoki.judgels.play.controllers.routes.ApplicationController.favicon()'>
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
         <script type="text/javascript" src="@controllers.routes.Assets.at("/lib/requirejs/require.js")"></script>
@@ -35,5 +44,13 @@
               ga('set', '&uid', '@IdentityUtils.getUserJid');
             </script>
         }
+        <script type="application/ld+json">
+        {
+          "@@context": "http://schema.org",
+          "@@type": "Organization",
+          "url": "@JudgelsPlayProperties.getInstance().getCanonicalUrl",
+          "logo": "@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.logo())"
+        }
+        </script>
     </body>
 </html>
