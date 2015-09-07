@@ -15,8 +15,8 @@ public class SealtielImpl implements Sealtiel {
     }
 
     @Override
-    public SealtielAPI connectWithBasicAuth(String clientJid, String clientSecret) {
-        return new SealtielAPIImpl(baseUrl, new JudgelsAPIBasicAuthCredentials(clientJid, clientSecret));
+    public SealtielAPI connectWithBasicAuth(String username, String password) {
+        return new SealtielAPIImpl(baseUrl, new JudgelsAPIBasicAuthCredentials(username, password));
     }
 
     @Override

@@ -5,25 +5,25 @@ import org.apache.http.client.methods.HttpRequestBase;
 
 public final class JudgelsAPIBasicAuthCredentials implements JudgelsAPICredentials {
 
-    private final String clientJid;
-    private final String clientSecret;
+    private final String username;
+    private final String password;
 
-    public JudgelsAPIBasicAuthCredentials(String clientJid, String clientSecret) {
-        this.clientJid = clientJid;
-        this.clientSecret = clientSecret;
+    public JudgelsAPIBasicAuthCredentials(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     @Override
     public void applyToHttpRequest(HttpRequestBase httpRequest) {
-        String credentials = clientJid + ":" + clientSecret;
+        String credentials = username + ":" + password;
         httpRequest.setHeader("Authorization", "Basic " + Base64.encodeBase64String(credentials.getBytes()));
     }
 
-    public String getClientJid() {
-        return clientJid;
+    public String getUsername() {
+        return username;
     }
 
-    public String getClientSecret() {
-        return clientSecret;
+    public String getPassword() {
+        return password;
     }
 }
