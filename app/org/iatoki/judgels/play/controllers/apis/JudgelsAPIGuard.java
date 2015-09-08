@@ -7,9 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@With(JudgelsAPIControllerAction.class)
+@With(JudgelsAPIGuardAction.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JudgelsAPIController {
+public @interface JudgelsAPIGuard {
 
 }

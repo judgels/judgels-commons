@@ -13,7 +13,7 @@ import play.mvc.Results;
 
 import static play.mvc.Http.HeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN;
 
-public final class JudgelsAPIControllerAction extends Action<JudgelsAPIController> {
+public final class JudgelsAPIGuardAction extends Action<JudgelsAPIGuard> {
 
     @Override
     public F.Promise<Result> call(Http.Context context) throws Throwable {

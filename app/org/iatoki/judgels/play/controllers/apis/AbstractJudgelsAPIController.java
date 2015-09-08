@@ -10,21 +10,17 @@ import org.iatoki.judgels.play.apis.JudgelsAPIBadRequestException;
 import org.iatoki.judgels.play.apis.JudgelsAPIUnauthorizedException;
 import org.iatoki.judgels.play.apis.JudgelsAppClientAPIIdentity;
 import org.iatoki.judgels.play.services.JudgelsAppClientService;
-import play.mvc.Http;
-import play.mvc.Http.Context;
+import play.mvc.Controller;
 
-public final class JudgelsAPIControllerUtils implements Http.HeaderNames {
+@JudgelsAPIGuard
+public abstract class AbstractJudgelsAPIController extends Controller {
 
-    private JudgelsAPIControllerUtils() {
-        // prevent instantiation
-    }
-
-    public static JudgelsAppClientAPIIdentity authenticateAsJudgelsAppClient(JudgelsAppClientService clientService) {
-        if (!Context.current().request().hasHeader("Authorization")) {
+    protected static JudgelsAppClientAPIIdentity authenticateAsJudgelsAppClient(JudgelsAppClientService clientService) {
+        if (!request().hasHeader("Authorization")) {
             throw new JudgelsAPIUnauthorizedException("Requires authentication.");
         }
 
-        String authorization = Context.current().request().getHeader("Authorization");
+        String authorization = request().getHeader("Authorization");
 
         if (!authorization.startsWith("Basic ")) {
             throw new JudgelsAPIUnauthorizedException("Requires authentication.");
@@ -49,22 +45,22 @@ public final class JudgelsAPIControllerUtils implements Http.HeaderNames {
         return new JudgelsAppClientAPIIdentity(client.getJid(), client.getName());
     }
 
-    public static <T> T parseRequestBody(Class<T> clazz) {
+    protected static <T> T parseRequestBody(Class<T> clazz) {
         try {
-            return new Gson().fromJson(Context.current().request().body().asText(), clazz);
+            return new Gson().fromJson(request().body().asText(), clazz);
         } catch (JsonSyntaxException e) {
             throw new JudgelsAPIBadRequestException("Bad JSON body.");
         }
     }
 
-    public static void setAccessControlOrigin(String domains, String methods, long maxAge) {
-        Http.Context.current().response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, domains);
-        Http.Context.current().response().setHeader(ACCESS_CONTROL_ALLOW_METHODS, methods);
-        Http.Context.current().response().setHeader(ACCESS_CONTROL_MAX_AGE, maxAge + "");
-        Http.Context.current().response().setHeader(ACCESS_CONTROL_ALLOW_HEADERS, StringUtils.join(new String[] {ORIGIN, X_REQUESTED_WITH, CONTENT_TYPE, ACCEPT, AUTHORIZATION}, ','));
+    protected static void setAccessControlOrigin(String domains, String methods, long maxAge) {
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, domains);
+        response().setHeader(ACCESS_CONTROL_ALLOW_METHODS, methods);
+        response().setHeader(ACCESS_CONTROL_MAX_AGE, maxAge + "");
+        response().setHeader(ACCESS_CONTROL_ALLOW_HEADERS, StringUtils.join(new String[] {ORIGIN, X_REQUESTED_WITH, CONTENT_TYPE, ACCEPT, AUTHORIZATION}, ','));
     }
 
-    public static String createJsonPResponse(String callback, String json) {
+    protected static String createJsonPResponse(String callback, String json) {
         StringBuilder sb = new StringBuilder(callback);
         sb.append("(").append(json).append(")");
         return sb.toString();
