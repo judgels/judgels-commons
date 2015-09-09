@@ -162,7 +162,7 @@ public final class JudgelsPlayUtils {
     }
 
     public static String toSafeHtml(String html) {
-        return Jsoup.clean(html, Whitelist.basic().addTags("iframe", "embed").addAttributes("iframe", "src", "style", "frameborder", "class").addAttributes("embed", "src", "class", "height"));
+        return Jsoup.clean(html, Whitelist.relaxed().addTags("iframe", "embed").addAttributes("iframe", "src", "style", "frameborder", "class").addAttributes("embed", "src", "class", "height"));
     }
 
     private static String messageDigest(String s, String algorithm) {
