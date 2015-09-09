@@ -18,7 +18,6 @@ public final class JudgelsAPIGuardAction extends Action<JudgelsAPIGuard> {
     @Override
     public F.Promise<Result> call(Http.Context context) throws Throwable {
         try {
-            context.response().setContentType("application/json");
             context.response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 
             return this.delegate.call(context);
