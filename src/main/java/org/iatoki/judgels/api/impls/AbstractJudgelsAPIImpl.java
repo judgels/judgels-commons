@@ -58,7 +58,7 @@ public abstract class AbstractJudgelsAPIImpl {
             try {
                 httpPost.setEntity(new StringEntity(body.toString()));
             } catch (UnsupportedEncodingException e) {
-                throw new JudgelsAPIClientException(httpPost.getURI(), e);
+                throw new JudgelsAPIClientException(httpPost, e);
             }
         }
 
@@ -113,11 +113,11 @@ public abstract class AbstractJudgelsAPIImpl {
             if (statusCode == HttpStatus.SC_OK) {
                 return content;
             } else {
-                throw new JudgelsAPIClientException(httpRequest.getURI(), statusCode, content);
+                throw new JudgelsAPIClientException(httpRequest, statusCode, content);
             }
 
         } catch (IOException e) {
-            throw new JudgelsAPIClientException(httpRequest.getURI(), e);
+            throw new JudgelsAPIClientException(httpRequest, e);
         } finally {
             try {
                 if (response != null) {
