@@ -2,6 +2,8 @@
 
 @(heading: String, action: InternalLink)(content: Html)
 
-<h3>@heading <a class="btn btn-primary btn-sm" href="@action.getTarget">@action.getLabel</a></h3>
-
+<div class="inline-headers">
+    <h3>@heading</h3>
+    <a class="btn btn-primary btn-sm" href="@action.getTarget">@action.getLabel</a>
+</div>
 @content

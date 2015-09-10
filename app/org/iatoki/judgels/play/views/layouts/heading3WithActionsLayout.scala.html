@@ -2,6 +2,9 @@
 
 @(heading: String, actions: InternalLink*)(content: Html)
 
-<h3>@heading @for(action <- actions){ <a class="btn btn-primary btn-sm" href="@action.getTarget">@action.getLabel</a> }</h3>
+<div class="inline-headers">
+    <h3>@heading</h3>
 
+    @for(action <- actions){ <a class="btn btn-primary btn-sm" href="@action.getTarget">@action.getLabel</a> }
+</div>
 @content
