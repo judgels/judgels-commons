@@ -21,8 +21,7 @@ public final class JophielClientAPIImpl extends AbstractJudgelsClientAPIImpl imp
     @Override
     public JophielUser findUserByUsernameAndPassword(String username, String password) {
         try {
-            String responseBody = sendGetRequest("/users/usernamePassword", ImmutableMap.of("username", username, "password", password));
-            return new Gson().fromJson(responseBody, JophielUser.class);
+            return sendGetRequest("/users/usernamePassword", ImmutableMap.of("username", username, "password", password)).asObjectFromJson(JophielUser.class);
         } catch (JudgelsAPIClientException e) {
             if (e.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
                 return null;
@@ -35,8 +34,7 @@ public final class JophielClientAPIImpl extends AbstractJudgelsClientAPIImpl imp
     @Override
     public JophielUser findUserByAccessToken(String accessToken) {
         try {
-            String responseBody = sendGetRequest("/users/accessToken", ImmutableMap.of("accessToken", accessToken));
-            return new Gson().fromJson(responseBody, JophielUser.class);
+            return sendGetRequest("/users/accessToken", ImmutableMap.of("accessToken", accessToken)).asObjectFromJson(JophielUser.class);
         } catch (JudgelsAPIClientException e) {
             if (e.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
                 return null;

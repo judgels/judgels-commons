@@ -19,6 +19,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.iatoki.judgels.api.JudgelsAPIClientException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -36,21 +37,21 @@ public abstract class AbstractJudgelsAPIImpl {
 
     protected abstract void setAuthorization(HttpRequestBase httpRequest);
 
-    protected final String sendGetRequest(String path) {
+    protected final JudgelsAPIRawResponseBody sendGetRequest(String path) {
         return sendGetRequest(path, ImmutableMap.of());
     }
 
-    protected final String sendGetRequest(String path, Map<String, String> params) {
+    protected final JudgelsAPIRawResponseBody sendGetRequest(String path, Map<String, String> params) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(constructDefaultRequestConfig()).build();
         HttpGet httpGet = new HttpGet(getEndpoint(path, params));
         return sendRequest(httpClient, httpGet);
     }
 
-    protected final String sendPostRequest(String path) {
+    protected final JudgelsAPIRawResponseBody sendPostRequest(String path) {
         return sendPostRequest(path, null);
     }
 
-    protected final String sendPostRequest(String path, JsonElement body) {
+    protected final JudgelsAPIRawResponseBody sendPostRequest(String path, JsonElement body) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(constructDefaultRequestConfig()).build();
         HttpPost httpPost = new HttpPost(getEndpoint(path));
 
@@ -101,7 +102,7 @@ public abstract class AbstractJudgelsAPIImpl {
                 .build();
     }
 
-    private String sendRequest(CloseableHttpClient httpClient, HttpRequestBase httpRequest) {
+    private JudgelsAPIRawResponseBody sendRequest(CloseableHttpClient httpClient, HttpRequestBase httpRequest) {
         setAuthorization(httpRequest);
 
         CloseableHttpResponse response = null;
@@ -109,11 +110,12 @@ public abstract class AbstractJudgelsAPIImpl {
             response = httpClient.execute(httpRequest);
 
             int statusCode = response.getStatusLine().getStatusCode();
-            String content = IOUtils.toString(response.getEntity().getContent());
+            InputStream responseBody = response.getEntity().getContent();
+
             if (statusCode == HttpStatus.SC_OK) {
-                return content;
+                return new JudgelsAPIRawResponseBody(httpRequest, responseBody);
             } else {
-                throw new JudgelsAPIClientException(httpRequest, statusCode, content);
+                throw new JudgelsAPIClientException(httpRequest, statusCode, IOUtils.toString(responseBody));
             }
 
         } catch (IOException e) {

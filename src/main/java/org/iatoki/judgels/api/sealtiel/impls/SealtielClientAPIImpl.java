@@ -14,13 +14,7 @@ public final class SealtielClientAPIImpl extends AbstractJudgelsClientAPIImpl im
 
     @Override
     public SealtielMessage fetchMessage() {
-        String responseBody = sendPostRequest("/messages/fetch");
-
-        if (responseBody.isEmpty()) {
-            return null;
-        }
-
-        return new Gson().fromJson(responseBody, SealtielMessage.class);
+        return sendPostRequest("/messages/fetch").asObjectFromJson(SealtielMessage.class);
     }
 
     @Override
