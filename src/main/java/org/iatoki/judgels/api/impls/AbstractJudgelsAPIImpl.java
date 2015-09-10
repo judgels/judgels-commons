@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -40,7 +41,7 @@ public abstract class AbstractJudgelsAPIImpl {
     }
 
     protected final String sendGetRequest(String path, Map<String, String> params) {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(constructDefaultRequestConfig()).build();
         HttpGet httpGet = new HttpGet(getEndpoint(path, params));
         return sendRequest(httpClient, httpGet);
     }
@@ -50,7 +51,7 @@ public abstract class AbstractJudgelsAPIImpl {
     }
 
     protected final String sendPostRequest(String path, JsonElement body) {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(constructDefaultRequestConfig()).build();
         HttpPost httpPost = new HttpPost(getEndpoint(path));
 
         if (body != null) {
@@ -90,6 +91,14 @@ public abstract class AbstractJudgelsAPIImpl {
         } catch (URISyntaxException e) {
             throw new JudgelsAPIClientException(null, e);
         }
+    }
+
+    private RequestConfig constructDefaultRequestConfig() {
+        return RequestConfig.custom()
+                .setConnectionRequestTimeout(30 * 1000)
+                .setSocketTimeout(30 * 1000)
+                .setConnectTimeout(30 * 1000)
+                .build();
     }
 
     private String sendRequest(CloseableHttpClient httpClient, HttpRequestBase httpRequest) {
