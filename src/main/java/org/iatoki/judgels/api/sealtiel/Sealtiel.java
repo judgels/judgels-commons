@@ -1,7 +1,7 @@
 package org.iatoki.judgels.api.sealtiel;
 
-import org.iatoki.judgels.api.Judgels;
+import org.iatoki.judgels.api.JudgelsWithClientAPI;
 
-public interface Sealtiel extends Judgels<SealtielAPI> {
+public interface Sealtiel extends JudgelsWithClientAPI<SealtielClientAPI> {
 
 }

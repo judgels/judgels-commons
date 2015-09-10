@@ -1,10 +1,7 @@
 package org.iatoki.judgels.api.sealtiel.impls;
 
-import org.iatoki.judgels.api.JudgelsAPIBasicAuthCredentials;
-import org.iatoki.judgels.api.JudgelsAPINoCredentials;
-import org.iatoki.judgels.api.JudgelsAPIOAuth2Credentials;
 import org.iatoki.judgels.api.sealtiel.Sealtiel;
-import org.iatoki.judgels.api.sealtiel.SealtielAPI;
+import org.iatoki.judgels.api.sealtiel.SealtielClientAPI;
 
 public class SealtielImpl implements Sealtiel {
 
@@ -15,17 +12,7 @@ public class SealtielImpl implements Sealtiel {
     }
 
     @Override
-    public SealtielAPI connectWithBasicAuth(String username, String password) {
-        return new SealtielAPIImpl(baseUrl, new JudgelsAPIBasicAuthCredentials(username, password));
-    }
-
-    @Override
-    public SealtielAPI connectWithAccessToken(String accessToken) {
-        return new SealtielAPIImpl(baseUrl, new JudgelsAPIOAuth2Credentials(accessToken));
-    }
-
-    @Override
-    public SealtielAPI connectAnonymously() {
-        return new SealtielAPIImpl(baseUrl, new JudgelsAPINoCredentials());
+    public SealtielClientAPI connectToClientAPI(String clientJid, String clientSecret) {
+        return new SealtielClientAPIImpl(baseUrl, clientJid, clientSecret);
     }
 }

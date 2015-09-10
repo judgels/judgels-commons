@@ -2,26 +2,25 @@ package org.iatoki.judgels.api.sealtiel.impls;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.iatoki.judgels.api.JudgelsAPICredentials;
-import org.iatoki.judgels.api.impls.AbstractJudgelsAPIImpl;
-import org.iatoki.judgels.api.sealtiel.SealtielAPI;
+import org.iatoki.judgels.api.impls.AbstractJudgelsClientAPIImpl;
+import org.iatoki.judgels.api.sealtiel.SealtielClientAPI;
 import org.iatoki.judgels.api.sealtiel.SealtielMessage;
 
-public final class SealtielAPIImpl extends AbstractJudgelsAPIImpl implements SealtielAPI {
+public final class SealtielClientAPIImpl extends AbstractJudgelsClientAPIImpl implements SealtielClientAPI {
 
-    public SealtielAPIImpl(String baseUrl, JudgelsAPICredentials credentials) {
-        super(baseUrl, credentials);
+    public SealtielClientAPIImpl(String baseUrl, String clientJid, String clientSecret) {
+        super(baseUrl, clientJid, clientSecret);
     }
 
     @Override
     public SealtielMessage fetchMessage() {
-        String response = sendPostRequest("/messages/fetch");
+        String responseBody = sendPostRequest("/messages/fetch");
 
-        if (response.isEmpty()) {
+        if (responseBody.isEmpty()) {
             return null;
         }
 
-        return new Gson().fromJson(response, SealtielMessage.class);
+        return new Gson().fromJson(responseBody, SealtielMessage.class);
     }
 
     @Override
