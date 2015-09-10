@@ -1,8 +1,11 @@
 package org.iatoki.judgels.api.impls;
 
-import com.google.gson.JsonObject;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonElement;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -11,29 +14,34 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.iatoki.judgels.api.JudgelsAPIClientException;
-import org.iatoki.judgels.api.JudgelsAPICredentials;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractJudgelsAPIImpl {
 
     private static final String API_URL_PREFIX = "/api/v1";
 
     private final String baseUrl;
-    private final JudgelsAPICredentials credentials;
 
-    protected AbstractJudgelsAPIImpl(String baseUrl, JudgelsAPICredentials credentials) {
+    protected AbstractJudgelsAPIImpl(String baseUrl) {
         this.baseUrl = baseUrl;
-        this.credentials = credentials;
     }
 
+    protected abstract void setAuthorization(HttpRequestBase httpRequest);
+
     protected final String sendGetRequest(String path) {
+        return sendGetRequest(path, ImmutableMap.of());
+    }
+
+    protected final String sendGetRequest(String path, Map<String, String> params) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet(getEndpoint(path));
+        HttpGet httpGet = new HttpGet(getEndpoint(path, params));
         return sendRequest(httpClient, httpGet);
     }
 
@@ -41,7 +49,7 @@ public abstract class AbstractJudgelsAPIImpl {
         return sendPostRequest(path, null);
     }
 
-    protected final String sendPostRequest(String path, JsonObject body) {
+    protected final String sendPostRequest(String path, JsonElement body) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(getEndpoint(path));
 
@@ -64,8 +72,28 @@ public abstract class AbstractJudgelsAPIImpl {
         return interpolatedPath;
     }
 
+    protected final String getEndpoint(String path) {
+        return getEndpoint(path, ImmutableMap.of());
+    }
+
+    protected final String getEndpoint(String path, Map<String, String> params) {
+        ImmutableList.Builder<NameValuePair> nameValuePairsBuilder = ImmutableList.builder();
+
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            nameValuePairsBuilder.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        }
+
+        List<NameValuePair> nameValuePairs = nameValuePairsBuilder.build();
+
+        try {
+            return new URIBuilder(baseUrl).setPath(API_URL_PREFIX + path).setParameters(nameValuePairs).build().toString();
+        } catch (URISyntaxException e) {
+            throw new JudgelsAPIClientException(null, e);
+        }
+    }
+
     private String sendRequest(CloseableHttpClient httpClient, HttpRequestBase httpRequest) {
-        credentials.applyToHttpRequest(httpRequest);
+        setAuthorization(httpRequest);
 
         CloseableHttpResponse response = null;
         try {
@@ -90,14 +118,6 @@ public abstract class AbstractJudgelsAPIImpl {
             } catch (IOException e) {
                 // log later
             }
-        }
-    }
-
-    private URI getEndpoint(String path) {
-        try {
-            return new URIBuilder(baseUrl).setPath(API_URL_PREFIX + path).build();
-        } catch (URISyntaxException e) {
-            throw new JudgelsAPIClientException(null, e);
         }
     }
 }
