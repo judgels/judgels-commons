@@ -14,6 +14,7 @@ import org.iatoki.judgels.play.apis.JudgelsAPIUnauthorizedException;
 import org.iatoki.judgels.play.apis.JudgelsAppClientAPIIdentity;
 import org.iatoki.judgels.play.services.JudgelsAppClientService;
 import play.data.DynamicForm;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -73,6 +74,11 @@ public abstract class AbstractJudgelsAPIController extends Controller {
         } catch (JsonSyntaxException e) {
             throw new JudgelsAPIBadRequestException("Bad JSON request body.");
         }
+    }
+
+    protected static <T> T parseRequestBodyAsUrlFormEncoded(Class<T> clazz) {
+        Form<T> form = Form.form(clazz).bindFromRequest();
+        return form.get();
     }
 
     protected static Result okAsJson(Object responseBody) {
