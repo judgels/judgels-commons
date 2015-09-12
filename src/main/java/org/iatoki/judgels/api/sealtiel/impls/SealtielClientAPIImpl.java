@@ -1,6 +1,5 @@
 package org.iatoki.judgels.api.sealtiel.impls;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.iatoki.judgels.api.impls.AbstractJudgelsClientAPIImpl;
 import org.iatoki.judgels.api.sealtiel.SealtielClientAPI;
