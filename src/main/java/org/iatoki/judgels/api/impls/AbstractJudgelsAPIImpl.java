@@ -1,11 +1,9 @@
 package org.iatoki.judgels.api.impls;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,14 +13,12 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.iatoki.judgels.api.JudgelsAPIClientException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractJudgelsAPIImpl {
@@ -38,7 +34,7 @@ public abstract class AbstractJudgelsAPIImpl {
     protected abstract void setAuthorization(HttpRequestBase httpRequest);
 
     protected final JudgelsAPIRawResponseBody sendGetRequest(String path) {
-        return sendGetRequest(path, ImmutableMap.of());
+        return sendGetRequest(path, null);
     }
 
     protected final JudgelsAPIRawResponseBody sendGetRequest(String path, Map<String, String> params) {
@@ -79,16 +75,16 @@ public abstract class AbstractJudgelsAPIImpl {
     }
 
     protected final String getEndpoint(String path, Map<String, String> params) {
-        ImmutableList.Builder<NameValuePair> nameValuePairsBuilder = ImmutableList.builder();
-
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            nameValuePairsBuilder.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-        }
-
-        List<NameValuePair> nameValuePairs = nameValuePairsBuilder.build();
-
         try {
-            return new URIBuilder(baseUrl).setPath(API_URL_PREFIX + path).setParameters(nameValuePairs).build().toString();
+            URIBuilder uriBuilder = new URIBuilder(baseUrl).setPath(API_URL_PREFIX + path);
+
+            if (params != null) {
+                for (Map.Entry<String, String> param : params.entrySet()) {
+                    uriBuilder.addParameter(param.getKey(), param.getValue());
+                }
+            }
+
+            return uriBuilder.build().toString();
         } catch (URISyntaxException e) {
             throw new JudgelsAPIClientException(null, e);
         }
