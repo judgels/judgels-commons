@@ -152,9 +152,20 @@ public abstract class AbstractJudgelsAPIController extends Controller {
         }
     }
 
+    protected static Result okAsDownload(String resourceUrl) {
         try {
+            new URL(resourceUrl);
+            return redirect(resourceUrl);
+        } catch (MalformedURLException e) {
+            File resource = new File(resourceUrl);
+            if (!resource.exists()) {
+                throw new JudgelsAPINotFoundException();
+            }
 
+            response().setContentType("application/x-download");
+            response().setHeader("Content-disposition", "attachment; filename=" + resource.getName());
 
+            return ok(resource);
         }
     }
 
