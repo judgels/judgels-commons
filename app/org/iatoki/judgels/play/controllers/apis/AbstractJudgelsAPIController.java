@@ -10,6 +10,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.iatoki.judgels.play.JudgelsAppClient;
 import org.iatoki.judgels.play.apis.JudgelsAPIBadRequestException;
 import org.iatoki.judgels.play.apis.JudgelsAPIInternalServerErrorException;
+import org.iatoki.judgels.play.apis.JudgelsAPINotFoundException;
 import org.iatoki.judgels.play.apis.JudgelsAPIUnauthorizedException;
 import org.iatoki.judgels.play.apis.JudgelsAppClientAPIIdentity;
 import org.iatoki.judgels.play.services.JudgelsAppClientService;
@@ -24,6 +25,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -101,41 +104,57 @@ public abstract class AbstractJudgelsAPIController extends Controller {
         }
     }
 
-    protected static Result okAsImage(File imageFile) {
-        response().setHeader("Cache-Control", "no-transform,public,max-age=300,s-maxage=900");
+    protected static Result okAsImage(String imageUrl) {
+        try {
+            new URL(imageUrl);
+            return temporaryRedirect(imageUrl);
+        } catch (MalformedURLException e) {
+            File imageFile = new File(imageUrl);
+            if (!imageFile.exists()) {
+                throw new JudgelsAPINotFoundException();
+            }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-        response().setHeader("Last-Modified", sdf.format(new Date(imageFile.lastModified())));
+            response().setHeader("Cache-Control", "no-transform,public,max-age=300,s-maxage=900");
 
-        boolean modified = true;
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+            response().setHeader("Last-Modified", sdf.format(new Date(imageFile.lastModified())));
 
-        if (request().hasHeader("If-Modified-Since")) {
-            try {
-                Date lastUpdate = sdf.parse(request().getHeader("If-Modified-Since"));
-                if (imageFile.lastModified() <= lastUpdate.getTime()) {
-                    modified = false;
+            boolean modified = true;
+
+            if (request().hasHeader("If-Modified-Since")) {
+                try {
+                    Date lastUpdate = sdf.parse(request().getHeader("If-Modified-Since"));
+                    if (imageFile.lastModified() <= lastUpdate.getTime()) {
+                        modified = false;
+                    }
+                } catch (ParseException e2) {
+                    // nothing
                 }
-            } catch (ParseException e) {
-                // nothing
+            }
+
+            if (!modified) {
+                return status(304);
+            }
+
+            try {
+                BufferedImage in = ImageIO.read(imageFile);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                String type = FilenameUtils.getExtension(imageFile.getAbsolutePath());
+
+                ImageIO.write(in, type, baos);
+
+                response().setContentType("image/" + type);
+                return ok(baos.toByteArray());
+            } catch (IOException e2) {
+                throw new JudgelsAPIInternalServerErrorException(e2);
             }
         }
-
-        if (!modified) {
-            return status(304);
-        }
+    }
 
         try {
-            BufferedImage in = ImageIO.read(imageFile);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-            String type = FilenameUtils.getExtension(imageFile.getAbsolutePath());
 
-            ImageIO.write(in, type, baos);
-
-            response().setContentType("image/" + type);
-            return ok(baos.toByteArray());
-        } catch (IOException e) {
-            throw new JudgelsAPIInternalServerErrorException(e);
         }
     }
 
