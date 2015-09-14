@@ -1,6 +1,6 @@
 package org.iatoki.judgels.api.sandalphon;
 
-public final class SandalphonProblemStatementRenderRequestParam {
+public final class SandalphonBundleProblemStatementRenderRequestParam {
 
     private String problemSecret;
     private long currentMillis;
@@ -8,13 +8,12 @@ public final class SandalphonProblemStatementRenderRequestParam {
     private String switchStatementLanguageUrl;
     private String postSubmitUrl;
     private String reasonNotAllowedToSubmit;
-    private String allowedGradingLanguages;
 
     public String getProblemSecret() {
         return problemSecret;
     }
 
-    public SandalphonProblemStatementRenderRequestParam setProblemSecret(String problemSecret) {
+    public SandalphonBundleProblemStatementRenderRequestParam setProblemSecret(String problemSecret) {
         this.problemSecret = problemSecret;
         return this;
     }
@@ -23,7 +22,7 @@ public final class SandalphonProblemStatementRenderRequestParam {
         return currentMillis;
     }
 
-    public SandalphonProblemStatementRenderRequestParam setCurrentMillis(long currentMillis) {
+    public SandalphonBundleProblemStatementRenderRequestParam setCurrentMillis(long currentMillis) {
         this.currentMillis = currentMillis;
         return this;
     }
@@ -32,7 +31,7 @@ public final class SandalphonProblemStatementRenderRequestParam {
         return statementLanguage;
     }
 
-    public SandalphonProblemStatementRenderRequestParam setStatementLanguage(String statementLanguage) {
+    public SandalphonBundleProblemStatementRenderRequestParam setStatementLanguage(String statementLanguage) {
         this.statementLanguage = statementLanguage;
         return this;
     }
@@ -41,7 +40,7 @@ public final class SandalphonProblemStatementRenderRequestParam {
         return switchStatementLanguageUrl;
     }
 
-    public SandalphonProblemStatementRenderRequestParam setSwitchStatementLanguageUrl(String switchStatementLanguageUrl) {
+    public SandalphonBundleProblemStatementRenderRequestParam setSwitchStatementLanguageUrl(String switchStatementLanguageUrl) {
         this.switchStatementLanguageUrl = switchStatementLanguageUrl;
         return this;
     }
@@ -50,7 +49,7 @@ public final class SandalphonProblemStatementRenderRequestParam {
         return postSubmitUrl;
     }
 
-    public SandalphonProblemStatementRenderRequestParam setPostSubmitUrl(String postSubmitUrl) {
+    public SandalphonBundleProblemStatementRenderRequestParam setPostSubmitUrl(String postSubmitUrl) {
         this.postSubmitUrl = postSubmitUrl;
         return this;
     }
@@ -59,17 +58,8 @@ public final class SandalphonProblemStatementRenderRequestParam {
         return reasonNotAllowedToSubmit;
     }
 
-    public SandalphonProblemStatementRenderRequestParam setReasonNotAllowedToSubmit(String reasonNotAllowedToSubmit) {
+    public SandalphonBundleProblemStatementRenderRequestParam setReasonNotAllowedToSubmit(String reasonNotAllowedToSubmit) {
         this.reasonNotAllowedToSubmit = reasonNotAllowedToSubmit;
-        return this;
-    }
-
-    public String getAllowedGradingLanguages() {
-        return allowedGradingLanguages;
-    }
-
-    public SandalphonProblemStatementRenderRequestParam setAllowedGradingLanguages(String allowedGradingLanguages) {
-        this.allowedGradingLanguages = allowedGradingLanguages;
         return this;
     }
 }

@@ -9,11 +9,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.iatoki.judgels.api.impls.AbstractJudgelsClientAPIImpl;
 import org.iatoki.judgels.api.sandalphon.SandalphonBundleAnswer;
 import org.iatoki.judgels.api.sandalphon.SandalphonBundleGradingResult;
+import org.iatoki.judgels.api.sandalphon.SandalphonBundleProblemStatementRenderRequestParam;
 import org.iatoki.judgels.api.sandalphon.SandalphonClientAPI;
 import org.iatoki.judgels.api.sandalphon.SandalphonLesson;
 import org.iatoki.judgels.api.sandalphon.SandalphonLessonStatementRenderRequestParam;
 import org.iatoki.judgels.api.sandalphon.SandalphonProblem;
-import org.iatoki.judgels.api.sandalphon.SandalphonProblemStatementRenderRequestParam;
+import org.iatoki.judgels.api.sandalphon.SandalphonProgrammingProblemStatementRenderRequestParam;
 import org.iatoki.judgels.api.sandalphon.SandalphonProgrammingProblemInfo;
 
 import javax.crypto.Mac;
@@ -37,17 +38,17 @@ public final class SandalphonClientAPIImpl extends AbstractJudgelsClientAPIImpl 
     }
 
     @Override
-    public String getProblemStatementRenderAPIEndpoint(String problemJid) {
-        return getEndpoint(interpolatePath("/problems/:problemJid/statements", problemJid));
+    public String getProgrammingProblemStatementRenderAPIEndpoint(String problemJid) {
+        return getEndpoint(interpolatePath("/problems/programming/:problemJid/statements", problemJid));
     }
 
     @Override
-    public String getProblemStatementMediaRenderAPIEndpoint(String problemJid, String mediaFilename) {
-        return getEndpoint(interpolatePath("/problems/:problemJid/statements/media/:mediaFilename", problemJid, mediaFilename));
+    public String getBundleProblemStatementRenderAPIEndpoint(String problemJid) {
+        return getEndpoint(interpolatePath("/problems/bundle/:problemJid/statements", problemJid));
     }
 
     @Override
-    public String constructProblemStatementRenderAPIRequestBody(String problemJid, SandalphonProblemStatementRenderRequestParam param) {
+    public String constructProgrammingProblemStatementRenderAPIRequestBody(String problemJid, SandalphonProgrammingProblemStatementRenderRequestParam param) {
         List<NameValuePair> params = ImmutableList.of(
                 new BasicNameValuePair("problemJid", problemJid),
                 new BasicNameValuePair("clientJid", getClientJid()),
@@ -60,6 +61,26 @@ public final class SandalphonClientAPIImpl extends AbstractJudgelsClientAPIImpl 
         );
 
         return URLEncodedUtils.format(params, "UTF-8");
+    }
+
+    @Override
+    public String constructBundleProblemStatementRenderAPIRequestBody(String problemJid, SandalphonBundleProblemStatementRenderRequestParam param) {
+        List<NameValuePair> params = ImmutableList.of(
+                new BasicNameValuePair("problemJid", problemJid),
+                new BasicNameValuePair("clientJid", getClientJid()),
+                new BasicNameValuePair("totpCode", "" + computeTOTPCode(param.getProblemSecret(), param.getCurrentMillis())),
+                new BasicNameValuePair("statementLanguage", param.getStatementLanguage()),
+                new BasicNameValuePair("switchStatementLanguageUrl", param.getSwitchStatementLanguageUrl()),
+                new BasicNameValuePair("postSubmitUrl", param.getPostSubmitUrl()),
+                new BasicNameValuePair("reasonNotAllowedToSubmit", param.getReasonNotAllowedToSubmit())
+        );
+
+        return URLEncodedUtils.format(params, "UTF-8");
+    }
+
+    @Override
+    public String getProblemStatementMediaRenderAPIEndpoint(String problemJid, String mediaFilename) {
+        return getEndpoint(interpolatePath("/problems/:problemJid/statements/media/:mediaFilename", problemJid, mediaFilename));
     }
 
     @Override

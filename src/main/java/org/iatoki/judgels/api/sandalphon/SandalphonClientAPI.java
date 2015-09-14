@@ -8,11 +8,15 @@ public interface SandalphonClientAPI extends JudgelsClientAPI {
 
     SandalphonProblem findProblemByJid(String problemJid);
 
-    String getProblemStatementRenderAPIEndpoint(String problemJid);
+    String getProgrammingProblemStatementRenderAPIEndpoint(String problemJid);
+
+    String getBundleProblemStatementRenderAPIEndpoint(String problemJid);
+
+    String constructProgrammingProblemStatementRenderAPIRequestBody(String problemJid, SandalphonProgrammingProblemStatementRenderRequestParam param);
+
+    String constructBundleProblemStatementRenderAPIRequestBody(String problemJid, SandalphonBundleProblemStatementRenderRequestParam param);
 
     String getProblemStatementMediaRenderAPIEndpoint(String problemJid, String mediaFilename);
-
-    String constructProblemStatementRenderAPIRequestBody(String problemJid, SandalphonProblemStatementRenderRequestParam param);
 
     SandalphonLesson findLessonByJid(String lessonJid);
 
