@@ -52,7 +52,7 @@ public final class JophielClientAPIImpl extends AbstractJudgelsClientAPIImpl imp
 
     @Override
     public String getUserIsLoggedInAPIEndpoint() {
-        return getEndpoint("/users/me/isLoggedIn");
+        return getEndpoint("/user/isLoggedIn");
     }
 
     @Override
