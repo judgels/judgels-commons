@@ -29,8 +29,10 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
         super.persist(model, user, ipAddress);
 
         String jsonModel = new Gson().toJson(model);
-        jedisPool.getResource().set(getModelClass().getCanonicalName() + model.id, jsonModel);
-        jedisPool.getResource().set(model.jid, jsonModel);
+        Jedis jedis = jedisPool.getResource();
+        jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
+        jedis.set(model.jid, jsonModel);
+        jedisPool.returnResource(jedis);
     }
 
     @Override
@@ -38,8 +40,10 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
         super.persist(model, user, ipAddress);
 
         String jsonModel = new Gson().toJson(model);
-        jedisPool.getResource().set(getModelClass().getCanonicalName() + model.id, jsonModel);
-        jedisPool.getResource().set(model.jid, jsonModel);
+        Jedis jedis = jedisPool.getResource();
+        jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
+        jedis.set(model.jid, jsonModel);
+        jedisPool.returnResource(jedis);
     }
 
     @Override
@@ -47,56 +51,77 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
         M ret = super.edit(model, user, ipAddress);
 
         String jsonModel = new Gson().toJson(ret);
-        jedisPool.getResource().set(getModelClass().getCanonicalName() + ret.id, jsonModel);
-        jedisPool.getResource().set(model.jid, jsonModel);
+        Jedis jedis = jedisPool.getResource();
+        jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
+        jedis.set(model.jid, jsonModel);
+        jedisPool.returnResource(jedis);
         return ret;
     }
 
     @Override
     public final void remove(M model) {
-        jedisPool.getResource().del(getModelClass().getCanonicalName() + model.id);
-        jedisPool.getResource().del(model.jid);
+        Jedis jedis = jedisPool.getResource();
+        jedis.del(getModelClass().getCanonicalName() + model.id);
+        jedis.del(model.jid);
+        jedisPool.returnResource(jedis);
 
         super.remove(model);
     }
 
     @Override
     public final boolean existsById(Long id) {
-        if (jedisPool.getResource().exists(getModelClass().getCanonicalName() + id)) {
+        Jedis jedis = jedisPool.getResource();
+        if (jedis.exists(getModelClass().getCanonicalName() + id)) {
+            jedisPool.returnResource(jedis);
             return true;
         }
 
+        jedisPool.returnResource(jedis);
         return super.existsById(id);
     }
 
     @Override
     public final M findById(Long id) {
-        if (jedisPool.getResource().exists(getModelClass().getCanonicalName() + id)) {
-            return new Gson().fromJson(jedisPool.getResource().get(getModelClass().getCanonicalName() + id), getModelClass());
+        Jedis jedis = jedisPool.getResource();
+        if (jedis.exists(getModelClass().getCanonicalName() + id)) {
+            M model = new Gson().fromJson(jedis.get(getModelClass().getCanonicalName() + id), getModelClass());
+            jedisPool.returnResource(jedis);
+            return  model;
         }
 
-        return super.findById(id);
+        M model = super.findById(id);
+        String jsonModel = new Gson().toJson(model);
+        jedis.set(model.jid, jsonModel);
+        jedis.set(getModelClass().getCanonicalName() + id, jsonModel);
+
+        jedisPool.returnResource(jedis);
+        return model;
     }
 
     @Override
     public final boolean existsByJid(String jid) {
-        if (jedisPool.getResource().exists(jid)) {
+        Jedis jedis = jedisPool.getResource();
+        if (jedis.exists(jid)) {
+            jedisPool.returnResource(jedis);
             return true;
         }
 
+        jedisPool.returnResource(jedis);
         return super.existsByJid(jid);
     }
 
     @Override
     public final M findByJid(String jid) {
-        if (jedisPool.getResource().exists(jid)) {
-            return new Gson().fromJson(jedisPool.getResource().get(jid), getModelClass());
+        Jedis jedis = jedisPool.getResource();
+        if (jedis.exists(jid)) {
+            return new Gson().fromJson(jedis.get(jid), getModelClass());
         }
 
         M model = super.findByJid(jid);
 
-        jedisPool.getResource().set(jid, new Gson().toJson(model));
+        jedis.set(jid, new Gson().toJson(model));
 
+        jedisPool.returnResource(jedis);
         return model;
     }
 
@@ -111,6 +136,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
             jedis.set(model.jid, jsonModel);
         }
 
+        jedisPool.returnResource(jedis);
         return results;
     }
 
@@ -132,6 +158,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
 
         resultsBuilder.addAll(processGetByJids(queriedJids));
 
+        jedisPool.returnResource(jedis);
         return resultsBuilder.build();
     }
 
@@ -156,6 +183,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
             jedis.set(model.jid, jsonModel);
         }
 
+        jedisPool.returnResource(jedis);
         return results;
     }
 }

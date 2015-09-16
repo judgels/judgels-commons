@@ -39,7 +39,7 @@ public abstract class AbstractBaseJidCacheServiceImpl<M extends AbstractJidCache
 
     @Override
     public final Map<String, String> getDisplayNames(List<String> jids) {
-        List<M> entries = jidCacheDao.findByJids(jids);
+        List<M> entries = jidCacheDao.getByJids(jids);
 
         Map<String, String> displayNamesMap = Maps.newHashMap();
 

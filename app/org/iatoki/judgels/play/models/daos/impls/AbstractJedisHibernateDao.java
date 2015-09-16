@@ -23,30 +23,39 @@ public abstract class AbstractJedisHibernateDao<K, M extends AbstractModel> exte
     public void persist(M model, String user, String ipAddress) {
         super.persist(model, user, ipAddress);
 
-        jedisPool.getResource().set(jedisKey(model), new Gson().toJson(model));
+        Jedis jedis = jedisPool.getResource();
+        jedis.set(jedisKey(model), new Gson().toJson(model));
+        jedisPool.returnResource(jedis);
     }
 
     @Override
     public M edit(M model, String user, String ipAddress) {
         M ret = super.edit(model, user, ipAddress);
 
-        jedisPool.getResource().set(jedisKey(model), new Gson().toJson(ret));
+        Jedis jedis = jedisPool.getResource();
+        jedis.set(jedisKey(model), new Gson().toJson(ret));
+        jedisPool.returnResource(jedis);
         return ret;
     }
 
     @Override
     public void remove(M model) {
-        jedisPool.getResource().del(jedisKey(model));
+        Jedis jedis = jedisPool.getResource();
+        jedis.del(jedisKey(model));
+        jedisPool.returnResource(jedis);
 
         JPA.em().remove(model);
     }
 
     @Override
     public final boolean existsById(K id) {
-        if (jedisPool.getResource().exists(getModelClass().getCanonicalName() + id)) {
+        Jedis jedis = jedisPool.getResource();
+        if (jedis.exists(getModelClass().getCanonicalName() + id)) {
+            jedisPool.returnResource(jedis);
             return true;
         }
 
+        jedisPool.returnResource(jedis);
         return super.existsById(id);
     }
 
@@ -54,19 +63,27 @@ public abstract class AbstractJedisHibernateDao<K, M extends AbstractModel> exte
     public final M findById(K id) {
         Jedis jedis = jedisPool.getResource();
         if (jedis.exists(getModelClass().getCanonicalName() + id)) {
+            jedisPool.returnResource(jedis);
             return new Gson().fromJson(jedis.get(getModelClass().getCanonicalName() + id), getModelClass());
         }
 
-        return super.findById(id);
+        M result = super.findById(id);
+        jedis.set(getModelClass().getCanonicalName() + id, new Gson().toJson(result));
+
+        jedisPool.returnResource(jedis);
+        return result;
     }
 
     @Override
     public final List<M> getAll() {
+        Jedis jedis = jedisPool.getResource();
         List<M> models = super.getAll();
 
         for (M model : models) {
-            jedisPool.getResource().set(jedisKey(model), new Gson().toJson(model));
+            jedis.set(jedisKey(model), new Gson().toJson(model));
         }
+
+        jedisPool.returnResource(jedis);
         return models;
     }
 

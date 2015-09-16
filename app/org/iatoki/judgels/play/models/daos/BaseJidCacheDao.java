@@ -2,9 +2,10 @@ package org.iatoki.judgels.play.models.daos;
 
 import org.iatoki.judgels.play.models.entities.AbstractJidCacheModel;
 
+import java.util.Collection;
 import java.util.List;
 
-public interface BaseJidCacheDao<M extends AbstractJidCacheModel> extends Dao<String, M> {
+public interface BaseJidCacheDao<M extends AbstractJidCacheModel> extends Dao<Long, M> {
 
     M createJidCacheModel();
 
@@ -12,5 +13,5 @@ public interface BaseJidCacheDao<M extends AbstractJidCacheModel> extends Dao<St
 
     M findByJid(String jid);
 
-    List<M> findByJids(List<String> jids);
+    List<M> getByJids(Collection<String> jids);
 }
