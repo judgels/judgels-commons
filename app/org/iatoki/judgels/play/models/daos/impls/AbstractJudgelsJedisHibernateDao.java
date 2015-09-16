@@ -31,7 +31,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
         String jsonModel = new Gson().toJson(model);
         Jedis jedis = jedisPool.getResource();
         jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
-        jedis.set(model.jid, jsonModel);
+        jedis.set(getModelClass().getCanonicalName() + model.jid, jsonModel);
         jedisPool.returnResource(jedis);
     }
 
@@ -42,7 +42,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
         String jsonModel = new Gson().toJson(model);
         Jedis jedis = jedisPool.getResource();
         jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
-        jedis.set(model.jid, jsonModel);
+        jedis.set(getModelClass().getCanonicalName() + model.jid, jsonModel);
         jedisPool.returnResource(jedis);
     }
 
@@ -53,7 +53,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
         String jsonModel = new Gson().toJson(ret);
         Jedis jedis = jedisPool.getResource();
         jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
-        jedis.set(model.jid, jsonModel);
+        jedis.set(getModelClass().getCanonicalName() + model.jid, jsonModel);
         jedisPool.returnResource(jedis);
         return ret;
     }
@@ -62,7 +62,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
     public final void remove(M model) {
         Jedis jedis = jedisPool.getResource();
         jedis.del(getModelClass().getCanonicalName() + model.id);
-        jedis.del(model.jid);
+        jedis.del(getModelClass().getCanonicalName() + model.jid);
         jedisPool.returnResource(jedis);
 
         super.remove(model);
@@ -91,8 +91,8 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
 
         M model = super.findById(id);
         String jsonModel = new Gson().toJson(model);
-        jedis.set(model.jid, jsonModel);
-        jedis.set(getModelClass().getCanonicalName() + id, jsonModel);
+        jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
+        jedis.set(getModelClass().getCanonicalName() + model.jid, jsonModel);
 
         jedisPool.returnResource(jedis);
         return model;
@@ -101,7 +101,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
     @Override
     public final boolean existsByJid(String jid) {
         Jedis jedis = jedisPool.getResource();
-        if (jedis.exists(jid)) {
+        if (jedis.exists(getModelClass().getCanonicalName() + jid)) {
             jedisPool.returnResource(jedis);
             return true;
         }
@@ -113,13 +113,13 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
     @Override
     public final M findByJid(String jid) {
         Jedis jedis = jedisPool.getResource();
-        if (jedis.exists(jid)) {
-            return new Gson().fromJson(jedis.get(jid), getModelClass());
+        if (jedis.exists(getModelClass().getCanonicalName() + jid)) {
+            return new Gson().fromJson(jedis.get(getModelClass().getCanonicalName() + jid), getModelClass());
         }
 
         M model = super.findByJid(jid);
 
-        jedis.set(jid, new Gson().toJson(model));
+        jedis.set(getModelClass().getCanonicalName() + jid, new Gson().toJson(model));
 
         jedisPool.returnResource(jedis);
         return model;
@@ -133,7 +133,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
         for (M model : results) {
             String jsonModel = new Gson().toJson(model);
             jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
-            jedis.set(model.jid, jsonModel);
+            jedis.set(getModelClass().getCanonicalName() + model.jid, jsonModel);
         }
 
         jedisPool.returnResource(jedis);
@@ -148,8 +148,8 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
 
         ImmutableList.Builder<String> queriedJidsBuilder = ImmutableList.builder();
         for (String jid : jids) {
-            if (jedis.exists(jid)) {
-                resultsBuilder.add(new Gson().fromJson(jedis.get(jid), getModelClass()));
+            if (jedis.exists(getModelClass().getCanonicalName() + jid)) {
+                resultsBuilder.add(new Gson().fromJson(jedis.get(getModelClass().getCanonicalName() + jid), getModelClass()));
             } else {
                 queriedJidsBuilder.add(jid);
             }
@@ -180,7 +180,7 @@ public abstract class AbstractJudgelsJedisHibernateDao<M extends AbstractJudgels
         for (M model : results) {
             String jsonModel = new Gson().toJson(model);
             jedis.set(getModelClass().getCanonicalName() + model.id, jsonModel);
-            jedis.set(model.jid, jsonModel);
+            jedis.set(getModelClass().getCanonicalName() + model.jid, jsonModel);
         }
 
         jedisPool.returnResource(jedis);
