@@ -52,12 +52,12 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public final void remove(M model) {
+    public void remove(M model) {
         JPA.em().remove(model);
     }
 
     @Override
-    public final boolean existsById(K id) {
+    public boolean existsById(K id) {
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
         Root<M> root = query.from(getModelClass());
@@ -70,12 +70,12 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public final M findById(K id) {
+    public M findById(K id) {
         return JPA.em().find(getModelClass(), id);
     }
 
     @Override
-    public final List<M> getAll() {
+    public List<M> getAll() {
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<M> query = cb.createQuery(getModelClass());
 
@@ -194,5 +194,4 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     protected List<SingularAttribute<M, String>> getColumnsFilterableByString() {
         return ImmutableList.of();
     }
-
 }
