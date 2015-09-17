@@ -19,11 +19,7 @@
         }
                 @viewMenuView()
                 @flashAlertView()
-                <div class="primary-content clearfix">
-                    <div class="col-md-12">
-                        @content
-                    </div>
-                </div>
+                @content
             </div>
     } else {
         @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
@@ -31,13 +27,9 @@
         } else {
             <div class="col-md-12">
         }
-            <div class="primary-content l clearfix">
-                @viewMenuView()
-                @flashAlertView()
-                <div class="col-md-12">
-                @content
-                </div>
-            </div>
+            @viewMenuView()
+            @flashAlertView()
+            @content
         </div>
         @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
             <div class="col-md-3 sidebar-wrapper">
