@@ -1,3 +1,75 @@
+commons.header.text.serverTime                  = Server Time
+
+commons.footer.text.poweredBy                   = Powered by
+commons.footer.text.judgels                     = Judgels
+
+commons.profile.text.edit                       = Edit
+commons.profile.text.logOut                     = Log Out
+
+commons.field.id                                = ID
+commons.field.jid                               = JID
+commons.field.secret                            = Secret
+commons.field.info                              = Info
+commons.field.value                             = Value
+
+commons.button.new                              = Create New
+commons.button.view                             = View
+commons.button.save                             = Save Changes
+commons.button.search                           = Search
+commons.button.upload                           = Upload
+commons.button.remove                           = Remove
+commons.button.delete                           = Delete
+commons.button.filter                           = Filter
+commons.button.add                              = Add
+commons.button.next                             = Next
+commons.button.enter                            = Enter
+commons.button.enable                           = Enable
+commons.button.disable                          = Disable
+commons.button.makeDefault                      = Make Default
+
+commons.text.new                                = New
+commons.text.edit                               = Edit
+
+commons.auth.button.logIn                       = Log In
+commons.auth.button.register                    = Register
+commons.auth.text.helloGuest                    = Hello, guest.
+
+commons.tab.more                                = More
+
+commons.pagination.text.dataCount               = Showing {0} out of {1} data
+
+commons.layout.tooltip.showSidebar              = Show sidebar
+commons.layout.tooltip.hideSidebar              = Hide sidebar
+commons.layout.tooltip.enterFullscreen          = Enter fullscreen
+commons.layout.tooltip.exitFullscreen           = Exit fullscreen
+
+commons.error.heading.pageNotFound              = Page Not Found
+commons.error.heading.entityNotFound            = Entity Not Found
+commons.error.heading.unsupportedOperation      = Unsupported Operation
+commons.error.text                              = Sorry, the page you are looking for doesn''t exist in the system.
+commons.error.text.entityNotFound               = Sorry, the {0} that you are looking for doesn''t exist in the system.
+commons.error.text.UnsupportedOperation         = Your action is not yet supported.
+
+commons.viewpoint.text.noViewpoint              = No viewpoint
+commons.viewpoint.button.viewAs                 = View As
+commons.viewpoint.button.resetViewpoint         = Reset Viewpoint
+
+commons.moment.locale                           = en
+
+client.field.name                               = Name
+client.field.secret                             = Secret
+
+client.text.clients                             = Clients
+client.text.list                                = Clients
+client.text.new                                 = New Client
+
+client.button.new                               = New Client
+
+
+
+
+# OLD VALUES
+
 commons.header.serverTime=Server Time
 
 commons.footer.aboutUs=About Us
