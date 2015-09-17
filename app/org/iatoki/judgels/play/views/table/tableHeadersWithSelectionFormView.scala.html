@@ -10,8 +10,8 @@
         <th>
             <input type="checkbox" id="selectAll" name="selectAll" value="true">
         </th>
-        @for(header <- headers) {
-            <th>
+        @for((header, i) <- headers.zipWithIndex) {
+            <th @if(i == 0) { class="table-col-id" } >
                 <a href="@pageLinkBuilder(pageIndex, orderBy, orderDir, filterString, header._1, listFunc)">
                     @header._2
                     @if(orderBy == header._1) {
@@ -24,6 +24,6 @@
                 </a>
             </th>
         }
-        <th></th>
+        <th class="table-col-actions"></th>
     </tr>
 </thead>

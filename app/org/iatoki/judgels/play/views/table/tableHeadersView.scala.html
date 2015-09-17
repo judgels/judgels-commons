@@ -1,4 +1,3 @@
-@import play.i18n.Messages
 @import play.api.mvc.Call
 @import org.iatoki.judgels.play.views.html.table.pageLinkBuilder
 
@@ -6,8 +5,8 @@
 
 <thead>
     <tr>
-        @for(header <- headers) {
-            <th>
+        @for((header, i) <- headers.zipWithIndex) {
+            <th @if(i == 0) { class="table-col-id" } >
                 <a href="@pageLinkBuilder(pageIndex, orderBy, orderDir, filterString, header._1, listFunc)">
                     @header._2
                     @if(orderBy == header._1) {
@@ -20,6 +19,6 @@
                 </a>
             </th>
         }
-        <th></th>
+        <th class="table-col-actions"></th>
     </tr>
 </thead>
