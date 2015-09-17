@@ -3,18 +3,7 @@
 
 @(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => Call)(headers: scala.Tuple2[String, String]*)
 
-<script type="text/javascript">
-    require(["jquery"], function( __jquery__ ) {
-        $(document).ready(function() {
-            $('#selectAll').on('click', function() {
-                var checked = $('#selectAll').prop('checked');
-                $('.checkboxJid').each(function() {
-                    $(this).prop('checked', checked);
-                });
-            });
-        });
-    });
-</script>
+<script type="text/javascript" src="@routes.Assets.versioned("lib/playcommons/javascripts/bulk-select.js")"></script>
 
 <thead>
     <tr>

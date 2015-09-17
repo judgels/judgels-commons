@@ -1,4 +1,4 @@
-require(["jquery", "jquery-timer", "moment"], function( __jquery__ ) {
+require(["jquery", "jquery-timer", "moment"], function() {
     var moment = require("moment");
     moment.locale(language);
     var serverDateTime = moment($("time#server-time").attr("datetime"));

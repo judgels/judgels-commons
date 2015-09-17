@@ -1,4 +1,6 @@
-require(["jquery"], function( __jquery__ ) {
+// Reference: http://stackoverflow.com/questions/2830542/prevent-double-submission-of-forms-in-jquery
+
+require(["jquery"], function() {
     function prepareRadioButton() {
         $("input[type='radio']").change(function(e) {
             var that = $(this);
