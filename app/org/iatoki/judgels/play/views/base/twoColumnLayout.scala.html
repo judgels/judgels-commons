@@ -1,0 +1,54 @@
+@import play.mvc.Http.Context
+@import org.iatoki.judgels.play.JudgelsPlayUtils
+@import org.iatoki.judgels.play.InternalLink
+@import org.iatoki.judgels.play.views.html.base.flashMessagesView
+@import org.iatoki.judgels.play.views.html.base.screenControlsView
+@import org.iatoki.judgels.play.views.html.base.sidebarMenusView
+
+@(menus: List[InternalLink])(content: Html)
+
+<div class="row content">
+    @if(Context.current().args.getOrDefault("sidebar.isBefore", java.lang.Boolean.valueOf("true")) == true) {
+        @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
+            <div class="col-md-3">
+                <div class="sidebar clearfix">
+                    @sidebarMenusView(menus)
+                </div>
+            </div>
+        }
+        @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
+            <div class="col-md-9">
+        } else {
+            <div class="col-md-12">
+        }
+                @screenControlsView()
+                @flashMessagesView()
+                <div class="primary-content clearfix">
+                    <div class="col-md-12">
+                        @content
+                    </div>
+                </div>
+            </div>
+    } else {
+        @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
+            <div class="col-md-9">
+        } else {
+            <div class="col-md-12">
+        }
+            <div class="primary-content l clearfix">
+                @screenControlsView()
+                @flashMessagesView()
+                <div class="col-md-12">
+                @content
+                </div>
+            </div>
+        </div>
+        @if(JudgelsPlayUtils.isSidebarShown(Context.current().request())) {
+            <div class="col-md-3 sidebar-wrapper">
+                <div class="sidebar r clearfix">
+                @sidebarMenusView(menus)
+                </div>
+            </div>
+        }
+    }
+</div>
