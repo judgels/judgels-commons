@@ -39,9 +39,12 @@
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
               })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-              ga('create', '@JudgelsPlayProperties.getInstance().getGoogleAnalyticsId', 'auto');
+              @if(IdentityUtils.getUserJid != null) {
+                  ga('create', '@JudgelsPlayProperties.getInstance().getGoogleAnalyticsId', { 'userId': '@IdentityUtils.getUserJid' });
+              } else {
+                  ga('create', '@JudgelsPlayProperties.getInstance().getGoogleAnalyticsId', 'auto');
+              }
               ga('send', 'pageview');
-              ga('set', '&uid', '@IdentityUtils.getUserJid');
             </script>
         }
         <script type="application/ld+json">
