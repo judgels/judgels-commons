@@ -11,6 +11,7 @@ commons.field.jid                               = JID
 commons.field.secret                            = Secret
 commons.field.info                              = Info
 commons.field.value                             = Value
+commons.field.actions                           = Actions
 
 commons.button.new                              = Create New
 commons.button.view                             = View
