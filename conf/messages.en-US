@@ -30,10 +30,6 @@ commons.button.makeDefault                      = Make Default
 commons.text.new                                = New
 commons.text.edit                               = Edit
 
-commons.auth.button.logIn                       = Log In
-commons.auth.button.register                    = Register
-commons.auth.text.helloGuest                    = Hello, guest.
-
 commons.tab.more                                = More
 
 commons.pagination.text.dataCount               = Showing {0} out of {1} data
