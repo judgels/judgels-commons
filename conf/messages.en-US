@@ -56,6 +56,10 @@ commons.viewpoint.button.resetViewpoint         = Reset Viewpoint
 
 commons.moment.locale                           = en
 
+guest.text.hello                                = Hello, guest.
+guest.button.register                           = Register
+guest.button.logIn                              = Log In
+
 client.field.name                               = Name
 client.field.secret                             = Secret
 
