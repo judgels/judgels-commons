@@ -12,13 +12,11 @@ public final class HtmlTemplate {
     private LazyHtml content;
     private String pageTitle;
     private String mainTitle;
-    private String secondaryTitle;
     private final List<InternalLink> breadcrumbLocations;
     private final List<InternalLink> sidebarMenus;
     private final List<InternalLink> mainTabs;
     private final List<InternalLink> secondaryTabs;
     private final List<InternalLink> mainButtons;
-    private final List<InternalLink> secondaryButtons;
     private InternalLink mainBackButton;
     private boolean singleColumn;
 
@@ -28,7 +26,6 @@ public final class HtmlTemplate {
         this.mainTabs = Lists.newArrayList();
         this.secondaryTabs = Lists.newArrayList();
         this.mainButtons = Lists.newArrayList();
-        this.secondaryButtons = Lists.newArrayList();
         this.singleColumn = false;
     }
 
@@ -70,18 +67,6 @@ public final class HtmlTemplate {
 
     public boolean hasMainTitle() {
         return mainTitle != null;
-    }
-
-    public void setSecondaryTitle(String secondaryTitle) {
-        this.secondaryTitle = secondaryTitle;
-    }
-
-    public String getSecondaryTitle() {
-        return secondaryTitle;
-    }
-
-    public boolean hasSecondaryTitle() {
-        return secondaryTitle != null;
     }
 
     public void markBreadcrumbLocation(String label, Call target) {
@@ -130,14 +115,6 @@ public final class HtmlTemplate {
 
     public List<InternalLink> getMainButtons() {
         return ImmutableList.copyOf(mainButtons);
-    }
-
-    public void addSecondaryButton(String label, Call target) {
-        secondaryButtons.add(new InternalLink(label, target));
-    }
-
-    public List<InternalLink> getSecondaryButtons() {
-        return ImmutableList.copyOf(secondaryButtons);
     }
 
     public void setMainBackButton(String label, Call target) {
