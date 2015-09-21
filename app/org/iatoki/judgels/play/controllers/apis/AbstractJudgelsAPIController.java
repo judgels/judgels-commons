@@ -13,10 +13,10 @@ import org.iatoki.judgels.play.apis.JudgelsAPIInternalServerErrorException;
 import org.iatoki.judgels.play.apis.JudgelsAPINotFoundException;
 import org.iatoki.judgels.play.apis.JudgelsAPIUnauthorizedException;
 import org.iatoki.judgels.play.apis.JudgelsAppClientAPIIdentity;
+import org.iatoki.judgels.play.controllers.AbstractJudgelsController;
 import org.iatoki.judgels.play.services.JudgelsAppClientService;
 import play.data.DynamicForm;
 import play.data.Form;
-import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.imageio.ImageIO;
@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @JudgelsAPIGuard
-public abstract class AbstractJudgelsAPIController extends Controller {
+public abstract class AbstractJudgelsAPIController extends AbstractJudgelsController {
 
     protected static JudgelsAppClientAPIIdentity authenticateAsJudgelsAppClient(JudgelsAppClientService clientService) {
         if (!request().hasHeader("Authorization")) {
