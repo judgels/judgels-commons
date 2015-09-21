@@ -65,6 +65,7 @@ public final class HtmlTemplate {
 
     public void setMainTitle(String mainTitle) {
         this.mainTitle = mainTitle;
+        this.pageTitle = mainTitle;
     }
 
     public String getMainTitle() {
