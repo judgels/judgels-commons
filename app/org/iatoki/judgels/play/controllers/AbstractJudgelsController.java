@@ -13,6 +13,7 @@ import org.iatoki.judgels.play.views.html.content.contentLayout;
 import org.iatoki.judgels.play.views.html.content.mainTabsLayout;
 import org.iatoki.judgels.play.views.html.content.mainTitleLayout;
 import org.iatoki.judgels.play.views.html.content.secondaryTabsLayout;
+import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -56,6 +57,14 @@ public abstract class AbstractJudgelsController extends Controller {
             default:
                 return Results.badRequest(compressedContent);
         }
+    }
+
+    protected static String getCurrentUserIpAddress() {
+        return request().remoteAddress();
+    }
+
+    protected static String getAbsoluteUrl(Call call) {
+        return call.absoluteURL(request(), request().secure());
     }
 
     protected Result renderTemplate(HtmlTemplate template) {
