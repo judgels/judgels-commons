@@ -136,3 +136,5 @@ commons.moment.locale=en
 commons.login=Login
 commons.register=Register
 commons.helloGuest=Hello, Guest
+
+commons.currentActiveUsers=Current Active Users

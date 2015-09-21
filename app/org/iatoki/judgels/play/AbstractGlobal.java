@@ -1,5 +1,6 @@
 package org.iatoki.judgels.play;
 
+import com.google.api.client.auth.oauth2.Credential;
 import org.apache.commons.io.FileUtils;
 import org.iatoki.judgels.play.services.BaseDataMigrationService;
 import org.iatoki.judgels.play.views.html.layouts.baseLayout;
@@ -28,6 +29,32 @@ public abstract class AbstractGlobal extends GlobalSettings {
                 getDataMigrationService().checkDatabase();
             });
 
+        checkAndCopyLogoToLocal(application);
+        checkAndSetupGoogleAnalytics();
+    }
+
+    @Override
+    public F.Promise<Result> onBadRequest(Http.RequestHeader requestHeader, String s) {
+        if (s.contains("Cannot parse")) {
+            return onHandlerNotFound(requestHeader);
+        }
+        return super.onBadRequest(requestHeader, s);
+    }
+
+    @Override
+    public F.Promise<Result> onHandlerNotFound(Http.RequestHeader requestHeader) {
+        return F.Promise.promise(() -> {
+                LazyHtml content = new LazyHtml(messageView.render(Messages.get("commons.pageNotFound.message")));
+                content.appendLayout(c -> headingLayout.render(Messages.get("commons.pageNotFound"), c));
+                content.appendLayout(c -> centerLayout.render(c));
+                content.appendLayout(c -> headerFooterLayout.render(c));
+                content.appendLayout(c -> baseLayout.render("commons.pageNotFound", c));
+                return Results.notFound(content.render());
+            }
+        );
+    }
+
+    private void checkAndCopyLogoToLocal(Application application) {
         File logoFile = new File(application.getFile("external-assets"), "logo.png");
         if (!logoFile.exists()) {
             logoFile.getParentFile().mkdirs();
@@ -50,25 +77,11 @@ public abstract class AbstractGlobal extends GlobalSettings {
         }
     }
 
-    @Override
-    public F.Promise<Result> onBadRequest(Http.RequestHeader requestHeader, String s) {
-        if (s.contains("Cannot parse")) {
-            return onHandlerNotFound(requestHeader);
+    private void checkAndSetupGoogleAnalytics() {
+        if (JudgelsPlayProperties.getInstance().isUsingGoogleServiceAccount()) {
+            Credential credential = GoogleServiceAuth.createGoogleServiceAuthCredentials(JudgelsPlayProperties.getInstance().getGoogleServiceAccountClientId(), JudgelsPlayProperties.getInstance().getGoogleServiceAccountClientEmail(), JudgelsPlayProperties.getInstance().getGoogleServiceAccountPrivateKeyId(), JudgelsPlayProperties.getInstance().getGoogleServiceAccountPrivateKey());
+            GoogleAnalytics.buildInstance(credential, JudgelsPlayProperties.getInstance().getAppName() + "/" + JudgelsPlayProperties.getInstance().getAppVersion());
         }
-        return super.onBadRequest(requestHeader, s);
-    }
-
-    @Override
-    public F.Promise<Result> onHandlerNotFound(Http.RequestHeader requestHeader) {
-        return F.Promise.promise(() -> {
-                LazyHtml content = new LazyHtml(messageView.render(Messages.get("commons.pageNotFound.message")));
-                content.appendLayout(c -> headingLayout.render(Messages.get("commons.pageNotFound"), c));
-                content.appendLayout(c -> centerLayout.render(c));
-                content.appendLayout(c -> headerFooterLayout.render(c));
-                content.appendLayout(c -> baseLayout.render("commons.pageNotFound", c));
-                return Results.notFound(content.render());
-            }
-        );
     }
 
     protected abstract BaseDataMigrationService getDataMigrationService();

@@ -19,6 +19,12 @@ public final class JudgelsPlayProperties {
     private String metaDescription;
     private boolean usingGoogleAnalytics;
     private String googleAnalyticsId;
+    private String googleAnalyticsViewId;
+    private boolean usingGoogleServiceAccount;
+    private String googleServiceAccountClientId;
+    private String googleServiceAccountClientEmail;
+    private String googleServiceAccountPrivateKeyId;
+    private String googleServiceAccountPrivateKey;
 
     private JudgelsPlayProperties(String appName, String appVersion, Config config) {
         this.appName = appName;
@@ -81,6 +87,30 @@ public final class JudgelsPlayProperties {
         return googleAnalyticsId;
     }
 
+    public String getGoogleAnalyticsViewId() {
+        return googleAnalyticsViewId;
+    }
+
+    public boolean isUsingGoogleServiceAccount() {
+        return usingGoogleServiceAccount;
+    }
+
+    public String getGoogleServiceAccountClientId() {
+        return googleServiceAccountClientId;
+    }
+
+    public String getGoogleServiceAccountClientEmail() {
+        return googleServiceAccountClientEmail;
+    }
+
+    public String getGoogleServiceAccountPrivateKeyId() {
+        return googleServiceAccountPrivateKeyId;
+    }
+
+    public String getGoogleServiceAccountPrivateKey() {
+        return googleServiceAccountPrivateKey;
+    }
+
     private void build() {
         this.appTitle = requireStringValue("application.title");
         this.appCopyright = requireStringValue("application.copyright");
@@ -88,18 +118,24 @@ public final class JudgelsPlayProperties {
         this.metaKeywords = requireStringValue("seo.metaKeywords");
         this.metaDescription = requireStringValue("seo.metaDescription");
         this.githubLink = requireStringValue("link.github");
-        this.usingGoogleAnalytics = requireBooleanValue("googleAnalytics.use");
-        this.googleAnalyticsId = getStringValue("googleAnalytics.id");
+        this.usingGoogleAnalytics = requireBooleanValue("google.analytics.use");
+        this.googleAnalyticsId = getStringValue("google.analytics.id");
+        this.googleAnalyticsViewId = getStringValue("google.analytics.viewId");
+        this.usingGoogleServiceAccount = requireBooleanValue("google.serviceAccount.use");
+        this.googleServiceAccountClientId = getStringValue("google.serviceAccount.clientId");
+        this.googleServiceAccountClientEmail = getStringValue("google.serviceAccount.clientEmail");
+        this.googleServiceAccountPrivateKeyId = getStringValue("google.serviceAccount.privateKeyId");
+        this.googleServiceAccountPrivateKey = getStringValue("google.serviceAccount.privateKey");
     }
 
     private String getStringValue(String key) {
+        if (!config.hasPath(key)) {
+            return null;
+        }
         return config.getString(key);
     }
 
     private String requireStringValue(String key) {
-        if (!config.hasPath(key)) {
-            return null;
-        }
         return config.getString(key);
     }
 
