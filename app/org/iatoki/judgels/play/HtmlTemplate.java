@@ -17,6 +17,8 @@ public final class HtmlTemplate {
     private final List<InternalLink> mainTabs;
     private final List<InternalLink> secondaryTabs;
     private final List<InternalLink> mainButtons;
+    private final List<Html> upperSidebarWidgets;
+    private final List<Html> lowerSidebarWidgets;
     private InternalLink mainBackButton;
     private boolean singleColumn;
 
@@ -26,6 +28,8 @@ public final class HtmlTemplate {
         this.mainTabs = Lists.newArrayList();
         this.secondaryTabs = Lists.newArrayList();
         this.mainButtons = Lists.newArrayList();
+        this.upperSidebarWidgets = Lists.newArrayList();
+        this.lowerSidebarWidgets = Lists.newArrayList();
         this.singleColumn = false;
     }
 
@@ -123,5 +127,21 @@ public final class HtmlTemplate {
 
     public InternalLink getMainBackButton() {
         return mainBackButton;
+    }
+
+    public void addUpperSidebarWidget(Html widget) {
+        upperSidebarWidgets.add(widget);
+    }
+
+    public List<Html> getUpperSidebarWidgets() {
+        return upperSidebarWidgets;
+    }
+
+    public void addLowerSidebarWidget(Html widget) {
+        lowerSidebarWidgets.add(widget);
+    }
+
+    public List<Html> getLowerSidebarWidgets() {
+        return lowerSidebarWidgets;
     }
 }
