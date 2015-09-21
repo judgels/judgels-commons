@@ -8,6 +8,7 @@ import org.iatoki.judgels.play.views.html.base.breadcrumbsLayout;
 import org.iatoki.judgels.play.views.html.base.headerFooterLayout;
 import org.iatoki.judgels.play.views.html.base.singleColumnLayout;
 import org.iatoki.judgels.play.views.html.base.twoColumnLayout;
+import org.iatoki.judgels.play.views.html.content.categoryTabsLayout;
 import org.iatoki.judgels.play.views.html.content.contentLayout;
 import org.iatoki.judgels.play.views.html.content.mainTabsLayout;
 import org.iatoki.judgels.play.views.html.content.mainTitleLayout;
@@ -70,6 +71,10 @@ public abstract class AbstractJudgelsController extends Controller {
 
         if (template.hasMainTitle()) {
             content.appendLayout(c -> mainTitleLayout.render(template.getMainTitle(), template.getMainButtons(), template.getMainBackButton(), c));
+        }
+
+        if (template.hasCategoryTabs()) {
+            content.appendLayout(c -> categoryTabsLayout.render(template.getCategoryTabs(), c));
         }
 
         content.appendLayout(c -> contentLayout.render(c));

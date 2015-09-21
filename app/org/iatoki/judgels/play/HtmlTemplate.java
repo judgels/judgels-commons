@@ -14,6 +14,7 @@ public final class HtmlTemplate {
     private String mainTitle;
     private final List<InternalLink> breadcrumbLocations;
     private final List<InternalLink> sidebarMenus;
+    private final List<InternalLink> categoryTabs;
     private final List<InternalLink> mainTabs;
     private final List<InternalLink> secondaryTabs;
     private final List<InternalLink> mainButtons;
@@ -25,6 +26,7 @@ public final class HtmlTemplate {
     public HtmlTemplate() {
         this.breadcrumbLocations = Lists.newArrayList();
         this.sidebarMenus = Lists.newArrayList();
+        this.categoryTabs = Lists.newArrayList();
         this.mainTabs = Lists.newArrayList();
         this.secondaryTabs = Lists.newArrayList();
         this.mainButtons = Lists.newArrayList();
@@ -87,6 +89,18 @@ public final class HtmlTemplate {
 
     public List<InternalLink> getSidebarMenus() {
         return ImmutableList.copyOf(sidebarMenus);
+    }
+
+    public void addCategoryTab(String label, Call target) {
+        categoryTabs.add(new InternalLink(label, target));
+    }
+
+    public List<InternalLink> getCategoryTabs() {
+        return ImmutableList.copyOf(categoryTabs);
+    }
+
+    public boolean hasCategoryTabs() {
+        return !categoryTabs.isEmpty();
     }
 
     public void addMainTab(String label, Call target) {
