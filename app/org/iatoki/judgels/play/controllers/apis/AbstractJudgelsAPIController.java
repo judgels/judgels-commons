@@ -85,11 +85,6 @@ public abstract class AbstractJudgelsAPIController extends AbstractJudgelsContro
     }
 
     protected static Result okAsJson(Object responseBody) {
-        response().setContentType("application/json");
-
-        DynamicForm dForm = DynamicForm.form().bindFromRequest();
-        String callback = dForm.get("callback");
-
         String finalResponseBody;
         if (responseBody instanceof JsonObject) {
             finalResponseBody = responseBody.toString();
@@ -97,9 +92,14 @@ public abstract class AbstractJudgelsAPIController extends AbstractJudgelsContro
             finalResponseBody = new Gson().toJson(responseBody);
         }
 
+        DynamicForm dForm = DynamicForm.form().bindFromRequest();
+        String callback = dForm.get("callback");
+
         if (callback != null) {
+            response().setContentType("application/javascript");
             return ok(callback + "(" + finalResponseBody + ");");
         } else {
+            response().setContentType("application/json");
             return ok(finalResponseBody);
         }
     }
