@@ -109,22 +109,13 @@ public abstract class AbstractJudgelsAPIImpl {
             InputStream responseBody = response.getEntity().getContent();
 
             if (statusCode == HttpStatus.SC_OK) {
-                return new JudgelsAPIRawResponseBody(httpRequest, responseBody);
+                return new JudgelsAPIRawResponseBody(httpClient, httpRequest, responseBody);
             } else {
                 throw new JudgelsAPIClientException(httpRequest, statusCode, IOUtils.toString(responseBody));
             }
 
         } catch (IOException e) {
             throw new JudgelsAPIClientException(httpRequest, e);
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-                httpClient.close();
-            } catch (IOException e) {
-                // log later
-            }
         }
     }
 }

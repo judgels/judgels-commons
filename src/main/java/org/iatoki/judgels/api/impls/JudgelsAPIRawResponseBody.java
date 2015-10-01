@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.iatoki.judgels.api.JudgelsAPIClientException;
 
 import java.io.IOException;
@@ -12,17 +13,24 @@ import java.lang.reflect.Type;
 
 public final class JudgelsAPIRawResponseBody {
 
+    private final CloseableHttpClient httpClient;
     private final HttpRequestBase httpRequest;
     private final InputStream responseBody;
 
-    public JudgelsAPIRawResponseBody(HttpRequestBase httpRequest, InputStream responseBody) {
+    public JudgelsAPIRawResponseBody(CloseableHttpClient httpClient, HttpRequestBase httpRequest, InputStream responseBody) {
+        this.httpClient = httpClient;
         this.httpRequest = httpRequest;
         this.responseBody = responseBody;
     }
 
     public String asString() {
         try {
-            return IOUtils.toString(responseBody);
+            String string = IOUtils.toString(responseBody);
+
+            responseBody.close();
+            httpClient.close();
+
+            return string;
         } catch (IOException e) {
             throw new JudgelsAPIClientException(httpRequest, e);
         }
@@ -34,8 +42,13 @@ public final class JudgelsAPIRawResponseBody {
 
     public <T> T asObjectFromJson(Type type) {
         try {
-            return new Gson().fromJson(asString(), type);
-        } catch (JsonSyntaxException e) {
+            T object =  new Gson().fromJson(asString(), type);
+
+            responseBody.close();
+            httpClient.close();
+
+            return object;
+        } catch (IOException | JsonSyntaxException e) {
             throw new JudgelsAPIClientException(httpRequest, e);
         }
     }
