@@ -2,6 +2,9 @@ package org.iatoki.judgels.api.impls;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -101,7 +104,7 @@ public abstract class AbstractJudgelsAPIImpl {
     private JudgelsAPIRawResponseBody sendRequest(CloseableHttpClient httpClient, HttpRequestBase httpRequest) {
         setAuthorization(httpRequest);
 
-        CloseableHttpResponse response = null;
+        CloseableHttpResponse response;
         try {
             response = httpClient.execute(httpRequest);
 
@@ -111,7 +114,15 @@ public abstract class AbstractJudgelsAPIImpl {
             if (statusCode == HttpStatus.SC_OK) {
                 return new JudgelsAPIRawResponseBody(httpClient, httpRequest, responseBody);
             } else {
-                throw new JudgelsAPIClientException(httpRequest, statusCode, IOUtils.toString(responseBody));
+                String responseBodyString = IOUtils.toString(responseBody);
+                String errorMessage;
+                try {
+                    JsonObject responseBodyJson = new JsonParser().parse(responseBodyString).getAsJsonObject();
+                    errorMessage = responseBodyJson.get("message").getAsString();
+                } catch (JsonSyntaxException e) {
+                    errorMessage = responseBodyString;
+                }
+                throw new JudgelsAPIClientException(httpRequest, statusCode, errorMessage);
             }
 
         } catch (IOException e) {
