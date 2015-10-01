@@ -3,6 +3,7 @@ package org.iatoki.judgels.api.jophiel.impls;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.apache.http.HttpStatus;
 import org.iatoki.judgels.api.JudgelsAPIClientException;
 import org.iatoki.judgels.api.impls.AbstractJudgelsClientAPIImpl;
@@ -21,7 +22,12 @@ public final class JophielClientAPIImpl extends AbstractJudgelsClientAPIImpl imp
     @Override
     public JophielUser findUserByUsernameAndPassword(String username, String password) {
         try {
-            return sendGetRequest("/users/usernamePassword", ImmutableMap.of("username", username, "password", password)).asObjectFromJson(JophielUser.class);
+            JsonObject body = new JsonObject();
+
+            body.addProperty("username", username);
+            body.addProperty("password", password);
+
+            return sendPostRequest("/users/usernamePassword", body).asObjectFromJson(JophielUser.class);
         } catch (JudgelsAPIClientException e) {
             if (e.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
                 return null;
