@@ -3,6 +3,7 @@ package org.iatoki.judgels.api.sandalphon.impls;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -33,8 +34,14 @@ public final class SandalphonClientAPIImpl extends AbstractJudgelsClientAPIImpl 
     }
 
     @Override
-    public SandalphonProblem findProblemByJid(String problemJid) {
-        return sendGetRequest(interpolatePath("/problems/:problemJid", problemJid)).asObjectFromJson(SandalphonProblem.class);
+    public SandalphonProblem findClientProblem(String problemJid, String problemSecret) {
+        JsonObject body = new JsonObject();
+
+        body.addProperty("clientJid", getClientJid());
+        body.addProperty("problemJid", problemJid);
+        body.addProperty("problemSecret", problemSecret);
+
+        return sendPostRequest("/problems/client", body).asObjectFromJson(SandalphonProblem.class);
     }
 
     @Override
@@ -84,8 +91,14 @@ public final class SandalphonClientAPIImpl extends AbstractJudgelsClientAPIImpl 
     }
 
     @Override
-    public SandalphonLesson findLessonByJid(String lessonJid) {
-        return sendGetRequest(interpolatePath("/lessons/:lessonJid", lessonJid)).asObjectFromJson(SandalphonLesson.class);
+    public SandalphonLesson findClientLesson(String lessonJid, String lessonSecret) {
+        JsonObject body = new JsonObject();
+
+        body.addProperty("clientJid", getClientJid());
+        body.addProperty("lessonJid", lessonJid);
+        body.addProperty("lessonSecret", lessonSecret);
+
+        return sendPostRequest("/lessons/client", body).asObjectFromJson(SandalphonLesson.class);
     }
 
     @Override
