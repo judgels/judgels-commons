@@ -1,7 +1,7 @@
 @import play.api.mvc.Call
 @import org.iatoki.judgels.play.views.html.table.pageLinkBuilder
 
-@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => Call, withActions: Boolean = false)(headers: scala.Tuple2[String, String]*)
+@(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, listFunc: (scala.Long, String, String, String) => Call, withActions: Boolean = true)(headers: scala.Tuple2[String, String]*)
 
 <script type="text/javascript" src="@routes.Assets.versioned("lib/playcommons/javascripts/bulk-select.js")"></script>
 
