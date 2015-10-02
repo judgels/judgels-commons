@@ -2,6 +2,10 @@ package org.iatoki.judgels.play.models.daos.impls;
 
 import org.iatoki.judgels.play.models.daos.Dao;
 import org.iatoki.judgels.play.models.entities.AbstractModel;
+import play.db.jpa.JPA;
+
+import javax.persistence.criteria.CriteriaQuery;
+import java.util.List;
 
 public abstract class AbstractDao<K, M extends AbstractModel> implements Dao<K, M> {
 
@@ -13,5 +17,16 @@ public abstract class AbstractDao<K, M extends AbstractModel> implements Dao<K, 
 
     protected final Class<M> getModelClass() {
         return modelClass;
+    }
+
+    protected final M getFirstResultAndDeleteTheRest(CriteriaQuery<M> query) {
+        List<M> resultList = JPA.em().createQuery(query).getResultList();
+        M result = resultList.get(0);
+
+        for (int i = 1; i < resultList.size(); ++i) {
+            remove(resultList.get(i));
+        }
+
+        return result;
     }
 }
