@@ -27,7 +27,11 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li role="presentation"><a href="@tab.getTarget">@tab.getLabel</a></li>
                             } else {
-                                <li role="presentation"><a href="@tab.getTarget">@tab.getLabel</a></li>
+                                @if(index >= 5) {
+                                    <li role="presentation" class="visible-lg"><a href="@tab.getTarget">@tab.getLabel</a></li>
+                                } else {
+                                    <li role="presentation"><a href="@tab.getTarget">@tab.getLabel</a></li>
+                                }
                             }
                             @if((tabs.size() > 6) &&  (index == tabs.size()-1)) {
                                     </ul>
