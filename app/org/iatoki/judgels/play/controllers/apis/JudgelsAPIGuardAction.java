@@ -2,6 +2,7 @@ package org.iatoki.judgels.play.controllers.apis;
 
 import com.google.gson.JsonObject;
 import org.iatoki.judgels.play.apis.JudgelsAPIBadRequestException;
+import org.iatoki.judgels.play.apis.JudgelsAPINotFoundException;
 import org.iatoki.judgels.play.apis.JudgelsAPIServerException;
 import org.iatoki.judgels.play.apis.JudgelsAPIForbiddenException;
 import org.iatoki.judgels.play.apis.JudgelsAPIUnauthorizedException;
@@ -32,6 +33,8 @@ public final class JudgelsAPIGuardAction extends Action<JudgelsAPIGuard> {
                 return F.Promise.promise(() -> Results.badRequest(body.toString()));
             } else if (e instanceof JudgelsAPIForbiddenException) {
                 return F.Promise.promise(() -> Results.forbidden(body.toString()));
+            } else if (e instanceof JudgelsAPINotFoundException) {
+                return F.Promise.promise(() -> Results.notFound(body.toString()));
             } else {
                 return F.Promise.promise(() -> Results.internalServerError(body.toString()));
             }
