@@ -1,5 +1,7 @@
 package org.iatoki.judgels.api.jophiel.impls;
 
+import org.apache.http.HttpStatus;
+import org.iatoki.judgels.api.JudgelsAPIClientException;
 import org.iatoki.judgels.api.impls.AbstractJudgelsPublicAPIImpl;
 import org.iatoki.judgels.api.jophiel.JophielPublicAPI;
 import org.iatoki.judgels.api.jophiel.JophielUser;
@@ -17,7 +19,15 @@ public final class JophielPublicAPIImpl extends AbstractJudgelsPublicAPIImpl imp
 
     @Override
     public JophielUser findUserByUsername(String username) {
-        return sendGetRequest(interpolatePath("/users/username/:username", username)).asObjectFromJson(JophielUser.class);
+        try {
+            return sendGetRequest(interpolatePath("/users/username/:username", username)).asObjectFromJson(JophielUser.class);
+        } catch (JudgelsAPIClientException e) {
+            if (e.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+                return null;
+            } else {
+                throw e;
+            }
+        }
     }
 
     @Override
