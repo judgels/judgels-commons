@@ -14,6 +14,7 @@ commons.field.value                             = Value
 commons.field.actions                           = Actions
 
 commons.button.new                              = Create New
+commons.button.edit                             = Edit
 commons.button.view                             = View
 commons.button.save                             = Save Changes
 commons.button.search                           = Search
@@ -139,3 +140,4 @@ commons.register=Register
 commons.helloGuest=Hello, Guest
 
 commons.currentActiveUsers=Current Active Users
+commons.manage=Manage
