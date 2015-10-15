@@ -90,7 +90,7 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public long countByFilters(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn) {
+    public long countByFilters(String filterString, Map<SingularAttribute<? super M, ? extends Object>, ? extends Object> filterColumnsEq, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn) {
         for (Collection<String> values : filterColumnsIn.values()) {
             if (values.isEmpty()) {
                 return 0;
@@ -123,7 +123,7 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public long countByFiltersEq(String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq) {
+    public long countByFiltersEq(String filterString, Map<SingularAttribute<? super M, ? extends Object>, ? extends Object> filterColumnsEq) {
         return countByFilters(filterString, filterColumnsEq, ImmutableMap.of());
     }
 
@@ -138,7 +138,7 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit) {
+    public List<M> findSortedByFilters(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, ? extends Object>, ? extends Object> filterColumnsEq, Map<SingularAttribute<? super M, String>, ? extends Collection<String>> filterColumnsIn, long offset, long limit) {
         for (Collection<String> values : filterColumnsIn.values()) {
             if (values.isEmpty()) {
                 return ImmutableList.of();
@@ -182,7 +182,7 @@ public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends A
     }
 
     @Override
-    public List<M> findSortedByFiltersEq(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, String>, String> filterColumnsEq, long offset, long limit) {
+    public List<M> findSortedByFiltersEq(String orderBy, String orderDir, String filterString, Map<SingularAttribute<? super M, ? extends Object>, ? extends Object> filterColumnsEq, long offset, long limit) {
         return findSortedByFilters(orderBy, orderDir, filterString, filterColumnsEq, ImmutableMap.of(), offset, limit);
     }
 
