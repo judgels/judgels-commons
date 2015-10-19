@@ -25,6 +25,9 @@ public final class JudgelsPlayProperties {
     private String googleServiceAccountClientEmail;
     private String googleServiceAccountPrivateKeyId;
     private String googleServiceAccountPrivateKey;
+    private boolean usingBanner;
+    private String bannerLink;
+    private String bannerImageSrc;
 
     private JudgelsPlayProperties(String appName, String appVersion, Config config) {
         this.appName = appName;
@@ -111,6 +114,18 @@ public final class JudgelsPlayProperties {
         return googleServiceAccountPrivateKey;
     }
 
+    public boolean isUsingBanner() {
+        return usingBanner;
+    }
+
+    public String getBannerLink() {
+        return bannerLink;
+    }
+
+    public String getBannerImageSrc() {
+        return bannerImageSrc;
+    }
+
     private void build() {
         this.appTitle = requireStringValue("application.title");
         this.appCopyright = requireStringValue("application.copyright");
@@ -126,6 +141,9 @@ public final class JudgelsPlayProperties {
         this.googleServiceAccountClientEmail = getStringValue("google.serviceAccount.clientEmail");
         this.googleServiceAccountPrivateKeyId = getStringValue("google.serviceAccount.privateKeyId");
         this.googleServiceAccountPrivateKey = getStringValue("google.serviceAccount.privateKey");
+        this.usingBanner = requireBooleanValue("banner.use");
+        this.bannerLink = getStringValue("banner.link");
+        this.bannerImageSrc = getStringValue("banner.imageSrc");
     }
 
     private String getStringValue(String key) {
