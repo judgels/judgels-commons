@@ -5,6 +5,7 @@ GET         /vassets/*file          controllers.Assets.versioned(path="/public",
 # Home page
 GET        /favicon                 org.iatoki.judgels.play.controllers.ApplicationController.favicon()
 GET        /logo                    org.iatoki.judgels.play.controllers.ApplicationController.logo()
+GET        /coloredLogo             org.iatoki.judgels.play.controllers.ApplicationController.coloredLogo()
 GET        /language/:lang          org.iatoki.judgels.play.controllers.ApplicationController.changeLanguage(lang: String)
 GET        /showSidebar             org.iatoki.judgels.play.controllers.ApplicationController.showSidebar()
 GET        /hideSidebar             org.iatoki.judgels.play.controllers.ApplicationController.hideSidebar()

@@ -66,6 +66,17 @@ public abstract class AbstractGlobal extends GlobalSettings {
 
         }
 
+        File coloredLogoFile = new File(application.getFile("external-assets"), "logo-colored.png");
+        if (!coloredLogoFile.exists()) {
+            coloredLogoFile.getParentFile().mkdirs();
+            try {
+                FileUtils.copyInputStreamToFile(getClass().getResourceAsStream("/public/lib/playcommons/images/logo-colored.png"), coloredLogoFile);
+            } catch (IOException e) {
+                throw new IllegalStateException("Cannot create default colored logo.");
+            }
+
+        }
+
         File favIconFile = new File(application.getFile("external-assets"), "favicon.ico");
         if (!favIconFile.exists()) {
             favIconFile.getParentFile().mkdirs();

@@ -18,6 +18,7 @@
         <meta property="og:url" content="@ControllerUtils.getCurrentUrl(Http.Context.current().request())">
         <meta property="og:description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
         <meta property="og:locale" content="@Http.Context.current().lang().code()" />
+        <meta property="og:image" content="@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.coloredLogo())" />
         <link rel="canonical" href="@JudgelsPlayProperties.getInstance().getCanonicalUrl" itemprop="url">
         <title itemprop='name'>@JudgelsPlayProperties.getInstance.getAppTitle @if(pageTitle != null) { - @pageTitle }</title>
         <link rel="shortcut icon" type="image/ico" href='@org.iatoki.judgels.play.controllers.routes.ApplicationController.favicon()'>
@@ -52,7 +53,7 @@
           "@@context": "http://schema.org",
           "@@type": "Organization",
           "url": "@JudgelsPlayProperties.getInstance().getCanonicalUrl",
-          "logo": "@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.logo())"
+          "logo": "@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.coloredLogo())"
         }
         </script>
     </body>

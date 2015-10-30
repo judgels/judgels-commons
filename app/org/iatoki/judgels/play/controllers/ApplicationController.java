@@ -29,6 +29,17 @@ public final class ApplicationController extends AbstractJudgelsController {
         }
     }
 
+    public static Result coloredLogo() {
+        File logoFile = new File(Play.application().getFile("external-assets"), "logo-colored.png");
+
+        if (logoFile.exists()) {
+            response().setHeader(CACHE_CONTROL, "max-age=3600");
+            return ok(logoFile);
+        } else {
+            return notFound();
+        }
+    }
+
     public static Result changeLanguage(String newLang) {
         ctx().changeLang(newLang);
         return redirect(request().getHeader("Referer"));
