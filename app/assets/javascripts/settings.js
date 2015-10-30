@@ -3,9 +3,6 @@ requirejs.config({
         'bootstrap': {
             deps: ['jquery']
         },
-        'bootstrap-select': {
-            deps: ['bootstrap']
-        },
         'bootstrap-datetimepicker': {
             deps: ['bootstrap', 'moment']
         },
@@ -20,16 +17,19 @@ requirejs.config({
         },
         'jquery-ui': {
             deps: ['jquery']
+        },
+        'select2': {
+            deps: ['jquery']
         }
     },
     paths: {
         'bootstrap': '/assets/lib/bootstrap/js/bootstrap.min',
-        'bootstrap-select': '/assets/lib/bootstrap-select/js/bootstrap-select',
         'bootstrap-datetimepicker': '/assets/lib/Eonasdan-bootstrap-datetimepicker/bootstrap-datetimepicker.min',
         'jquery': '/assets/lib/jquery/jquery.min',
         'jquery-timer': '/assets/lib/playcommons/javascripts/jquery.timer',
         'jquery-ui': '/assets/lib/jquery-ui/jquery-ui.min',
         'prettify': '/assets/lib/prettify/prettify',
-        'moment': '/assets/lib/momentjs/min/moment-with-locales.min'
+        'moment': '/assets/lib/momentjs/min/moment-with-locales.min',
+        'select2': '/assets/lib/select2/js/select2.min'
     }
 });

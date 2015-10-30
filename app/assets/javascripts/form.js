@@ -1,6 +1,6 @@
 // Reference: http://stackoverflow.com/questions/2830542/prevent-double-submission-of-forms-in-jquery
 
-require(["jquery"], function() {
+require(["jquery", "select2"], function() {
     function prepareRadioButton() {
         $("input[type='radio']").change(function(e) {
             var that = $(this);
@@ -38,6 +38,7 @@ require(["jquery"], function() {
     $(document).ready(function() {
         prepareForm();
         prepareRadioButton();
+        $(".selectpicker").select2();
     });
     $(document).ajaxComplete(function () {
         prepareRadioButton();
