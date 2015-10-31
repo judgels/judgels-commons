@@ -6,10 +6,7 @@ import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.iatoki.judgels.play.controllers.ControllerUtils;
 import org.iatoki.judgels.play.services.BaseJidCacheService;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import play.mvc.Http;
 
 import java.io.UnsupportedEncodingException;
@@ -163,7 +160,8 @@ public final class JudgelsPlayUtils {
     }
 
     public static String toSafeHtml(String html) {
-        return Jsoup.clean(html, ControllerUtils.getCurrentUrl(Http.Context.current().request()), Whitelist.relaxed().addTags("iframe", "embed").addAttributes("img", "style").addAttributes("iframe", "src", "style", "frameborder", "class").addAttributes("embed", "src", "class", "height").addProtocols("iframe", "src", new String[]{"http", "https"}).addProtocols("embed", "src", new String[]{"http", "https"}).preserveRelativeLinks(true));
+//        return Jsoup.clean(html, ControllerUtils.getCurrentUrl(Http.Context.current().request()), Whitelist.relaxed().addTags("iframe", "embed").addAttributes("img", "style").addAttributes("iframe", "src", "style", "frameborder", "class").addAttributes("embed", "src", "class", "height").addProtocols("iframe", "src", new String[]{"http", "https"}).addProtocols("embed", "src", new String[]{"http", "https"}).preserveRelativeLinks(true));
+        return html;
     }
 
     private static String messageDigest(String s, String algorithm) {
