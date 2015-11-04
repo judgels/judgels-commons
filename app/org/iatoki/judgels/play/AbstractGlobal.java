@@ -29,7 +29,7 @@ public abstract class AbstractGlobal extends GlobalSettings {
                 getDataMigrationService().checkDatabase();
             });
 
-        checkAndCopyLogoToLocal(application);
+        checkAndCopyAssetsToLocal(application);
         checkAndSetupGoogleAnalytics();
     }
 
@@ -54,36 +54,20 @@ public abstract class AbstractGlobal extends GlobalSettings {
         );
     }
 
-    private void checkAndCopyLogoToLocal(Application application) {
-        File logoFile = new File(application.getFile("external-assets"), "logo.png");
-        if (!logoFile.exists()) {
-            logoFile.getParentFile().mkdirs();
+    private void checkAndCopyAssetsToLocal(Application application) {
+        checkAndCopyFileToLocal(application, "logo.png");
+        checkAndCopyFileToLocal(application, "logo-colored.png");
+        checkAndCopyFileToLocal(application, "favicon.ico");
+    }
+
+    private void checkAndCopyFileToLocal(Application application, String fileName) {
+        File assetFile = new File(application.getFile("external-assets"), fileName);
+        if (!assetFile.exists()) {
+            assetFile.getParentFile().mkdirs();
             try {
-                FileUtils.copyInputStreamToFile(getClass().getResourceAsStream("/public/lib/playcommons/images/logo.png"), logoFile);
+                FileUtils.copyInputStreamToFile(getClass().getResourceAsStream("/public/lib/playcommons/images/" + fileName), assetFile);
             } catch (IOException e) {
-                throw new IllegalStateException("Cannot create default logo.");
-            }
-
-        }
-
-        File coloredLogoFile = new File(application.getFile("external-assets"), "logo-colored.png");
-        if (!coloredLogoFile.exists()) {
-            coloredLogoFile.getParentFile().mkdirs();
-            try {
-                FileUtils.copyInputStreamToFile(getClass().getResourceAsStream("/public/lib/playcommons/images/logo-colored.png"), coloredLogoFile);
-            } catch (IOException e) {
-                throw new IllegalStateException("Cannot create default colored logo.");
-            }
-
-        }
-
-        File favIconFile = new File(application.getFile("external-assets"), "favicon.ico");
-        if (!favIconFile.exists()) {
-            favIconFile.getParentFile().mkdirs();
-            try {
-                FileUtils.copyInputStreamToFile(getClass().getResourceAsStream("/public/lib/playcommons/images/favicon.ico"), favIconFile);
-            } catch (IOException e) {
-                throw new IllegalStateException("Cannot create default logo.");
+                throw new IllegalStateException("Cannot create file " + fileName + ".");
             }
         }
     }
