@@ -2,7 +2,7 @@
 
 @(pageIndex: Long, orderBy: String, orderDir: String, filterString: String, newOrderBy: String, listFunc: (scala.Long, String, String, String) => Call)
 
-@if(newOrderBy.equals("")) {
+@if(newOrderBy.isEmpty()) {
     #
 } else {
     @if(newOrderBy == orderBy) {
