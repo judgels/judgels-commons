@@ -19,6 +19,7 @@ commons.button.view                             = View
 commons.button.save                             = Save Changes
 commons.button.search                           = Search
 commons.button.upload                           = Upload
+commons.button.download                         = Download
 commons.button.remove                           = Remove
 commons.button.delete                           = Delete
 commons.button.filter                           = Filter
