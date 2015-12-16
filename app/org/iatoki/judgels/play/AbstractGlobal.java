@@ -20,6 +20,10 @@ import play.mvc.Results;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @deprecated Not needed anymore
+ */
+@Deprecated
 public abstract class AbstractGlobal extends GlobalSettings {
 
     @Override
