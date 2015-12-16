@@ -6,6 +6,10 @@ import org.reflections.Reflections;
 import javax.inject.Named;
 import java.util.Set;
 
+/**
+ * @deprecated Use individual module instead.
+ */
+@Deprecated
 public abstract class AbstractJudgelsPlayModule extends AbstractModule {
 
     @Override

@@ -2,6 +2,10 @@ package org.iatoki.judgels.play;
 
 import com.typesafe.config.Config;
 
+/**
+ * @deprecated Use individual config instead.
+ */
+@Deprecated
 public final class JudgelsPlayProperties {
 
     private static JudgelsPlayProperties INSTANCE;

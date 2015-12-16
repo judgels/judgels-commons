@@ -1,9 +1,10 @@
 @import org.iatoki.judgels.play.controllers.ControllerUtils
 @import org.iatoki.judgels.play.JudgelsPlayProperties
 @import org.iatoki.judgels.play.IdentityUtils
+@import org.iatoki.judgels.play.general.GeneralConfig
 @import play.mvc.Http
 
-@(pageTitle: String)(content: Html)
+@(pageTitle: String, generalConfig: GeneralConfig)(content: Html)
 
 <!DOCTYPE html>
 
@@ -13,14 +14,14 @@
         <meta name=viewport content="width=device-width, initial-scale=1">
         <meta name="keywords" content="@JudgelsPlayProperties.getInstance().getMetaKeywords">
         <meta name="description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
-        <meta property="og:site_name" content="@(JudgelsPlayProperties.getInstance().getAppCopyright + " " + JudgelsPlayProperties.getInstance.getAppTitle)">
-        <meta property="og:title" content="@if(!pageTitle.isEmpty) { @pageTitle } else { @JudgelsPlayProperties.getInstance.getAppTitle }">
+        <meta property="og:site_name" content="@(generalConfig.getCopyright + " " + generalConfig.getTitle)">
+        <meta property="og:title" content="@if(!pageTitle.isEmpty) { @pageTitle } else { @generalConfig.getTitle }">
         <meta property="og:url" content="@ControllerUtils.getCurrentUrl(Http.Context.current().request())">
         <meta property="og:description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
         <meta property="og:locale" content="@Http.Context.current().lang().code()" />
-        <meta property="og:image" content="@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.coloredLogo())" />
-        <link rel="canonical" href="@JudgelsPlayProperties.getInstance().getCanonicalUrl" itemprop="url">
-        <title itemprop='name'>@JudgelsPlayProperties.getInstance.getAppTitle @if(!pageTitle.isEmpty) { - @pageTitle }</title>
+        <meta property="og:image" content="@(generalConfig.getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.coloredLogo())" />
+        <link rel="canonical" href="@generalConfig.getCanonicalUrl" itemprop="url">
+        <title itemprop='name'>@generalConfig.getTitle @if(!pageTitle.isEmpty) { - @pageTitle }</title>
         <link rel="shortcut icon" type="image/ico" href='@org.iatoki.judgels.play.controllers.routes.ApplicationController.favicon()'>
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
         <script type="text/javascript" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
@@ -49,8 +50,8 @@
         {
           "@@context": "http://schema.org",
           "@@type": "Organization",
-          "url": "@JudgelsPlayProperties.getInstance().getCanonicalUrl",
-          "logo": "@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.coloredLogo())"
+          "url": "@generalConfig.getCanonicalUrl",
+          "logo": "@(generalConfig.getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.coloredLogo())"
         }
         </script>
     </body>

@@ -1,8 +1,10 @@
 package org.iatoki.judgels.play;
 
+import com.google.inject.Inject;
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 import org.iatoki.judgels.play.controllers.EntityNotFoundGuard;
 import org.iatoki.judgels.play.controllers.UnsupportedOperationGuard;
+import org.iatoki.judgels.play.general.GeneralConfig;
 import org.iatoki.judgels.play.template.HtmlTemplate;
 import org.iatoki.judgels.play.template.LazyHtml;
 import org.iatoki.judgels.play.template.base.html.baseLayout;
@@ -27,6 +29,9 @@ import play.twirl.api.Html;
 @EntityNotFoundGuard
 @UnsupportedOperationGuard
 public abstract class AbstractJudgelsController extends Controller {
+
+    @Inject
+    protected GeneralConfig generalConfig;
 
     protected static void flashInfo(String message) {
         flash("flashInfo", message);
@@ -97,8 +102,8 @@ public abstract class AbstractJudgelsController extends Controller {
         }
 
         content.appendLayout(c -> breadcrumbsLayout.render(template.getBreadcrumbLinks(), c));
-        content.appendLayout(c -> headerFooterLayout.render(c));
-        content.appendLayout(c -> baseLayout.render(template.getPageTitle(), c));
+        content.appendLayout(c -> headerFooterLayout.render(generalConfig, c));
+        content.appendLayout(c -> baseLayout.render(template.getPageTitle(), generalConfig, c));
 
         return lazyOk(content);
     }
