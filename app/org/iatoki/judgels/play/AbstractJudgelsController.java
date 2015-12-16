@@ -17,8 +17,10 @@ import org.iatoki.judgels.play.template.base.html.singleColumnLayout;
 import org.iatoki.judgels.play.template.base.html.twoColumnLayout;
 import org.iatoki.judgels.play.template.content.html.categoryTabsLayout;
 import org.iatoki.judgels.play.template.content.html.contentLayout;
+import org.iatoki.judgels.play.template.content.html.descriptionLayout;
 import org.iatoki.judgels.play.template.content.html.mainTabsLayout;
 import org.iatoki.judgels.play.template.content.html.mainTitleLayout;
+import org.iatoki.judgels.play.template.content.html.scriptsLayout;
 import org.iatoki.judgels.play.template.content.html.secondaryTabsLayout;
 import play.api.mvc.Call;
 import play.data.Form;
@@ -86,6 +88,10 @@ public abstract class AbstractJudgelsController extends Controller {
         return call.absoluteURL(request(), request().secure());
     }
 
+    protected HtmlTemplate getBaseHtmlTemplate() {
+        return new HtmlTemplate();
+    }
+
     protected Result renderTemplate(HtmlTemplate template) {
         LazyHtml content = template.getContent();
 
@@ -95,6 +101,10 @@ public abstract class AbstractJudgelsController extends Controller {
 
         if (template.hasMainTabs()) {
             content.appendLayout(c -> mainTabsLayout.render(template.getMainTabs(), c));
+        }
+
+        if (template.hasDescription()) {
+            content.appendLayout(c -> descriptionLayout.render(template.getDescription(), c));
         }
 
         if (template.hasMainTitle()) {
@@ -116,6 +126,7 @@ public abstract class AbstractJudgelsController extends Controller {
         content.appendLayout(c -> breadcrumbsLayout.render(template.getBreadcrumbLinks(), bannerConfig, c));
         content.appendLayout(c -> headerFooterLayout.render(generalConfig, c));
         content.appendLayout(c -> baseLayout.render(template.getPageTitle(), generalConfig, seoConfig, googleAnalyticsConfig, c));
+        content.appendLayout(c -> scriptsLayout.render(template.getAdditionalScripts(), c));
 
         return lazyOk(content);
     }

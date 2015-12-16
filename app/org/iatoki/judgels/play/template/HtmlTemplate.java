@@ -12,6 +12,7 @@ public final class HtmlTemplate {
     private LazyHtml content;
     private String pageTitle;
     private String mainTitle;
+    private String description;
     private final List<InternalLink> breadcrumbLocations;
     private final List<InternalLink> sidebarMenus;
     private final List<InternalLink> categoryTabs;
@@ -20,8 +21,10 @@ public final class HtmlTemplate {
     private final List<InternalLink> mainButtons;
     private final List<Html> upperSidebarWidgets;
     private final List<Html> lowerSidebarWidgets;
+    private final List<Html> additionalScripts;
     private InternalLink mainBackButton;
     private boolean singleColumn;
+    private boolean reverseBreadcrumbs;
 
     public HtmlTemplate() {
         this.breadcrumbLocations = Lists.newArrayList();
@@ -32,7 +35,9 @@ public final class HtmlTemplate {
         this.mainButtons = Lists.newArrayList();
         this.upperSidebarWidgets = Lists.newArrayList();
         this.lowerSidebarWidgets = Lists.newArrayList();
+        this.additionalScripts = Lists.newArrayList();
         this.singleColumn = false;
+        this.reverseBreadcrumbs = false;
     }
 
     public void setContent(Html content) {
@@ -76,12 +81,34 @@ public final class HtmlTemplate {
         return mainTitle != null;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean hasDescription() {
+        return description != null;
+    }
+
     public void markBreadcrumbLocation(String label, Call target) {
         breadcrumbLocations.add(new InternalLink(label, target));
     }
 
+    @Deprecated
+    public void reverseBreadcrumbLocations() {
+        // TODO remove this, refactor all breadcrumbs usages
+        this.reverseBreadcrumbs = true;
+    }
+
     public List<InternalLink> getBreadcrumbLinks() {
-        return ImmutableList.copyOf(breadcrumbLocations);
+        List<InternalLink> breadcrumbLocations = ImmutableList.copyOf(this.breadcrumbLocations);
+        if (reverseBreadcrumbs) {
+            breadcrumbLocations = Lists.reverse(breadcrumbLocations);
+        }
+        return breadcrumbLocations;
     }
 
     public void addSidebarMenu(String label, Call target) {
@@ -149,7 +176,7 @@ public final class HtmlTemplate {
     }
 
     public List<Html> getUpperSidebarWidgets() {
-        return upperSidebarWidgets;
+        return ImmutableList.copyOf(upperSidebarWidgets);
     }
 
     public void addLowerSidebarWidget(Html widget) {
@@ -157,6 +184,14 @@ public final class HtmlTemplate {
     }
 
     public List<Html> getLowerSidebarWidgets() {
-        return lowerSidebarWidgets;
+        return ImmutableList.copyOf(lowerSidebarWidgets);
+    }
+
+    public void addAdditionalScript(Html script) {
+        additionalScripts.add(script);
+    }
+
+    public List<Html> getAdditionalScripts() {
+        return ImmutableList.copyOf(additionalScripts);
     }
 }
