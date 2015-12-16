@@ -13,8 +13,10 @@ commons.field.info                              = Info
 commons.field.value                             = Value
 commons.field.actions                           = Actions
 
-commons.button.new                              = Create New
+commons.button.new                              = New
+commons.button.new1                             = New {0}
 commons.button.edit                             = Edit
+commons.button.edit1                            = Edit {0}
 commons.button.view                             = View
 commons.button.save                             = Save Changes
 commons.button.search                           = Search
@@ -29,9 +31,16 @@ commons.button.enter                            = Enter
 commons.button.enable                           = Enable
 commons.button.disable                          = Disable
 commons.button.makeDefault                      = Make Default
+commons.button.backTo1                          = Back to {0}
 
+commons.text.view                               = View
+commons.text.list                               = List
+commons.text.list1                              = List {0}
 commons.text.new                                = New
+commons.text.new1                               = New {0}
 commons.text.edit                               = Edit
+commons.text.edit1                              = Edit {0}
+commons.delete.text.confirmation                = Are you sure you want to delete?
 
 commons.tab.more                                = More
 
