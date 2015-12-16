@@ -1,11 +1,11 @@
 @import play.mvc.Http.Context
-@import org.iatoki.judgels.play.JudgelsPlayProperties
+@import org.iatoki.judgels.play.banner.BannerConfig
+@import org.iatoki.judgels.play.banner.html.bannerView
 @import org.iatoki.judgels.play.JudgelsPlayUtils
 @import org.iatoki.judgels.play.template.InternalLink
 @import org.iatoki.judgels.play.template.base.html.breadcrumbsView
-@import org.iatoki.judgels.play.template.html.bannerView
 
-@(locations: List[InternalLink])(content: Html)
+@(locations: List[InternalLink], bannerConfig: BannerConfig)(content: Html)
 
 @if(Context.current().args.getOrDefault("breadcrumbs.isBefore", java.lang.Boolean.valueOf(true)) == true) {
     @if(JudgelsPlayUtils.isFullscreen(Context.current().request())) {
@@ -15,13 +15,13 @@
     @if(JudgelsPlayUtils.isFullscreen(Context.current().request())) {
     </div>
     }
-    @if(JudgelsPlayProperties.getInstance().isUsingBanner()) {
-        @bannerView(JudgelsPlayProperties.getInstance().getBannerLink(), JudgelsPlayProperties.getInstance().getBannerImageSrc())
+    @if(bannerConfig != null) {
+        @bannerView(bannerConfig)
     }
     @content
 } else {
-    @if(JudgelsPlayProperties.getInstance().isUsingBanner()) {
-        @bannerView(JudgelsPlayProperties.getInstance().getBannerLink(), JudgelsPlayProperties.getInstance().getBannerImageSrc())
+    @if(bannerConfig != null) {
+        @bannerView(bannerConfig)
     }
     @content
     @if(JudgelsPlayUtils.isFullscreen(Context.current().request())) {
