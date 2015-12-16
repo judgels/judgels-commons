@@ -1,4 +1,4 @@
-package org.iatoki.judgels.play;
+package org.iatoki.judgels.play.google.analytics;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -10,10 +10,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public final class GoogleServiceAuth {
 
     private GoogleServiceAuth() {

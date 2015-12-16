@@ -6,6 +6,7 @@ import org.iatoki.judgels.play.banner.BannerConfig;
 import org.iatoki.judgels.play.controllers.EntityNotFoundGuard;
 import org.iatoki.judgels.play.controllers.UnsupportedOperationGuard;
 import org.iatoki.judgels.play.general.GeneralConfig;
+import org.iatoki.judgels.play.google.analytics.GoogleAnalyticsConfig;
 import org.iatoki.judgels.play.seo.SeoConfig;
 import org.iatoki.judgels.play.template.HtmlTemplate;
 import org.iatoki.judgels.play.template.LazyHtml;
@@ -40,6 +41,9 @@ public abstract class AbstractJudgelsController extends Controller {
 
     @Inject(optional = true)
     protected SeoConfig seoConfig;
+
+    @Inject(optional = true)
+    protected GoogleAnalyticsConfig googleAnalyticsConfig;
 
     protected static void flashInfo(String message) {
         flash("flashInfo", message);
@@ -111,7 +115,7 @@ public abstract class AbstractJudgelsController extends Controller {
 
         content.appendLayout(c -> breadcrumbsLayout.render(template.getBreadcrumbLinks(), bannerConfig, c));
         content.appendLayout(c -> headerFooterLayout.render(generalConfig, c));
-        content.appendLayout(c -> baseLayout.render(template.getPageTitle(), generalConfig, seoConfig, c));
+        content.appendLayout(c -> baseLayout.render(template.getPageTitle(), generalConfig, seoConfig, googleAnalyticsConfig, c));
 
         return lazyOk(content);
     }

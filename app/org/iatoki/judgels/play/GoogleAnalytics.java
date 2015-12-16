@@ -9,6 +9,10 @@ import com.google.api.services.analytics.model.RealtimeData;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+/**
+ * @deprecated Has been restructured to different package.
+ */
+@Deprecated
 public final class GoogleAnalytics {
 
     private static GoogleAnalytics INSTANCE;
