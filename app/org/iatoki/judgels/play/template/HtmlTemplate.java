@@ -1,4 +1,4 @@
-package org.iatoki.judgels.play;
+package org.iatoki.judgels.play.template;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -7,10 +7,6 @@ import play.twirl.api.Html;
 
 import java.util.List;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public final class HtmlTemplate {
 
     private LazyHtml content;

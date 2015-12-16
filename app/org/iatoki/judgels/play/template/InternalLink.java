@@ -1,11 +1,7 @@
-package org.iatoki.judgels.play;
+package org.iatoki.judgels.play.template;
 
 import play.api.mvc.Call;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public final class InternalLink {
 
     private String label;
