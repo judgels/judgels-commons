@@ -2,9 +2,10 @@
 @import org.iatoki.judgels.play.JudgelsPlayProperties
 @import org.iatoki.judgels.play.IdentityUtils
 @import org.iatoki.judgels.play.general.GeneralConfig
+@import org.iatoki.judgels.play.seo.SeoConfig
 @import play.mvc.Http
 
-@(pageTitle: String, generalConfig: GeneralConfig)(content: Html)
+@(pageTitle: String, generalConfig: GeneralConfig, seoConfig: SeoConfig)(content: Html)
 
 <!DOCTYPE html>
 
@@ -12,12 +13,16 @@
     <head itemscope itemtype="http://schema.org/WebSite">
         <meta charset="UTF-8">
         <meta name=viewport content="width=device-width, initial-scale=1">
-        <meta name="keywords" content="@JudgelsPlayProperties.getInstance().getMetaKeywords">
-        <meta name="description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
+        @if(seoConfig != null) {
+            <meta name="keywords" content="@seoConfig.getMetaKeywords">
+            <meta name="description" content="@seoConfig.getMetaDescription">
+        }
         <meta property="og:site_name" content="@(generalConfig.getCopyright + " " + generalConfig.getTitle)">
         <meta property="og:title" content="@if(!pageTitle.isEmpty) { @pageTitle } else { @generalConfig.getTitle }">
         <meta property="og:url" content="@ControllerUtils.getCurrentUrl(Http.Context.current().request())">
-        <meta property="og:description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
+        @if(seoConfig != null) {
+            <meta property="og:description" content="@seoConfig.getMetaDescription">
+        }
         <meta property="og:locale" content="@Http.Context.current().lang().code()" />
         <meta property="og:image" content="@(generalConfig.getCanonicalUrl + org.iatoki.judgels.play.controllers.routes.ApplicationController.coloredLogo())" />
         <link rel="canonical" href="@generalConfig.getCanonicalUrl" itemprop="url">
