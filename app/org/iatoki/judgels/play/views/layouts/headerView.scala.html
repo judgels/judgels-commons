@@ -1,13 +1,13 @@
 @import play.i18n.Lang
 @import play.mvc.Http
-@import org.iatoki.judgels.play.controllers.routes
+@import org.iatoki.judgels.play.routes
 
 <header>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <a href="/"><img class="logo" src='@org.iatoki.judgels.play.controllers.routes.ApplicationController.logo()' alt="Logo"/></a>
+                    <a href="/"><img class="logo" src='@routes.JudgelsPlayCommonsController.logo()' alt="Logo"/></a>
                 </div>
 
                 <div class="title pull-left">
@@ -18,7 +18,7 @@
                     <div class="languages">
                         <select id="languages" class="form-control selectpicker">
                             @for(lang <- Lang.availables()) {
-                                <option value="@routes.ApplicationController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
+                                <option value="@routes.JudgelsPlayCommonsController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
                             }
                         </select>
                     </div>

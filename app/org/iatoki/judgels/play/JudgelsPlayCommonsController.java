@@ -1,17 +1,15 @@
-package org.iatoki.judgels.play.controllers;
+package org.iatoki.judgels.play;
 
 import play.Play;
 import play.mvc.Result;
 
+import javax.inject.Singleton;
 import java.io.File;
 
-/**
- * @deprecated Has been renamed to JudgelsPlayCommonsController
- */
-@Deprecated
-public final class ApplicationController extends AbstractJudgelsController {
+@Singleton
+public final class JudgelsPlayCommonsController extends AbstractJudgelsController {
 
-    public static Result favicon() {
+    public Result favicon() {
         File faviconFile = new File(Play.application().getFile("external-assets"), "favicon.ico");
 
         if (faviconFile.exists()) {
@@ -22,7 +20,7 @@ public final class ApplicationController extends AbstractJudgelsController {
         }
     }
 
-    public static Result logo() {
+    public Result logo() {
         File logoFile = new File(Play.application().getFile("external-assets"), "logo.png");
 
         if (logoFile.exists()) {
@@ -33,7 +31,7 @@ public final class ApplicationController extends AbstractJudgelsController {
         }
     }
 
-    public static Result coloredLogo() {
+    public Result coloredLogo() {
         File logoFile = new File(Play.application().getFile("external-assets"), "logo-colored.png");
 
         if (logoFile.exists()) {
@@ -44,32 +42,32 @@ public final class ApplicationController extends AbstractJudgelsController {
         }
     }
 
-    public static Result changeLanguage(String newLang) {
+    public Result changeLanguage(String newLang) {
         ctx().changeLang(newLang);
         return redirect(request().getHeader("Referer"));
     }
 
-    public static Result showSidebar() {
+    public Result showSidebar() {
         response().setCookie("sidebar", "true");
         return redirect(request().getHeader("Referer"));
     }
 
-    public static Result hideSidebar() {
+    public Result hideSidebar() {
         response().setCookie("sidebar", "false");
         return redirect(request().getHeader("Referer"));
     }
 
-    public static Result enterFullscreen() {
+    public Result enterFullscreen() {
         response().setCookie("fullscreen", "true");
         return redirect(request().getHeader("Referer"));
     }
 
-    public static Result exitFullscreen() {
+    public Result exitFullscreen() {
         response().setCookie("fullscreen", "false");
         return redirect(request().getHeader("Referer"));
     }
 
-    public static Result checkHealth() {
+    public Result checkHealth() {
         return ok("");
     }
 }
