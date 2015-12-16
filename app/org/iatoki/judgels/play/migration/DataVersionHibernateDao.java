@@ -1,7 +1,4 @@
-package org.iatoki.judgels.play.models.daos.impls;
-
-import org.iatoki.judgels.play.models.daos.DataVersionDao;
-import org.iatoki.judgels.play.models.entities.DataVersionModel;
+package org.iatoki.judgels.play.migration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

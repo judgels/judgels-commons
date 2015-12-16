@@ -1,4 +1,4 @@
-package org.iatoki.judgels.play.models.daos;
+package org.iatoki.judgels.play.migration;
 
 public interface DataVersionDao {
 

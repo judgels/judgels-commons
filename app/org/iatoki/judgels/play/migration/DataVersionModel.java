@@ -1,4 +1,4 @@
-package org.iatoki.judgels.play.models.entities;
+package org.iatoki.judgels.play.migration;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
