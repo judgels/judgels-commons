@@ -1,10 +1,7 @@
-package org.iatoki.judgels.play.models.daos.impls;
+package org.iatoki.judgels.play.model;
 
 import com.google.common.collect.ImmutableList;
-import org.iatoki.judgels.play.JidService;
-import org.iatoki.judgels.play.models.daos.JudgelsDao;
-import org.iatoki.judgels.play.models.entities.AbstractJudgelsModel;
-import org.iatoki.judgels.play.models.entities.AbstractJudgelsModel_;
+import org.iatoki.judgels.play.jid.JidService;
 import play.db.jpa.JPA;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,10 +10,6 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public abstract class AbstractJudgelsHibernateDao<M extends AbstractJudgelsModel> extends AbstractHibernateDao<Long, M> implements JudgelsDao<M> {
 
     protected AbstractJudgelsHibernateDao(Class<M> modelClass) {

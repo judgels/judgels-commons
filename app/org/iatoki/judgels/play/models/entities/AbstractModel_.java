@@ -4,6 +4,10 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+/**
+ * @deprecated Has been restructured to different package.
+ */
+@Deprecated
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(AbstractModel.class)
 public abstract class AbstractModel_ {

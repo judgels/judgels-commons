@@ -1,16 +1,10 @@
-package org.iatoki.judgels.play.models.daos;
-
-import org.iatoki.judgels.play.models.entities.AbstractModel;
+package org.iatoki.judgels.play.model;
 
 import javax.persistence.metamodel.SingularAttribute;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public interface Dao<K, M extends AbstractModel> {
 
     void persist(M model, String user, String ipAddress);

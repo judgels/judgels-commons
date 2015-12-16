@@ -1,9 +1,8 @@
-package org.iatoki.judgels.play.models.daos.impls;
+package org.iatoki.judgels.play.model;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import org.iatoki.judgels.play.models.entities.AbstractModel;
 import play.db.jpa.JPA;
 
 import javax.persistence.TypedQuery;
@@ -18,10 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public abstract class AbstractHibernateDao<K, M extends AbstractModel> extends AbstractDao<K, M> {
 
     protected AbstractHibernateDao(Class<M> modelClass) {

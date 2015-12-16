@@ -1,7 +1,6 @@
-package org.iatoki.judgels.play.models.daos.impls;
+package org.iatoki.judgels.play.model;
 
 import com.google.gson.Gson;
-import org.iatoki.judgels.play.models.entities.AbstractModel;
 import play.db.jpa.JPA;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -10,10 +9,6 @@ import javax.persistence.Id;
 import java.lang.reflect.Field;
 import java.util.List;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public abstract class AbstractJedisHibernateDao<K, M extends AbstractModel> extends AbstractHibernateDao<K, M> {
 
     private final JedisPool jedisPool;
