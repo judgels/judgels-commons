@@ -2,6 +2,10 @@ package org.iatoki.judgels.play.controllers;
 
 import play.mvc.Http;
 
+/**
+ * @deprecated Unused anymore.
+ */
+@Deprecated
 public final class ControllerUtils {
 
     private ControllerUtils() {

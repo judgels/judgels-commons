@@ -13,6 +13,10 @@ import play.twirl.api.Html;
 
 import java.util.List;
 
+/**
+ * @deprecated Unused anymore.
+ */
+@Deprecated
 public abstract class AbstractJudgelsControllerUtils {
 
     public void appendBreadcrumbsLayout(LazyHtml content, List<InternalLink> links) {

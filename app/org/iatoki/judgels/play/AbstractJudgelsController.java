@@ -1,18 +1,20 @@
-package org.iatoki.judgels.play.controllers;
+package org.iatoki.judgels.play;
 
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
-import org.iatoki.judgels.play.LazyHtml;
-import org.iatoki.judgels.play.HtmlTemplate;
-import org.iatoki.judgels.play.views.html.base.baseLayout;
-import org.iatoki.judgels.play.views.html.base.breadcrumbsLayout;
-import org.iatoki.judgels.play.views.html.base.headerFooterLayout;
-import org.iatoki.judgels.play.views.html.base.singleColumnLayout;
-import org.iatoki.judgels.play.views.html.base.twoColumnLayout;
-import org.iatoki.judgels.play.views.html.content.categoryTabsLayout;
-import org.iatoki.judgels.play.views.html.content.contentLayout;
-import org.iatoki.judgels.play.views.html.content.mainTabsLayout;
-import org.iatoki.judgels.play.views.html.content.mainTitleLayout;
-import org.iatoki.judgels.play.views.html.content.secondaryTabsLayout;
+import org.iatoki.judgels.play.controllers.EntityNotFoundGuard;
+import org.iatoki.judgels.play.controllers.UnsupportedOperationGuard;
+import org.iatoki.judgels.play.template.HtmlTemplate;
+import org.iatoki.judgels.play.template.LazyHtml;
+import org.iatoki.judgels.play.template.base.html.baseLayout;
+import org.iatoki.judgels.play.template.base.html.breadcrumbsLayout;
+import org.iatoki.judgels.play.template.base.html.headerFooterLayout;
+import org.iatoki.judgels.play.template.base.html.singleColumnLayout;
+import org.iatoki.judgels.play.template.base.html.twoColumnLayout;
+import org.iatoki.judgels.play.template.content.html.categoryTabsLayout;
+import org.iatoki.judgels.play.template.content.html.contentLayout;
+import org.iatoki.judgels.play.template.content.html.mainTabsLayout;
+import org.iatoki.judgels.play.template.content.html.mainTitleLayout;
+import org.iatoki.judgels.play.template.content.html.secondaryTabsLayout;
 import play.api.mvc.Call;
 import play.data.Form;
 import play.mvc.Controller;
@@ -22,10 +24,6 @@ import play.mvc.Result;
 import play.mvc.Results;
 import play.twirl.api.Html;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 @EntityNotFoundGuard
 @UnsupportedOperationGuard
 public abstract class AbstractJudgelsController extends Controller {
