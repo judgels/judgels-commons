@@ -1,18 +1,11 @@
-package org.iatoki.judgels.play.services.impls;
+package org.iatoki.judgels.play.jid;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import org.iatoki.judgels.play.models.daos.BaseJidCacheDao;
-import org.iatoki.judgels.play.models.entities.AbstractJidCacheModel;
-import org.iatoki.judgels.play.services.BaseJidCacheService;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public abstract class AbstractBaseJidCacheServiceImpl<M extends AbstractJidCacheModel> implements BaseJidCacheService<M> {
 
     private final BaseJidCacheDao<M> jidCacheDao;

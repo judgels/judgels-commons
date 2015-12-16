@@ -1,13 +1,11 @@
-package org.iatoki.judgels.play.models.entities;
+package org.iatoki.judgels.play.jid;
+
+import org.iatoki.judgels.play.model.AbstractModel;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 @MappedSuperclass
 public abstract class AbstractJidCacheModel extends AbstractModel {
 

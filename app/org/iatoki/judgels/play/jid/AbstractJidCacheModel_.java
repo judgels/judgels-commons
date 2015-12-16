@@ -1,13 +1,11 @@
-package org.iatoki.judgels.play.models.entities;
+package org.iatoki.judgels.play.jid;
+
+import org.iatoki.judgels.play.models.entities.AbstractModel_;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(AbstractJidCacheModel.class)
 public abstract class AbstractJidCacheModel_ extends AbstractModel_ {

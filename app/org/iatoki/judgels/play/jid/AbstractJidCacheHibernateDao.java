@@ -1,11 +1,8 @@
-package org.iatoki.judgels.play.models.daos.impls;
+package org.iatoki.judgels.play.jid;
 
 import com.google.common.collect.ImmutableList;
-import org.iatoki.judgels.play.models.daos.BaseJidCacheDao;
-import org.iatoki.judgels.play.models.entities.AbstractJidCacheModel;
-import org.iatoki.judgels.play.models.entities.AbstractJidCacheModel_;
+import org.iatoki.judgels.play.model.AbstractHibernateDao;
 import play.db.jpa.JPA;
-import redis.clients.jedis.JedisPool;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,14 +10,10 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
-public abstract class AbstractJidCacheJedisHibernateDao<M extends AbstractJidCacheModel> extends AbstractJedisHibernateDao<Long, M> implements BaseJidCacheDao<M> {
+public abstract class AbstractJidCacheHibernateDao<M extends AbstractJidCacheModel> extends AbstractHibernateDao<Long, M> implements BaseJidCacheDao<M> {
 
-    protected AbstractJidCacheJedisHibernateDao(JedisPool jedisPool, Class<M> modelClass) {
-        super(jedisPool, modelClass);
+    protected AbstractJidCacheHibernateDao(Class<M> modelClass) {
+        super(modelClass);
     }
 
     @Override

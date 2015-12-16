@@ -12,6 +12,10 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @deprecated Has been restructured to different package.
+ */
+@Deprecated
 public abstract class AbstractJidCacheHibernateDao<M extends AbstractJidCacheModel> extends AbstractHibernateDao<Long, M> implements BaseJidCacheDao<M> {
 
     protected AbstractJidCacheHibernateDao(Class<M> modelClass) {

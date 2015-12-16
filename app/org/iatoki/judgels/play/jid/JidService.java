@@ -1,14 +1,8 @@
-package org.iatoki.judgels.play;
+package org.iatoki.judgels.play.jid;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.iatoki.judgels.play.models.JidChildPrefixes;
-import org.iatoki.judgels.play.models.JidPrefix;
-import org.iatoki.judgels.play.models.entities.AbstractJudgelsModel;
+import org.iatoki.judgels.play.model.AbstractJudgelsModel;
 
-/**
- * @deprecated Has been restructured to different package.
- */
-@Deprecated
 public final class JidService {
 
     private static JidService INSTANCE;
