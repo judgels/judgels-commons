@@ -97,18 +97,20 @@ public final class HtmlTemplate {
         breadcrumbLocations.add(new InternalLink(label, target));
     }
 
+    /**
+     * @deprecated Remove this, refactor all breadcrumbs usages
+     */
     @Deprecated
     public void reverseBreadcrumbLocations() {
-        // TODO remove this, refactor all breadcrumbs usages
         this.reverseBreadcrumbs = true;
     }
 
     public List<InternalLink> getBreadcrumbLinks() {
-        List<InternalLink> breadcrumbLocations = ImmutableList.copyOf(this.breadcrumbLocations);
+        List<InternalLink> breadcrumbLocationsCopy = ImmutableList.copyOf(this.breadcrumbLocations);
         if (reverseBreadcrumbs) {
-            breadcrumbLocations = Lists.reverse(breadcrumbLocations);
+            breadcrumbLocationsCopy = Lists.reverse(breadcrumbLocationsCopy);
         }
-        return breadcrumbLocations;
+        return breadcrumbLocationsCopy;
     }
 
     public void addSidebarMenu(String label, Call target) {
