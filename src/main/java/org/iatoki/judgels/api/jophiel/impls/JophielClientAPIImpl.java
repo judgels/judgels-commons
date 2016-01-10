@@ -15,8 +15,11 @@ import java.util.List;
 
 public final class JophielClientAPIImpl extends AbstractJudgelsClientAPIImpl implements JophielClientAPI {
 
+    private final String baseUrl;
+
     public JophielClientAPIImpl(String baseUrl, String clientJid, String clientSecret) {
         super(baseUrl, clientJid, clientSecret);
+        this.baseUrl = baseUrl;
     }
 
     @Override
@@ -54,6 +57,21 @@ public final class JophielClientAPIImpl extends AbstractJudgelsClientAPIImpl imp
     public void sendUserActivityMessages(List<JophielUserActivityMessage> activityMessages) {
         JsonElement requestBody = new Gson().toJsonTree(activityMessages);
         sendPostRequest("/activities", requestBody);
+    }
+
+    @Override
+    public String getUserEditProfileEndpoint() {
+        return baseUrl + "/profile";
+    }
+
+    @Override
+    public String getUserSearchProfileEndpoint() {
+        return baseUrl + "/profiles/search";
+    }
+
+    @Override
+    public String getRegisterEndpoint() {
+        return baseUrl + "/register";
     }
 
     @Override

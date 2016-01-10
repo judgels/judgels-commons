@@ -12,6 +12,12 @@ public interface JophielClientAPI extends JudgelsClientAPI {
 
     void sendUserActivityMessages(List<JophielUserActivityMessage> activityMessages);
 
+    String getUserEditProfileEndpoint();
+
+    String getUserSearchProfileEndpoint();
+
+    String getRegisterEndpoint();
+
     String getUserIsLoggedInAPIEndpoint();
 
     String getLinkedClientsAPIEndpoint();
