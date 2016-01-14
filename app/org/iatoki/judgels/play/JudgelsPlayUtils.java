@@ -101,6 +101,12 @@ public final class JudgelsPlayUtils {
         }
     }
 
+    public static void updateUserJidCache(org.iatoki.judgels.play.jid.BaseJidCacheService<?> jidCacheService) {
+        if (IdentityUtils.getUserJid() != null) {
+            jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsPlayUtils.getUserDisplayName(IdentityUtils.getUsername()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
+        }
+    }
+
     public static String prettifyUserDisplayName(String displayName) {
         String[] parts = displayName.split("\\(|\\)");
         if (parts.length == 1) {
