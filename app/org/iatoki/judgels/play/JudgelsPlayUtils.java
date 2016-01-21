@@ -6,7 +6,6 @@ import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.iatoki.judgels.play.services.BaseJidCacheService;
 import play.mvc.Http;
 
 import java.io.UnsupportedEncodingException;
@@ -93,12 +92,6 @@ public final class JudgelsPlayUtils {
 
     public static String getUserDisplayName(String username, String name) {
         return username + " (" + name + ")";
-    }
-
-    public static void updateUserJidCache(BaseJidCacheService<?> jidCacheService) {
-        if (IdentityUtils.getUserJid() != null) {
-            jidCacheService.putDisplayName(IdentityUtils.getUserJid(), JudgelsPlayUtils.getUserDisplayName(IdentityUtils.getUsername()), IdentityUtils.getUserJid(), IdentityUtils.getIpAddress());
-        }
     }
 
     public static void updateUserJidCache(org.iatoki.judgels.play.jid.BaseJidCacheService<?> jidCacheService) {

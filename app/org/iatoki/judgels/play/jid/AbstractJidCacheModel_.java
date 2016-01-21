@@ -1,6 +1,6 @@
 package org.iatoki.judgels.play.jid;
 
-import org.iatoki.judgels.play.models.entities.AbstractModel_;
+import org.iatoki.judgels.play.model.AbstractModel_;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

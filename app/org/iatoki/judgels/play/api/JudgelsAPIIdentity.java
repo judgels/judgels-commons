@@ -1,4 +1,4 @@
-package org.iatoki.judgels.play.apis;
+package org.iatoki.judgels.play.api;
 
 public interface JudgelsAPIIdentity {
 

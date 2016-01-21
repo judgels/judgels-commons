@@ -1,11 +1,11 @@
 package org.iatoki.judgels.play.controllers.apis;
 
 import com.google.gson.JsonObject;
-import org.iatoki.judgels.play.apis.JudgelsAPIBadRequestException;
-import org.iatoki.judgels.play.apis.JudgelsAPINotFoundException;
-import org.iatoki.judgels.play.apis.JudgelsAPIServerException;
-import org.iatoki.judgels.play.apis.JudgelsAPIForbiddenException;
-import org.iatoki.judgels.play.apis.JudgelsAPIUnauthorizedException;
+import org.iatoki.judgels.play.api.JudgelsAPIBadRequestException;
+import org.iatoki.judgels.play.api.JudgelsAPINotFoundException;
+import org.iatoki.judgels.play.api.JudgelsAPIServerException;
+import org.iatoki.judgels.play.api.JudgelsAPIForbiddenException;
+import org.iatoki.judgels.play.api.JudgelsAPIUnauthorizedException;
 import play.libs.F;
 import play.mvc.Action;
 import play.mvc.Http;

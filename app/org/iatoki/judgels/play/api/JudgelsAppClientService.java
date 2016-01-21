@@ -1,6 +1,4 @@
-package org.iatoki.judgels.play.services;
-
-import org.iatoki.judgels.play.JudgelsAppClient;
+package org.iatoki.judgels.play.api;
 
 public interface JudgelsAppClientService {
 
