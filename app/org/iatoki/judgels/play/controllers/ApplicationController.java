@@ -6,7 +6,7 @@ import play.mvc.Result;
 import java.io.File;
 
 /**
- * @deprecated Has been renamed to JudgelsPlayCommonsController
+ * @deprecated Has been renamed to JudgelsController
  */
 @Deprecated
 public final class ApplicationController extends AbstractJudgelsController {

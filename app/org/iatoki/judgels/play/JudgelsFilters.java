@@ -6,12 +6,12 @@ import play.http.HttpFilters;
 
 import javax.inject.Inject;
 
-public final class Filters implements HttpFilters {
+public final class JudgelsFilters implements HttpFilters {
 
     private final GzipFilter gzipFilter;
 
     @Inject
-    public Filters(GzipFilter gzipFilter) {
+    public JudgelsFilters(GzipFilter gzipFilter) {
         this.gzipFilter = gzipFilter;
     }
 

@@ -21,12 +21,12 @@ import play.mvc.Results;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public final class JudgelsPlayCommonsErrorHandler extends DefaultHttpErrorHandler {
+public final class JudgelsErrorHandler extends DefaultHttpErrorHandler {
 
     private final GeneralConfig generalConfig;
 
     @Inject
-    public JudgelsPlayCommonsErrorHandler(Configuration configuration, Environment environment, OptionalSourceMapper optionalSourceMapper, Provider<Router> provider, GeneralConfig generalConfig) {
+    public JudgelsErrorHandler(Configuration configuration, Environment environment, OptionalSourceMapper optionalSourceMapper, Provider<Router> provider, GeneralConfig generalConfig) {
         super(configuration, environment, optionalSourceMapper, provider);
 
         this.generalConfig = generalConfig;

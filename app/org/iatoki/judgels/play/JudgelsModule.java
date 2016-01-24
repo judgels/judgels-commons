@@ -6,7 +6,7 @@ import org.iatoki.judgels.play.asset.LocalAssetsInit;
 import org.iatoki.judgels.play.general.GeneralConfigSource;
 import org.iatoki.judgels.play.migration.DataMigrationInit;
 
-public final class JudgelsPlayCommonsModule extends AbstractModule {
+public final class JudgelsModule extends AbstractModule {
 
     @Override
     protected void configure() {

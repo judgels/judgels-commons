@@ -18,10 +18,10 @@
         <meta property="og:url" content="@ControllerUtils.getCurrentUrl(Http.Context.current().request())">
         <meta property="og:description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
         <meta property="og:locale" content="@Http.Context.current().lang().code()" />
-        <meta property="og:image" content="@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.routes.JudgelsPlayCommonsController.coloredLogo())" />
+        <meta property="og:image" content="@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.routes.JudgelsController.coloredLogo())" />
         <link rel="canonical" href="@JudgelsPlayProperties.getInstance().getCanonicalUrl" itemprop="url">
         <title itemprop='name'>@JudgelsPlayProperties.getInstance.getAppTitle @if(pageTitle != null) { - @pageTitle }</title>
-        <link rel="shortcut icon" type="image/ico" href='@org.iatoki.judgels.play.routes.JudgelsPlayCommonsController.favicon()'>
+        <link rel="shortcut icon" type="image/ico" href='@org.iatoki.judgels.play.routes.JudgelsController.favicon()'>
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
         <script type="text/javascript" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
         <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/settings.js")"></script>
@@ -53,7 +53,7 @@
           "@@context": "http://schema.org",
           "@@type": "Organization",
           "url": "@JudgelsPlayProperties.getInstance().getCanonicalUrl",
-          "logo": "@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.routes.JudgelsPlayCommonsController.coloredLogo())"
+          "logo": "@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.routes.JudgelsController.coloredLogo())"
         }
         </script>
     </body>

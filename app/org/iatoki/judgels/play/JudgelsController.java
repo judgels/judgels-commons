@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 import java.io.File;
 
 @Singleton
-public final class JudgelsPlayCommonsController extends AbstractJudgelsController {
+public final class JudgelsController extends AbstractJudgelsController {
 
     public Result favicon() {
         File faviconFile = new File(Play.application().getFile("external-assets"), "favicon.ico");

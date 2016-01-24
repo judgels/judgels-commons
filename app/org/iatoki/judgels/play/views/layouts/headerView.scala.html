@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <a href="/"><img class="logo" src='@routes.JudgelsPlayCommonsController.logo()' alt="Logo"/></a>
+                    <a href="/"><img class="logo" src='@routes.JudgelsController.logo()' alt="Logo"/></a>
                 </div>
 
                 <div class="title pull-left">
@@ -18,7 +18,7 @@
                     <div class="languages">
                         <select id="languages" class="form-control selectpicker">
                             @for(lang <- Lang.availables()) {
-                                <option value="@routes.JudgelsPlayCommonsController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
+                                <option value="@routes.JudgelsController.changeLanguage(lang.code())" @if(Http.Context.current().lang().code().equals(lang.code())) { selected }>@lang.code().toUpperCase</option>
                             }
                         </select>
                     </div>
