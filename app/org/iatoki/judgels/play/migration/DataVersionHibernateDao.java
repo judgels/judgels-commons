@@ -10,8 +10,8 @@ public final class DataVersionHibernateDao implements DataVersionDao {
 
     private final EntityManager entityManager;
 
-    public DataVersionHibernateDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public DataVersionHibernateDao() {
+        this.entityManager = DataMigrationEntityManager.createEntityManager();
     }
 
     @Override
