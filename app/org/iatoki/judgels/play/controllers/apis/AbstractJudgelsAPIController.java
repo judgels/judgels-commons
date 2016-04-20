@@ -1,5 +1,6 @@
 package org.iatoki.judgels.play.controllers.apis;
 
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -7,14 +8,14 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.iatoki.judgels.play.api.JudgelsAppClient;
 import org.iatoki.judgels.play.api.JudgelsAPIBadRequestException;
 import org.iatoki.judgels.play.api.JudgelsAPIInternalServerErrorException;
 import org.iatoki.judgels.play.api.JudgelsAPINotFoundException;
 import org.iatoki.judgels.play.api.JudgelsAPIUnauthorizedException;
+import org.iatoki.judgels.play.api.JudgelsAppClient;
 import org.iatoki.judgels.play.api.JudgelsAppClientAPIIdentity;
-import org.iatoki.judgels.play.controllers.AbstractJudgelsController;
 import org.iatoki.judgels.play.api.JudgelsAppClientService;
+import org.iatoki.judgels.play.controllers.AbstractJudgelsController;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Result;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -139,6 +141,12 @@ public abstract class AbstractJudgelsAPIController extends AbstractJudgelsContro
             try {
                 BufferedImage in = ImageIO.read(imageFile);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                if (in == null) {
+                    baos.write(Files.toByteArray(imageFile));
+                    response().setContentType(URLConnection.guessContentTypeFromName(imageFile.getName()));
+                    return ok(baos.toByteArray());
+                }
 
                 String type = FilenameUtils.getExtension(imageFile.getAbsolutePath());
 
