@@ -8,6 +8,7 @@ import org.iatoki.judgels.play.controllers.UnsupportedOperationGuard;
 import org.iatoki.judgels.play.general.GeneralConfig;
 import org.iatoki.judgels.play.google.analytics.GoogleAnalyticsConfig;
 import org.iatoki.judgels.play.seo.SeoConfig;
+import org.iatoki.judgels.play.sponsor.SponsorConfig;
 import org.iatoki.judgels.play.template.HtmlTemplate;
 import org.iatoki.judgels.play.template.LazyHtml;
 import org.iatoki.judgels.play.template.base.html.baseLayout;
@@ -40,6 +41,9 @@ public abstract class AbstractJudgelsController extends Controller {
 
     @Inject(optional = true)
     protected BannerConfig bannerConfig;
+
+    @Inject(optional = true)
+    protected SponsorConfig sponsorConfig;
 
     @Inject(optional = true)
     protected SeoConfig seoConfig;
@@ -124,7 +128,7 @@ public abstract class AbstractJudgelsController extends Controller {
         }
 
         content.appendLayout(c -> breadcrumbsLayout.render(template.getBreadcrumbLinks(), bannerConfig, c));
-        content.appendLayout(c -> headerFooterLayout.render(generalConfig, c));
+        content.appendLayout(c -> headerFooterLayout.render(generalConfig, sponsorConfig, c));
         content.appendLayout(c -> baseLayout.render(template.getPageTitle(), generalConfig, seoConfig, googleAnalyticsConfig, c));
         content.appendLayout(c -> scriptsLayout.render(template.getAdditionalScripts(), c));
 

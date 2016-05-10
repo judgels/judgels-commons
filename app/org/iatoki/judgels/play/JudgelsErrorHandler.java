@@ -1,6 +1,7 @@
 package org.iatoki.judgels.play;
 
 import org.iatoki.judgels.play.general.GeneralConfig;
+import org.iatoki.judgels.play.sponsor.SponsorConfig;
 import org.iatoki.judgels.play.template.LazyHtml;
 import org.iatoki.judgels.play.template.base.html.baseLayout;
 import org.iatoki.judgels.play.template.base.html.centerLayout;
@@ -25,6 +26,9 @@ public final class JudgelsErrorHandler extends DefaultHttpErrorHandler {
 
     private final GeneralConfig generalConfig;
 
+    @com.google.inject.Inject(optional = true)
+    protected SponsorConfig sponsorConfig;
+
     @Inject
     public JudgelsErrorHandler(Configuration configuration, Environment environment, OptionalSourceMapper optionalSourceMapper, Provider<Router> provider, GeneralConfig generalConfig) {
         super(configuration, environment, optionalSourceMapper, provider);
@@ -46,7 +50,7 @@ public final class JudgelsErrorHandler extends DefaultHttpErrorHandler {
                 LazyHtml content = new LazyHtml(messageView.render(Messages.get("commons.pageNotFound.message")));
                 content.appendLayout(c -> headingLayout.render(Messages.get("commons.pageNotFound"), c));
                 content.appendLayout(c -> centerLayout.render(c));
-                content.appendLayout(c -> headerFooterLayout.render(generalConfig, c));
+                content.appendLayout(c -> headerFooterLayout.render(generalConfig, sponsorConfig, c));
                 content.appendLayout(c -> baseLayout.render("commons.pageNotFound", generalConfig, null, null, c));
                 return Results.notFound(content.render());
             }
