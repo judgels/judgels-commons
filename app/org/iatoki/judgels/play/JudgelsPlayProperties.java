@@ -1,6 +1,10 @@
 package org.iatoki.judgels.play;
 
+import com.google.common.collect.ImmutableMap;
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigValue;
+
+import java.util.Map;
 
 /**
  * @deprecated Use individual config instead.
@@ -32,6 +36,8 @@ public final class JudgelsPlayProperties {
     private boolean usingBanner;
     private String bannerLink;
     private String bannerImageSrc;
+
+    private Map<String, String> sponsors;
 
     private JudgelsPlayProperties(String appName, String appVersion, Config config) {
         this.appName = appName;
@@ -130,6 +136,10 @@ public final class JudgelsPlayProperties {
         return bannerImageSrc;
     }
 
+    public Map<String, String> getSponsors() {
+        return sponsors;
+    }
+
     private void build() {
         this.appTitle = requireStringValue("general.title");
         this.appCopyright = requireStringValue("general.copyright");
@@ -148,6 +158,7 @@ public final class JudgelsPlayProperties {
         this.usingBanner = requireBooleanValue("banner.use");
         this.bannerLink = getStringValue("banner.link");
         this.bannerImageSrc = getStringValue("banner.imageSrc");
+        this.sponsors = getMap("sponsors", String.class);
     }
 
     private String getStringValue(String key) {
@@ -170,5 +181,23 @@ public final class JudgelsPlayProperties {
 
     private boolean requireBooleanValue(String key) {
         return config.getBoolean(key);
+    }
+
+    private <T> Map<String, T> requireMap(String key, Class<T> clazz) {
+        ImmutableMap.Builder<String, T> mapBuilder = ImmutableMap.builder();
+        com.typesafe.config.Config tempConfig = config.getConfig(key);
+        for (Map.Entry<String, ConfigValue> entrySet : tempConfig.entrySet()) {
+            mapBuilder.put(entrySet.getKey(), clazz.cast(entrySet.getValue().unwrapped()));
+        }
+
+        return mapBuilder.build();
+    }
+
+    private <T> Map<String, T> getMap(String key, Class<T> clazz) {
+        if (!config.hasPath(key)) {
+            return null;
+        }
+
+        return requireMap(key, clazz);
     }
 }
