@@ -1,0 +1,3 @@
+rootProject.name = "judgels-commons"
+
+include "judgels-commons-api"
