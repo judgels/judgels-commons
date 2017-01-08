@@ -1,3 +1,4 @@
 rootProject.name = "judgels-commons"
 
 include "judgels-commons-api"
+include "judgels-play-api"
