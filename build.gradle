@@ -1,0 +1,18 @@
+plugins {
+    id 'idea'
+
+    id 'com.palantir.git-version' version '0.5.3'
+}
+
+allprojects {
+    version gitVersion()
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: 'idea'
+    apply plugin: 'java'
+}
