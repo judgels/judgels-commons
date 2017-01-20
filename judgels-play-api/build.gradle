@@ -1,12 +1,10 @@
 buildscript {
     repositories {
-        maven {
-            url 'https://dl.bintray.com/ia-toki/releases'
-        }
+        jcenter()
     }
 
     dependencies {
-        classpath 'org.iatoki:gradle-play-idea:0.1'
+        classpath 'org.iatoki:gradle-play-idea:0.1.1'
     }
 }
 
