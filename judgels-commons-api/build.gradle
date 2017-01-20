@@ -1,3 +1,6 @@
+apply plugin: 'maven-publish'
+
+
 dependencies {
     compile ('com.amazonaws:aws-java-sdk:1.9.28.1') {
         exclude module: 'joda-time'
@@ -12,4 +15,21 @@ dependencies {
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.0.201502260915-r'
     compile 'org.powermock:powermock-api-mockito:1.6.2'
     compile 'org.powermock:powermock-module-testng:1.6.2'
+}
+
+task createMainSourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing.publications {
+    maven(MavenPublication) {
+        groupId 'org.iatoki.judgels'
+        artifactId project.name
+        version rootProject.version
+
+        from components.java
+        artifact createMainSourceJar {
+            classifier 'sources'
+        }
+    }
 }

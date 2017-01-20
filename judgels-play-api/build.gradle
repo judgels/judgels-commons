@@ -8,6 +8,7 @@ buildscript {
     }
 }
 
+apply plugin: 'maven-publish'
 apply plugin: 'play'
 
 apply plugin: 'org.ia-toki.play-idea'
@@ -84,5 +85,23 @@ dependencies {
     }
     play ('org.webjars:Eonasdan-bootstrap-datetimepicker:4.7.14') {
         exclude group: 'org.webjars', module: 'bootstrap'
+    }
+}
+
+task createPlayBinaryPlaySourceJar(type: Jar) {
+    from file('app'), file('conf')
+    include '**/*.java', '**/*.scala', '**/*.html', '**/*.routes'
+}
+
+publishing.publications {
+    maven(MavenPublication) {
+        groupId 'org.iatoki.judgels'
+        artifactId project.name
+        version rootProject.version
+
+        artifact tasks.getByPath(":${project.name}:createPlayBinaryJar")
+        artifact createPlayBinaryPlaySourceJar {
+            classifier 'sources'
+        }
     }
 }
