@@ -4,14 +4,14 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.iatoki:gradle-play-idea:0.1.1'
+        classpath 'org.iatoki:gradle-play-idea:0.3.1'
     }
 }
 
 apply plugin: 'maven-publish'
 apply plugin: 'play'
 
-apply plugin: 'org.ia-toki.play-idea'
+apply plugin: 'org.iatoki.play-idea'
 
 repositories {
     jcenter()
