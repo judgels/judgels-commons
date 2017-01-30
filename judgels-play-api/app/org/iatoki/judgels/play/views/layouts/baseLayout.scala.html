@@ -18,21 +18,21 @@
         <meta property="og:url" content="@ControllerUtils.getCurrentUrl(Http.Context.current().request())">
         <meta property="og:description" content="@JudgelsPlayProperties.getInstance().getMetaDescription">
         <meta property="og:locale" content="@Http.Context.current().lang().code()" />
-        <meta property="og:image" content="@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.routes.JudgelsController.coloredLogo())" />
+        <meta property="og:image" content="@(JudgelsPlayProperties.getInstance().getCanonicalUrl + controllers.routes.Assets.at("lib/judgels-commons-assets/images/coloredLogo.png"))" />
         <link rel="canonical" href="@JudgelsPlayProperties.getInstance().getCanonicalUrl" itemprop="url">
         <title itemprop='name'>@JudgelsPlayProperties.getInstance.getAppTitle @if(!pageTitle.isEmpty) { - @pageTitle }</title>
-        <link rel="shortcut icon" type="image/ico" href='@org.iatoki.judgels.play.routes.JudgelsController.favicon()'>
+        <link rel="shortcut icon" type="image/ico" href='@controllers.routes.Assets.at("lib/judgels-commons-assets/images/favicon.ico")'>
         <link rel="stylesheet" media="screen" href='@controllers.routes.Assets.versioned("stylesheets/main.css")'>
         <script type="text/javascript" src="@controllers.routes.Assets.at("lib/requirejs/require.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/settings.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/form.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/judgels-commons-assets/javascripts/settings.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/judgels-commons-assets/javascripts/form.js")"></script>
     </head>
     <body>
         <div class="container-fluid">
             @content
         </div>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/language.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/playcommons/javascripts/active.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/judgels-commons-assets/javascripts/language.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("lib/judgels-commons-assets/javascripts/active.js")"></script>
         @if(JudgelsPlayProperties.getInstance().isUsingGoogleAnalytics) {
             <script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -50,7 +50,7 @@
           "@@context": "http://schema.org",
           "@@type": "Organization",
           "url": "@JudgelsPlayProperties.getInstance().getCanonicalUrl",
-          "logo": "@(JudgelsPlayProperties.getInstance().getCanonicalUrl + org.iatoki.judgels.play.routes.JudgelsController.coloredLogo())"
+          "logo": "@(JudgelsPlayProperties.getInstance().getCanonicalUrl + controllers.routes.Assets.at("lib/judgels-commons-assets/images/coloredLogo.png"))"
         }
         </script>
     </body>

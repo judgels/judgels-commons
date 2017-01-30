@@ -26,7 +26,7 @@ requirejs.config({
         'bootstrap': '/assets/lib/bootstrap/js/bootstrap.min',
         'bootstrap-datetimepicker': '/assets/lib/Eonasdan-bootstrap-datetimepicker/bootstrap-datetimepicker.min',
         'jquery': '/assets/lib/jquery/jquery.min',
-        'jquery-timer': '/assets/lib/playcommons/javascripts/jquery.timer',
+        'jquery-timer': '/assets/lib/judgels-commons-assets/javascripts/jquery.timer',
         'jquery-ui': '/assets/lib/jquery-ui/jquery-ui.min',
         'prettify': '/assets/lib/prettify/prettify',
         'moment': '/assets/lib/momentjs/min/moment-with-locales.min',
